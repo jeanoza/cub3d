@@ -1,0 +1,16 @@
+#for test
+main.c
+a.out
+a.out.dSYM/
+
+#.o files
+*.o
+
+#.a file
+libft.a
+libft.so
+
+#Testers
+libft-unit-test/
+libft-war-machine/
+libftTester/

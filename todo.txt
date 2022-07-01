@@ -3,7 +3,11 @@
 	- Donc, celui qui va faire exec commence par une struct pre-rempli en dur.
 
 1. Parsing : Parser de maniere correct && verifier des cas stupid ou ce qui peut générer des erreurs.
+	1.1 
 
 
 2. Execute : commence par une struct pre-rempli
 	2.1 Raycasting
+	2.2 Peindre le map
+	
+3. 

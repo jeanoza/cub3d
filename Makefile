@@ -16,14 +16,8 @@ SRC_PATH	=	./src/
 
 SRCS		=	main.c \
 				painter.c \
-				utils.c \
-				signal.c \
-				$(addprefix parsing/, parse.c error_op.c error_quote.c init_cmd.c manage_cmd.c getter_cmd.c)\
-				$(addprefix exec/, env_utils.c here_doc.c open.c redir_utils.c exec_ve.c error.c reset_redir.c\
-				exec.c pipe.c free.c redir.c lib/ft_quote_split.c lib/ft_free_split.c)\
-				$(addprefix exec/builtin/, cd.c unset.c export.c echo.c env.c pwd.c exit.c)\
-
-
+				# $(addprefix parsing/, parse.c)\
+				# $(addprefix exec/, )
 
 OBJ_PATH	=	./bin/
 
@@ -34,7 +28,7 @@ CC			=	cc
 # CFLAGS		=	-Wall -Werror -Wextra -g3 -fsanitize=address
 CFLAGS		=	-Wall -Wextra -Werror
 
-NAME		=	minishell
+NAME		=	cub3D
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 				@printf "\033[94m.\033[0m"

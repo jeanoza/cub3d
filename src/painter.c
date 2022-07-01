@@ -6,38 +6,13 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 19:08:13 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/06/12 14:54:29 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/01 14:38:36 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "cub3d.h"
 
-void	print_res_parsing(t_cmd **cmds)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (cmds && cmds[i])
-	{
-		printf("	cmd[%d]->name: `%s`\n", i, cmds[i]->name);
-		j = 0;
-		while (cmds[i]->args && cmds[i]->args[j])
-		{
-			printf("\t- args[%d]: `%s`\n", j, cmds[i]->args[j]);
-			++j;
-		}
-		j = 0;
-		while (cmds[i]->redirs && cmds[i]->redirs[j])
-		{
-			printf("\t\t- redirs[%d]->op: `%d`\n", j, cmds[i]->redirs[j]->op);
-			printf("\t\t- redirs[%d]->file: `%s`\n", j, cmds[i]->redirs[j]->file);
-			++j;
-		}
-		++i;
-	}
-}
-
+//TODO: change to CUBE\n3D
 void	put_header(void)
 {
 	printf(

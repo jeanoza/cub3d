@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 12:15:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/01 14:52:36 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/02 10:59:15 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,10 @@
 # include <fcntl.h>
 # include <math.h>
 
-
 /* libft */
-# include "../libft/libft.h"
+# include "libft.h"
+/* mlx */
+# include "mlx.h"
 
 /* Pointer size */
 # define P_SIZE 8

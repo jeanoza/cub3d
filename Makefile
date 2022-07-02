@@ -53,6 +53,7 @@ all:			$(NAME)
 clean:
 				@rm -rf $(OBJ_PATH)
 				@make -C $(LIBFT_PATH) fclean
+				@make -C $(MLX_PATH) clean
 				@echo "\033[91m\nObject files has been removed.\033[0m"
 
 fclean:			clean

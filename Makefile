@@ -43,6 +43,7 @@ $(NAME):		$(OBJS)
 				@echo "\033[94m\n\nObject files has been compiled! \033[0m"
 				@echo "\033[96m\nCompile libft ...\033[0m"
 				@make -C $(LIBFT_PATH)
+				@make -C $(MLX_PATH)
 				@echo "\033[95m\nGenerating executable on $(OS_NAME) ...\033[0m"
 				@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) -L$(LIBFT_PATH) -lft -L$(MLX_PATH) $(MLX_LIB)
 				@echo "\033[92m\n$(NAME) for $(OS_NAME) has been created! \033[0m"

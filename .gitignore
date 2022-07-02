@@ -1,7 +1,9 @@
 bin/
 
-libft.a
+*.a
+*.o
 
 a.out
+cub3D
 
 .DS_Store

@@ -1,10 +1,12 @@
 # this is to manage flags for m1 architecture, we don't have to use this flag in linux
 OS_ARCH 	:= $(shell uname -m)
 ifeq ($(OS_ARCH),arm64)
-	RL_INC 	:= -I /opt/homebrew/opt/readline/include
-	RL_LIB	:= -L /opt/homebrew/opt/readline/lib
+	MLX_PATH:= ./mlx_mac/
+	MLX_LIB := -lmlx -framework OpenGL -framework AppKit
 	OS_NAME := Mac M1
 else
+	MLX_PATH:= ./mlx_linux/
+	MLX_LIB	:= -lmlx -lXext -lX11
 	OS_NAME := Linux
 endif
 
@@ -34,9 +36,7 @@ $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 				@printf "\033[94m.\033[0m"
 				@mkdir -p $(OBJ_PATH)
 				@mkdir -p $(OBJ_PATH)/parsing
-				@mkdir -p $(OBJ_PATH)/exec/lib
-				@mkdir -p $(OBJ_PATH)/exec/builtin
-				@$(CC) $(CFLAGS) -c $< -o $@ $(HEADER_INC) -I$(LIBFT_PATH) $(RL_INC)
+				@$(CC) $(CFLAGS) -c $< -o $@ $(HEADER_INC) -I$(LIBFT_PATH) -I$(MLX_PATH)
 
 
 $(NAME):		$(OBJS)
@@ -44,7 +44,7 @@ $(NAME):		$(OBJS)
 				@echo "\033[96m\nCompile libft ...\033[0m"
 				@make -C $(LIBFT_PATH)
 				@echo "\033[95m\nGenerating executable on $(OS_NAME) ...\033[0m"
-				@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) -L$(LIBFT_PATH) -lft -lreadline $(RL_LIB) 
+				@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) -L$(LIBFT_PATH) -lft -L$(MLX_PATH) $(MLX_LIB)
 				@echo "\033[92m\n$(NAME) for $(OS_NAME) has been created! \033[0m"
 
 all:			$(NAME)

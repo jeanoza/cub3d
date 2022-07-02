@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
+/*   By: kychoi <kychoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 12:15:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/01 14:52:36 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/02 12:52:02 by kychoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,10 @@
 # include <fcntl.h>
 # include <math.h>
 
-
 /* libft */
-# include "../libft/libft.h"
+# include "libft.h"
+/* mlx */
+# include "mlx.h"
 
 /* Pointer size */
 # define P_SIZE 8
@@ -43,13 +44,20 @@ typedef struct s_map {
 	int		y;
 }	t_map;
 
+typedef struct s_player {
+	int		x;
+	int		y;
+}	t_player;
+
 //Principal struct
 typedef struct s_game {
-	t_map	**map;
+	void		*mlx;
+	void		*win;
+	t_map		**map;
+	t_player	player;
 }	t_game;
 
 /*  */
 void	put_header(void);
-
 
 #endif

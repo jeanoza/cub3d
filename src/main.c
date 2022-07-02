@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:27:41 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/02 13:05:38 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/02 13:13:03 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ t_game *parse(int ac, char **av, t_game *game)
 int	render(t_game *game)
 {
 	game->mlx = mlx_init();
-	game->win = mlx_new_window(game->mlx, 240,480, "cub3d");
-	// mlx_clear_window(game->mlx, game->win);
+	game->win = mlx_new_window(game->mlx, 1240, 720, "cub3d");
 	return (EXIT_SUCCESS);
 }
 
@@ -60,10 +59,11 @@ int	main(int ac, char **av)
 	t_game	*game;
 
 	game = malloc(sizeof(game));
+	printf("game[%p]\n", game);
 	if (parse(ac, av, game))
 	{
 		render(game);
-		while (1);
+		mlx_loop(game->mlx);
 	}
 	return (0);
 }

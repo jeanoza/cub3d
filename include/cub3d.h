@@ -6,7 +6,7 @@
 /*   By: kychoi <kychoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 12:15:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/02 12:54:31 by kychoi           ###   ########.fr       */
+/*   Updated: 2022/07/02 17:02:36 by kychoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,7 @@
 /* Pointer size */
 # define P_SIZE 8
 
-//TODO: parler avec Max pour des variables dans t_map et t_game
-typedef struct s_map {
-	int		x;
-	int		y;
-}	t_map;
-
+//TODO: parler avec Max pour des variables dans s_player et t_game
 typedef struct s_player {
 	int		x;
 	int		y;
@@ -53,7 +48,7 @@ typedef struct s_player {
 typedef struct s_game {
 	void		*mlx;
 	void		*win;
-	t_map		**map;
+	char		**map;
 	t_player	player;
 }	t_game;
 

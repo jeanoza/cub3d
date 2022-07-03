@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kychoi <kychoi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 12:15:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/02 17:02:36 by kychoi           ###   ########.fr       */
+/*   Updated: 2022/07/03 18:13:10 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,17 @@ typedef struct s_game {
 	void		*mlx;
 	void		*win;
 	char		**map;
-	t_player	player;
+	t_player	*player;
 }	t_game;
 
-/*  */
+/* parse.c */
+int parse(char **av, t_game *game);
+
+/* painter.c */
 void	put_header(void);
+void	print_game(t_game *game);
+
+/* free.c */
+void	free_game(t_game *game);
 
 #endif

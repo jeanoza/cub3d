@@ -1,0 +1,62 @@
+int	get_line_num(char *path)
+{
+	int	fd;
+	int	i;
+
+	fd = open(path, O_RDONLY);
+	if (fd < 0)
+		return (0);
+	i = 0;
+	while (get_next_line(fd))
+		++i;
+	close(fd);
+	return(i);
+}
+
+/*
+ * Function:  parse
+ * --------------------------------------------------------------------------
+ * Verify line is validate or not by parse_error function.
+ * returns:	NULL | [t_map *map1, t_map *map2...,] //TODO: modify return value explication
+ */
+
+ //TODO: use recursive func1(gnl()) { if !line return; else game->map[i]..}
+ //TODO: re-essayer ft_realloc
+t_game *parse(char **av, t_game *game)
+{
+	int	fd;
+	int	i;
+	int	length;
+
+	length = get_line_num(av[1]);
+	if (length)
+	{
+		fd = open(av[1], O_RDONLY);
+		game->map = ft_calloc(length + 1, sizeof(char *));
+		i = 0;
+		while (i < length)
+		{
+			game->map[i] = get_next_line(fd);
+			++i;
+		}
+		game->map[i] = NULL;
+		close(fd);
+		return (game);
+	}
+	return (NULL);
+}
+
+int	render(t_game *game)
+{
+	game->mlx = mlx_init();
+	game->win = mlx_new_window(game->mlx, 1240, 720, "cub3d");
+	//for test game->map data(char *)
+	int	i = 0;
+	while (game->map && game->map[i])
+	{
+		printf("%s\n(i:%d)", game->map[i], i);
+		++i;
+	}
+	return (EXIT_SUCCESS);
+}
+

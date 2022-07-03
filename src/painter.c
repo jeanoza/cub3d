@@ -6,11 +6,29 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 19:08:13 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/01 14:38:36 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/03 18:12:28 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	print_game(t_game *game)
+{
+	int i;
+
+	printf("\n[%p]game\n", game);
+	printf("\n  [%p]game->mlx\n", game->mlx);
+	printf("\n  [%p]game->win\n", game->win);
+	printf("\n  [%p]game->player\n", game->player);
+	printf("\n  [%p]game->map:\n", game->map);
+	i = 0;
+	while (game->map && game->map[i])
+	{
+		printf("    [%p]game->map[%d]%s", game->map[i], i, game->map[i]);
+		++i;
+	}
+}
+
 
 //TODO: change to CUBE\n3D
 void	put_header(void)

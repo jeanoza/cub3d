@@ -18,7 +18,8 @@ SRC_PATH	=	./src/
 
 SRCS		=	main.c \
 				painter.c \
-				# $(addprefix parsing/, parse.c)\
+				free.c \
+				$(addprefix parsing/, parse.c)\
 				# $(addprefix exec/, )
 
 OBJ_PATH	=	./bin/
@@ -27,7 +28,7 @@ OBJS		=	$(addprefix $(OBJ_PATH), $(SRCS:.c=.o))
 
 CC			=	cc
 
-CFLAGS		=	-Wall -Werror -Wextra -g3 -fsanitize=address
+CFLAGS		=	-Wall -Werror -Wextra #-g3 -fsanitize=address
 
 NAME		=	cub3D
 

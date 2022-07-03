@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:27:41 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/03 00:23:16 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/03 09:27:59 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,9 @@ int	get_line_num(char *path)
  * Verify line is validate or not by parse_error function.
  * returns:	NULL | [t_map *map1, t_map *map2...,] //TODO: modify return value explication
  */
+
+ //TODO: use recursive func1(gnl()) { if !line return; else game->map[i]..}
+ //TODO: re-essayer ft_realloc
 t_game *parse(char **av, t_game *game)
 {
 	int	fd;

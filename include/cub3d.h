@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 12:15:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/04 09:02:36 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/05 00:14:11 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,10 @@
 
 /* Pointer size */
 # define P_SIZE 8
+
 # define EVENT_EXIT_WIN 17
+
+typedef enum e_bool { FALSE, TRUE }	t_bool;
 
 //TODO: parler avec Max pour des variables dans s_player et t_game
 typedef struct s_player {
@@ -49,6 +52,10 @@ typedef struct s_player {
 typedef struct s_game {
 	void		*mlx;
 	void		*win;
+	char		*NO_path;
+	char		*SO_path;
+	char		*WE_path;
+	char		*EA_path;
 	char		**map;
 	t_player	*player;
 }	t_game;

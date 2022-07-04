@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:27:41 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/04 09:02:28 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/04 23:47:49 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,9 @@
 
 void init(t_game *game)
 {
-	//FIXME: this is example
+	//FIXME: this is example : 2nd and 3rd parametre have to be changed by input(parsing)
 	game->mlx = mlx_init();
 	game->win = mlx_new_window(game->mlx, 1240, 720, "cub3d");
-
 }
 
 int	close_game_win_ctrl(t_game *game)
@@ -37,15 +36,15 @@ int	main(int ac, char **av)
 {
 	t_game	*game;
 
-	(void)ac;
-
+	if (ac != 2)
+		exit(EXIT_FAILURE);
 	game = ft_calloc(1, sizeof(t_game));
 	if (parse(av, game))
 	{
 		init(game);
+		print_game(game);
 		mlx_hook(game->win, EVENT_EXIT_WIN, 0, close_game_win_ctrl, game);
 		mlx_loop(game->mlx);
 	}
-
-	return (0);
+	return (EXIT_SUCCESS);
 }

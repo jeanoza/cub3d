@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 15:20:36 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/04 09:00:50 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/05 00:23:11 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,41 +28,48 @@ int	validate_line(char *line)
 	while (line[i])
 	{
 		//This is a example
-		if (line[i] == 'Z')
 		// if (line[i] == 'F')
-			return (0);
+		if (line[i] == 'Z')
+			return (FALSE);
 		++i;
 	}
-	return (1);
+	return (TRUE);
 }
 
-static int	get_line_rec(t_game *game, char *line, int fd, int i)
+//TODO: have parsing NO_path ... Color etc than map
+static int	get_line_rec(t_game *game, int fd, int i, int j)
 {
+	char *line;
+
+	line = get_next_line(fd);
+	printf("line:%s(i:%d j:%d)\n", line, i, j);
 	if (line)
 	{
-		if (!validate_line(line))
+		if (validate_line(line) == FALSE)
 		{
 			free(line);
 			return (-42);
 		}
-		if (game->map == NULL)
-			game->map = ft_calloc(2, sizeof(char *));
-		else
-			game->map = ft_realloc(game->map, (i + 1) * sizeof(char *), (i + 2) * sizeof(char *));
-		(game->map)[i] = line;
-		return (get_line_rec(game, get_next_line(fd), fd, i + 1));
+		if (line[0] != '\n')
+		{
+			if (game->map == NULL)
+				game->map = ft_calloc(2, P_SIZE);
+			else
+				game->map = ft_realloc(game->map,
+						(i + 1) * P_SIZE, (i + 2) * P_SIZE);
+			(game->map)[i++] = line;
+		}
+		return (get_line_rec(game, fd, i, j + 1));
 	}
 	return (0);
 }
 
-int parse(char **av, t_game *game)
+int	parse(char **av, t_game *game)
 {
 	int	fd;
 
 	fd = open(av[1], O_RDONLY);
-	if (fd == -1)
-		return (0);
-	if (get_line_rec(game, get_next_line(fd), fd, 0) == -42)
+	if (fd == -1 || get_line_rec(game, fd, 0, 0) == -42)
 	{
 		close(fd);
 		printf("Error\n");
@@ -70,5 +77,5 @@ int parse(char **av, t_game *game)
 		exit(42);
 	}
 	close(fd);
-	return (1);
+	return (TRUE);
 }

@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 18:10:27 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/03 18:42:34 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/04 08:59:36 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,6 @@ void	free_game(t_game *game)
 {
 	if (game)
 	{
-		//FIXME: if destroy in this function there is leaks from mlx (to test in linux)
-		// if (game->mlx && game->win)
-		// 	mlx_destroy_window(game->mlx, game->win);
 		if (game->map)
 			free_2d_array((void **)game->map);
 		if (game->player)

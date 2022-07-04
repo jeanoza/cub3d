@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 15:20:36 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/03 18:41:44 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/04 09:00:50 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	validate_line(char *line)
 	return (1);
 }
 
-static int	get_line_rec(char ***map, char *line, int fd, int i)
+static int	get_line_rec(t_game *game, char *line, int fd, int i)
 {
 	if (line)
 	{
@@ -45,12 +45,12 @@ static int	get_line_rec(char ***map, char *line, int fd, int i)
 			free(line);
 			return (-42);
 		}
-		if (*map == NULL)
-			*map = ft_calloc(2, sizeof(char *));
+		if (game->map == NULL)
+			game->map = ft_calloc(2, sizeof(char *));
 		else
-			*map = ft_realloc(*map, (i + 1) * sizeof(char *), (i + 2) * sizeof(char *));
-		(*map)[i] = line;
-		return (get_line_rec(map, get_next_line(fd), fd, i + 1));
+			game->map = ft_realloc(game->map, (i + 1) * sizeof(char *), (i + 2) * sizeof(char *));
+		(game->map)[i] = line;
+		return (get_line_rec(game, get_next_line(fd), fd, i + 1));
 	}
 	return (0);
 }
@@ -62,11 +62,10 @@ int parse(char **av, t_game *game)
 	fd = open(av[1], O_RDONLY);
 	if (fd == -1)
 		return (0);
-	if (get_line_rec(&game->map, get_next_line(fd), fd, 0) == -42)
+	if (get_line_rec(game, get_next_line(fd), fd, 0) == -42)
 	{
 		close(fd);
 		printf("Error\n");
-		// print_game(game);
 		free_game(game);
 		exit(42);
 	}

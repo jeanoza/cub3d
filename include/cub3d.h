@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 12:15:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/03 18:13:10 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/04 09:02:36 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 
 /* Pointer size */
 # define P_SIZE 8
+# define EVENT_EXIT_WIN 17
 
 //TODO: parler avec Max pour des variables dans s_player et t_game
 typedef struct s_player {

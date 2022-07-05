@@ -6,11 +6,19 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 15:20:36 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/05 00:23:11 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/05 09:09:40 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+int	exit_by_invalid_line(char *line, t_game *game)
+{
+	free(line);
+	free_game(game);
+	// while (1);
+	exit(EXIT_FAILURE);
+}
 
 /*
  * Function:  validate_line
@@ -18,9 +26,9 @@
  * Test invalid characters in current line
  *
  * line: from get_next_line(fd)
- * returns: 1 if valid line, else 0
+ * game: t_game ptr to use 
  */
-int	validate_line(char *line)
+int	validate_line(char *line, t_game *game)
 {
 	int	i;
 
@@ -28,9 +36,9 @@ int	validate_line(char *line)
 	while (line[i])
 	{
 		//This is a example
-		// if (line[i] == 'F')
-		if (line[i] == 'Z')
-			return (FALSE);
+		if (line[i] == 'F')
+		// if (line[i] == 'Z')
+			return (exit_by_invalid_line(line, game));
 		++i;
 	}
 	return (TRUE);
@@ -39,17 +47,13 @@ int	validate_line(char *line)
 //TODO: have parsing NO_path ... Color etc than map
 static int	get_line_rec(t_game *game, int fd, int i, int j)
 {
-	char *line;
+	char	*line;
 
 	line = get_next_line(fd);
-	printf("line:%s(i:%d j:%d)\n", line, i, j);
+	// printf("line:%s(i:%d j:%d)\n", line, i, j);
 	if (line)
 	{
-		if (validate_line(line) == FALSE)
-		{
-			free(line);
-			return (-42);
-		}
+		validate_line(line, game);
 		if (line[0] != '\n')
 		{
 			if (game->map == NULL)
@@ -74,7 +78,7 @@ int	parse(char **av, t_game *game)
 		close(fd);
 		printf("Error\n");
 		free_game(game);
-		exit(42);
+		exit(EXIT_FAILURE);
 	}
 	close(fd);
 	return (TRUE);

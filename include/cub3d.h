@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 12:15:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/05 08:56:43 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/07 10:04:02 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ typedef struct s_player {
 typedef struct s_game {
 	void		*mlx;
 	void		*win;
-	char		*NO_path;
-	char		*SO_path;
-	char		*WE_path;
-	char		*EA_path;
+	char		*no_path;
+	char		*so_path;
+	char		*we_path;
+	char		*ea_path;
 	char		**map;
 	t_player	*player;
 }	t_game;

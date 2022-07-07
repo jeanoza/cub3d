@@ -140,3 +140,72 @@ int	parse(char **av, t_game *game)
 	close(fd);
 	return (TRUE);
 }
+
+int	parse(char **av, t_game *game)
+{
+	int	fd;
+
+	fd = open(av[1], O_RDONLY);
+	if (fd == -1 || get_line_rec(game, fd, 0, 0) == -42)
+	{
+		close(fd);
+		printf("Error\n");
+		free_game(game);
+		exit(EXIT_FAILURE);
+	}
+	close(fd);
+	return (TRUE);
+}
+static int	get_line_rec(t_game *game, int fd, int i, int j)
+{
+	char	*line;
+
+	line = get_next_line(fd);
+	// printf("line:%s(i:%d j:%d)\n", line, i, j);
+	if (line)
+	{
+		validate_line(line, game);
+		if (line[0] != '\n')
+		{
+			if (game->map == NULL)
+				game->map = ft_calloc(2, P_SIZE);
+			else
+				game->map = ft_realloc(game->map,
+						(i + 1) * P_SIZE, (i + 2) * P_SIZE);
+			(game->map)[i] = ft_strndup(line, ft_strlen(line) - 1);
+			++i;
+		}
+		free(line);
+		return (get_line_rec(game, fd, i, j + 1));
+	}
+	return (0);
+}
+
+static int	get_line_rec(t_game *game, int fd, int i)
+{
+	char	*line;
+	char	*line_no_nl;
+
+	line = get_next_line(fd);
+	if (line)
+	{
+		validate_line(line, game);
+		if (line[0] != '\n')
+		{
+			line_no_nl = ft_strndup(line, ft_strlen(line) - 1);
+			if (ft_strncmp(line, "NO", 2) == 0)
+				game->no_path = line_no_nl;
+			else if (ft_strncmp(line, "SO", 2) == 0)
+				game->so_path = line_no_nl;
+			else if (ft_strncmp(line, "WE", 2) == 0)
+				game->we_path = line_no_nl;
+			else if (ft_strncmp(line, "EA", 2) == 0)
+				game->ea_path = line_no_nl;
+			else
+				i = put_map(game, line_no_nl, i);
+		}
+		free(line);
+		return (get_line_rec(game, fd, i));
+	}
+	return (0);
+}

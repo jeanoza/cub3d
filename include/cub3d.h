@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 12:15:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/07 10:04:02 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/07 17:24:11 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,10 @@ typedef struct s_game {
 	char		*so_path;
 	char		*we_path;
 	char		*ea_path;
+	//FIXME: int[3] or char * for t
+	char		*f_color;
+	//FIXME: int[3] or char * for t
+	char		*c_color;
 	char		**map;
 	t_player	*player;
 }	t_game;

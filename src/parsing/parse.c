@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 15:20:36 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/05 09:09:40 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/07 17:24:11 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ int	validate_line(char *line, t_game *game)
 	while (line[i])
 	{
 		//This is a example
-		if (line[i] == 'F')
-		// if (line[i] == 'Z')
+		// if (line[i] == 'F')
+		if (line[i] == 'Z')
 			return (exit_by_invalid_line(line, game));
 		++i;
 	}
@@ -45,27 +45,43 @@ int	validate_line(char *line, t_game *game)
 }
 
 //TODO: have parsing NO_path ... Color etc than map
-static int	get_line_rec(t_game *game, int fd, int i, int j)
+static int put_map(t_game *game, char *line, int idx)
 {
-	char	*line;
+	if (game->map == NULL)
+		game->map = ft_calloc(2, P_SIZE);
+	else
+		game->map = ft_realloc(game->map,
+				(idx + 1) * P_SIZE, (idx + 2) * P_SIZE);
+	(game->map)[idx] = line;
+	return (idx + 1);
+}
+static void	get_line_rec(t_game *game, char *line, int fd, int i)
+{
+	char	*line_no_nl;
 
-	line = get_next_line(fd);
-	// printf("line:%s(i:%d j:%d)\n", line, i, j);
-	if (line)
+	if (line == NULL)
+		return ;
+	validate_line(line, game);
+	if (line[0] != '\n')
 	{
-		validate_line(line, game);
-		if (line[0] != '\n')
-		{
-			if (game->map == NULL)
-				game->map = ft_calloc(2, P_SIZE);
-			else
-				game->map = ft_realloc(game->map,
-						(i + 1) * P_SIZE, (i + 2) * P_SIZE);
-			(game->map)[i++] = line;
-		}
-		return (get_line_rec(game, fd, i, j + 1));
+		line_no_nl = ft_strndup(line, ft_strlen(line) - 1);
+		if (ft_strncmp(line_no_nl, "NO", 2) == 0)
+			game->no_path = line_no_nl;
+		else if (ft_strncmp(line_no_nl, "SO", 2) == 0)
+			game->so_path = line_no_nl;
+		else if (ft_strncmp(line_no_nl, "WE", 2) == 0)
+			game->we_path = line_no_nl;
+		else if (ft_strncmp(line_no_nl, "EA", 2) == 0)
+			game->ea_path = line_no_nl;
+		else if (line_no_nl[0] == 'F')
+			game->f_color = line_no_nl;
+		else if (line_no_nl[0] == 'C')
+			game->c_color = line_no_nl;
+		else
+			i = put_map(game, line_no_nl, i);
 	}
-	return (0);
+	free(line);
+	get_line_rec(game, get_next_line(fd), fd, i);
 }
 
 int	parse(char **av, t_game *game)
@@ -73,13 +89,9 @@ int	parse(char **av, t_game *game)
 	int	fd;
 
 	fd = open(av[1], O_RDONLY);
-	if (fd == -1 || get_line_rec(game, fd, 0, 0) == -42)
-	{
-		close(fd);
-		printf("Error\n");
-		free_game(game);
-		exit(EXIT_FAILURE);
-	}
+	if (fd == -1)
+		return (FALSE);
+	get_line_rec(game, get_next_line(fd), fd, 0);
 	close(fd);
 	return (TRUE);
 }

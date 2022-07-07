@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 19:08:13 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/04 23:55:32 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/07 17:23:46 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,17 @@ void	print_game(t_game *game)
 	printf("\n[%p]game\n", game);
 	printf("\n  [%p]game->mlx\n", game->mlx);
 	printf("\n  [%p]game->win\n", game->win);
-	printf("\n  [%p]game->player\n", game->player);
+	printf("\n  [%p]game->no_path:%s\n", game->no_path, game->no_path);
+	printf("\n  [%p]game->so_path:%s\n", game->so_path, game->so_path);
+	printf("\n  [%p]game->we_path:%s\n", game->we_path, game->we_path);
+	printf("\n  [%p]game->ea_path:%s\n", game->ea_path, game->ea_path);
+	printf("\n  [%p]game->f_color:%s\n", game->f_color, game->f_color);
+	printf("\n  [%p]game->c_color:%s\n", game->c_color, game->c_color);
 	printf("\n  [%p]game->map:\n", game->map);
 	i = 0;
 	while (game->map && game->map[i])
 	{
-		printf("    [%p]game->map[%d]%s", game->map[i], i, game->map[i]);
+		printf("    [%p]game->map[%d]%s\n", game->map[i], i, game->map[i]);
 		++i;
 	}
 }

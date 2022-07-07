@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 15:20:36 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/07 17:24:11 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/07 17:25:41 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	exit_by_invalid_line(char *line, t_game *game)
 {
 	free(line);
 	free_game(game);
-	// while (1);
 	exit(EXIT_FAILURE);
 }
 
@@ -44,7 +43,6 @@ int	validate_line(char *line, t_game *game)
 	return (TRUE);
 }
 
-//TODO: have parsing NO_path ... Color etc than map
 static int put_map(t_game *game, char *line, int idx)
 {
 	if (game->map == NULL)

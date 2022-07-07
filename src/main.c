@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:27:41 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/07 17:24:29 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/07 17:26:11 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,39 +50,3 @@ int	main(int ac, char **av)
 
 	return (EXIT_SUCCESS);
 }
-
-
-
-
-//FIXME: version to only exec
-// void parse_a_la_rache(t_game *game)
-// {
-// 	int	fd;
-// 	int	i,j;
-
-// 	fd = open("./maps/basic.cub", O_RDONLY);
-// 	i = 0;
-// 	line = get_next_line(fd);
-// 	while (line)
-// 	{
-// 		if (ft_strncmp(line, "NO", 2))
-// 			game->no_path = line;
-// 		else if (ft_strncmp(line, "SO", 2))
-// 			game->so_path = line;
-// 		else if (ft_strncmp(line, "WE", 2))
-// 			game->we_path = line;
-// 		else if (ft_strncmp(line, "EA", 2))
-// 			game->ea_path = line;
-// 		line = get_next_line(fd);
-// 	}
-// }
-
-// int main(void)
-// {
-// 	t_game	*game;
-
-// 	game = ft_calloc(1, sizeof(t_game));
-
-
-// 	return (EXIT_SUCCESS);
-// }

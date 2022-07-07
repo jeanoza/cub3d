@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:27:41 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/07 17:26:11 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/07 18:42:01 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	close_game_win_ctrl(t_game *game)
 		free_game(game);
 		exit(EXIT_FAILURE);
 	}
+	mlx_destroy_display(game->mlx);
+	free(game->mlx);
 	free_game(game);
 	printf("Closed by win x button\n");
 	exit(EXIT_SUCCESS);

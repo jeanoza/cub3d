@@ -1,0 +1,26 @@
+Le concept 
+
+remplacer tout le vide par des espaces pour avoir une map carre 
+
+pour check si la map est valide
+	On regarde tout les espaces
+		Si l'espace est dans la map
+			on ne check pas on fait rien										 | |	
+		Si l'espace est en dehors de la map 									 | |
+			on regarde dans les quatres directions autour de cette espace    ____| |____
+			(horizontalement et verticalement dans les deux sens) 			 ____ e ____
+				Si on tombe que sur des 1 ou offmap c'est bon					 | |
+				Si on tombe sur un 0 cest que la map est pas ferme				 | |
+																				 | |
+
+Pour savoir si un espace est dans la map ou hors de la map		   
+	On regarde tout les espaces qui sont autour de lui             
+		si y en a un seul qui peux aller jusqua l'offmap
+		c'est que l'espace est offmap
+		sinon c'est quil est dans la map
+
+OU ALORS
+
+assigner tout les offmap et inmap espace puis regarder 
+si un seul espace offmap touche un 0 cest que la map est open
+ca a lair plus simple

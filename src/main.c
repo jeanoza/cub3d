@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:27:41 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/07 19:51:26 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/08 17:19:49 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ int	close_game_win_ctrl(t_game *game)
 		free_game(game);
 		exit(EXIT_FAILURE);
 	}
-	mlx_destroy_display(game->mlx);
+	//FIXME: en mlx_mac : y a pas de destroy_display mince! on verra ensemble ca apres
+	// mlx_destroy_display(game->mlx);
 	free(game->mlx);
 	free_game(game);
 	printf("Closed by win x button\n");
 	exit(EXIT_SUCCESS);
 }
 
-// FIXME: version with parsing
 int	main(int ac, char **av)
 {
 	t_game	*game;
@@ -44,10 +44,10 @@ int	main(int ac, char **av)
 	game = ft_calloc(1, sizeof(t_game));
 	if (parse(av, game))
 	{
-		//init(game);
+		init(game);
 		print_game(game);
-		//mlx_hook(game->win, EVENT_EXIT_WIN, 0, close_game_win_ctrl, game);
-		//mlx_loop(game->mlx);
+		mlx_hook(game->win, EVENT_EXIT_WIN, 0, close_game_win_ctrl, game);
+		mlx_loop(game->mlx);
 	}
 
 	return (EXIT_SUCCESS);

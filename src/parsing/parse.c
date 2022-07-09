@@ -6,7 +6,7 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 15:20:36 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/09 17:44:28 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/09 17:53:55 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,12 @@ int	parse(char **av, t_game *game)
 	check_map(game);
 	put_floor_ceil(game, game->ccolor);
 	put_floor_ceil(game, game->fcolor);
+	game->player = ft_calloc(1, sizeof(t_player));
+	game->player->x = 10;
+	game->player->y = 15;
+	game->player->dir = EAST;
+
+	
 
 	if (game->err == 1)
 	{

@@ -6,7 +6,7 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 12:15:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/09 17:47:53 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/09 17:53:33 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,13 @@
 typedef enum e_bool { FALSE, TRUE }	t_bool;
 typedef enum e_error { ERR_PARSE = -42 ,ERR_MAP = 1, ERR_LINE = 2 }	t_error;
 typedef enum e_event { EVENT_EXIT_WIN = 17 }	t_event;
+typedef enum e_dir {NORTH, SOUTH, EAST, WEST} t_dir;
 
 //TODO: parler avec Max pour des variables dans s_player et t_game
 typedef struct	s_player {
 	int		x;
 	int		y;
+	t_dir	dir;
 }	t_player;
 
 typedef	struct	s_data {
@@ -74,7 +76,6 @@ typedef struct	s_game {
 	int			count;
 	int			line;
 	int			err;
-	t_data		data;
 	t_player	*player;
 }	t_game;
 

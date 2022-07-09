@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 18:10:27 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/09 12:38:54 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/09 17:47:46 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	free_2d_array(void **_2d_array)
+void	free_2d_array(void **_2d_array)
 {
 	int	i;
 
@@ -39,6 +39,10 @@ void	free_game(t_game *game)
 			free(game->we_path);
 		if (game->ea_path)
 			free(game->ea_path);
+		if (game->fcolor)
+			free(game->fcolor);
+		if (game->ccolor)
+			free(game->ccolor);
 		if (game->map)
 			free_2d_array((void **)game->map);
 		if (game->player)

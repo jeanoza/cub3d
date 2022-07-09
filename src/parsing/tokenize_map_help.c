@@ -1,29 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   event.c                                            :+:      :+:    :+:   */
+/*   tokenize_map_help.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/09 10:31:36 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/09 17:30:49 by mabriel          ###   ########.fr       */
+/*   Created: 2022/07/09 02:19:45 by mabriel           #+#    #+#             */
+/*   Updated: 2022/07/09 17:01:45 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	close_game_win_ctrl(t_game *game)
-{
-	if (mlx_destroy_window(game->mlx, game->win))
-	{
-		printf("Error\nDestroy window failed\n");
-		free_game(game);
-		exit(EXIT_FAILURE);
-	}
-	//FIXME: en mlx_mac : y a pas de destroy_display mince! on verra ensemble ca apres
-	mlx_destroy_display(game->mlx);
-	free(game->mlx);
-	free_game(game);
-	printf("Closed by win x button\n");
-	exit(EXIT_SUCCESS);
-}
+// int	get_vertical_size(char **s)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (s && s[i])
+// 		i++;
+// 	return (i);
+// }
+
+// int get_horizontal_size(char **s)
+// {
+// 	int	max;
+// 	int	i;
+// 	int	j;
+	
+// 	max = 0;
+// 	i = 0;
+// 	while (s && s[i])
+// 	{
+// 		j = 0;
+// 		while (s && s[i][j])
+// 			j++;
+// 		if (j > max)
+// 			max = j;
+// 		i++;
+// 	}
+// 	return (max);
+// }

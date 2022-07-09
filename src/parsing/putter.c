@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   putter.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 12:10:02 by kyubongchoi       #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/07/09 17:04:38 by kyubongchoi      ###   ########.fr       */
-=======
-/*   Updated: 2022/07/09 17:47:33 by mabriel          ###   ########.fr       */
->>>>>>> b6cc90af617c5d7386143aef5ddf36ec66c26285
+/*   Updated: 2022/07/09 18:02:27 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +26,6 @@ int	put_map(t_game *game, char *line, int idx)
 	if (len > game->width)
 		game->width = len;
 	++game->height;
-	printf("widht:%d height:%d\n", game->width, game->height);
 	return (idx + 1);
 }
 

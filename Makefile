@@ -20,6 +20,7 @@ SRCS		=	main.c \
 				painter.c \
 				free.c \
 				init.c \
+				event.c \
 				$(addprefix parsing/, parse.c)\
 				# $(addprefix exec/, )
 

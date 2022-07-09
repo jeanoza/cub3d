@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 12:15:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/08 20:28:46 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/09 10:32:10 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,14 @@ typedef struct s_player {
 	int		y;
 }	t_player;
 
+typedef struct	s_data {
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}				t_data;
+
 //Principal struct
 typedef struct s_game {
 	void		*mlx;
@@ -69,6 +77,9 @@ int parse(char **av, t_game *game);
 
 /* init.c */
 void	init(t_game *game);
+
+/* event.c */
+int	close_game_win_ctrl(t_game *game);
 
 /* painter.c */
 void	put_header(void);

@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 12:15:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/09 13:29:07 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/09 15:07:24 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,30 +43,31 @@ typedef enum e_error { ERR_PARSE = -42 }	t_error;
 typedef enum e_event { EVENT_EXIT_WIN = 17 }	t_event;
 
 //TODO: parler avec Max pour des variables dans s_player et t_game
-typedef struct s_player {
+typedef struct	s_player {
 	int		x;
 	int		y;
 }	t_player;
 
-typedef struct	s_data {
+typedef	struct	s_data {
 	void	*img;
 	char	*addr;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-}				t_data;
+}	t_data;
 
 //Principal struct
-typedef struct s_game {
+typedef struct	s_game {
+	int			f_color;
+	int			c_color;
 	void		*mlx;
 	void		*win;
 	char		*no_path;
 	char		*so_path;
 	char		*we_path;
 	char		*ea_path;
-	char		*f_color;
-	char		*c_color;
 	char		**map;
+	t_data		data;
 	t_player	*player;
 }	t_game;
 
@@ -74,7 +75,7 @@ typedef struct s_game {
 int		parse(char **av, t_game *game);
 
 /* putter.c */
-// int		put_map(t_game *game, char *line, int idx);
+int		put_map(t_game *game, char *line, int idx);
 void	put_texture(t_game *game, char *line);
 void	put_floor_ceil(t_game *game, char *line);
 

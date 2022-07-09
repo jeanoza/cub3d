@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 15:20:36 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/09 13:29:22 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/09 13:37:03 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int	validate_line(char *line, t_game *game)
 
 // int	put_map(t_game *game, char *line, int idx)
 // {
-// 	printf("[%p]game->map\n", game->map);
 // 	if (game->map == NULL)
 // 		game->map = ft_calloc(2, P_SIZE);
 // 	else
@@ -73,17 +72,7 @@ static void	get_line_rec(t_game *game, char *line, int fd, int i)
 		else if (line_no_nl[0] == 'F' || line_no_nl[0] == 'C')
 			put_floor_ceil(game, line_no_nl);
 		else
-		// i = put_map(game, line_no_nl, i);
-		{
-			if (game->map == NULL)
-				game->map = ft_calloc(2, P_SIZE);
-			else
-				game->map = ft_realloc(game->map,
-						(i + 1) * P_SIZE, (i + 2) * P_SIZE);
-			(game->map)[i] = line;
-			// return (i + 1);
-			++i;
-		}
+			i = put_map(game, line_no_nl, i);
 	}
 	free(line);
 	get_line_rec(game, get_next_line(fd), fd, i);

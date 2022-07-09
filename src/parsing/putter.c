@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 12:10:02 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/09 13:25:27 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/09 13:50:32 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,36 +37,15 @@ void	put_texture(t_game *game, char *line)
 
 void	put_floor_ceil(t_game *game, char *line)
 {
+	char	**splitted;
+	int		encoded_color;
 
-		if (line[0] == 'F')
-		{
-			game->f_color = line;
-		}
-		else if (line[0] == 'C')
-		{
-			game->c_color = line;
-		}
-	// char	**splitted;
-	// int		i;
-	// splitted = ft_split(line + 2, ',');
-	// if (line[0] == 'F')
-	// 	game->f_color = ft_calloc(4, sizeof(int));
-	// else if (line[0] == 'C')
-	// 	game->c_color = ft_calloc(4, sizeof(int));
-	// i = 0;
-	// while (i < 3)
-	// {
-	// 	if (line[0] == 'F')
-	// 	{
-	// 		printf("if\n");
-	// 		game->f_color[i] = ft_atoi(splitted[i]);
-	// 	}
-	// 	else if (line[0] == 'C')
-	// 	{
-	// 		printf("else if\n");
-	// 		game->c_color[i] = ft_atoi(splitted[i]);
-	// 	}
-	// 	++i;
-	// }
-	// free(splitted);
+	splitted = ft_split(line + 2, ',');
+	encoded_color = encode_rgb(ft_atoi(splitted[0]),
+			ft_atoi(splitted[1]), ft_atoi(splitted[2]));
+	if (line[0] == 'F')
+		game->f_color = encoded_color;
+	else if (line[0] == 'C')
+		game->c_color = encoded_color;
+	free(splitted);
 }

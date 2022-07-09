@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 12:15:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/09 15:32:08 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/09 16:55:22 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 # define P_SIZE 8
 
 typedef enum e_bool { FALSE, TRUE }	t_bool;
-typedef enum e_error { ERR_PARSE = -42 }	t_error;
+typedef enum e_error { ERR_PARSE = -42 ,ERR_MAP = 1, ERR_LINE = 2 }	t_error;
 typedef enum e_event { EVENT_EXIT_WIN = 17 }	t_event;
 
 //TODO: parler avec Max pour des variables dans s_player et t_game
@@ -68,13 +68,41 @@ typedef struct	s_game {
 	char		*so_path;
 	char		*we_path;
 	char		*ea_path;
+	char		*ccolor;
+	char		*fcolor;
 	char		**map;
+	int			count;
+	int			line;
+	int			err;
 	t_data		data;
 	t_player	*player;
 }	t_game;
 
+
+/* *********************************************************************** */
+/*                               PARSING                                   */
+/* *********************************************************************** */
 /* parse.c */
 int		parse(char **av, t_game *game);
+int		check_place(t_game *game, int place);
+int		validate_line(char *line, t_game *game);
+void	init_parse(t_game *game);
+
+/* check_map.c */
+void	check_map(t_game *game);
+
+/* parse_error.c */
+void	error_parsing(t_error err_code, char *msg, t_game *game);
+void	exit_error_file(t_game *game, int err_code);
+int		forest_help(t_game *game, int code);
+int		open_file(char *s, t_game *game);
+
+/* tokenize_map.c */
+char	**tokenize(t_game *game, char **src);
+
+/* tokenize_map_help.c */
+int		get_horizontal_size(char **s);
+int		get_vertical_size(char **s);
 
 /* putter.c */
 int		put_map(t_game *game, char *line, int idx);

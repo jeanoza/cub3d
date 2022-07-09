@@ -22,7 +22,7 @@ SRCS		=	main.c \
 				init.c \
 				event.c \
 				utils.c \
-				$(addprefix parsing/, parse.c putter.c)\
+				$(addprefix parsing/, parse.c putter.c parse_error.c init_parse.c check_map.c tokenize_map.c tokenize_map_help.c)\
 				# $(addprefix exec/, )
 
 OBJ_PATH	=	./bin/

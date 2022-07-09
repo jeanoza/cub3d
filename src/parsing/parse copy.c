@@ -6,41 +6,21 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 15:20:36 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/09 17:33:56 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/09 01:37:06 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	exit_by_invalid_line(char *line, t_game *game)
+static int put_map(t_game *game, char *line, int idx)
 {
-	free(line);
-	free_game(game);
-	exit(EXIT_FAILURE);
-}
-
-/*
- * Function:  validate_line
- * --------------------------------------------------------------------------
- * Test invalid characters in current line
- *
- * line: from get_next_line(fd)
- * game: t_game ptr to use 
- */
-int	validate_line(char *line, t_game *game)
-{
-	int	i;
-
-	i = 0;
-	while (line[i])
-	{
-		//This is a example
-		// if (line[i] == 'F')
-		if (line[i] == 'Z')
-			return (exit_by_invalid_line(line, game));
-		++i;
-	}
-	return (TRUE);
+	if (game->map == NULL)
+		game->map = ft_calloc(2, P_SIZE);
+	else
+		game->map = ft_realloc(game->map,
+				(idx + 1) * P_SIZE, (idx + 2) * P_SIZE);
+	(game->map)[idx] = line;
+	return (idx + 1);
 }
 
 static int	if_forest(char *line_no_nl, t_game *game, int i)
@@ -54,9 +34,9 @@ static int	if_forest(char *line_no_nl, t_game *game, int i)
 	else if (ft_strncmp(line_no_nl, "EA", 2) == 0 && forest_help(game, 4))
 		game->ea_path = line_no_nl;
 	else if (line_no_nl[0] == 'F' && forest_help(game, 5))
-		game->fcolor = line_no_nl;
+		game->f_color = line_no_nl;
 	else if (line_no_nl[0] == 'C' && forest_help(game, 6))
-		game->ccolor = line_no_nl;
+		game->c_color = line_no_nl;
 	else if (game->count == 7 || game->err == 1)
 		return (put_map(game, line_no_nl, i));
 	else if (game->err == 0)

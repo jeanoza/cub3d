@@ -19,6 +19,7 @@ SRC_PATH	=	./src/
 SRCS		=	main.c \
 				painter.c \
 				free.c \
+				init.c \
 				$(addprefix parsing/, parse.c)\
 				# $(addprefix exec/, )
 

@@ -6,18 +6,11 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:27:41 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/08 17:19:49 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/09 09:11:35 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-void init(t_game *game)
-{
-	//FIXME: this is example : 2nd and 3rd parametre have to be changed by input(parsing)
-	game->mlx = mlx_init();
-	game->win = mlx_new_window(game->mlx, 1240, 720, "cub3d");
-}
 
 int	close_game_win_ctrl(t_game *game)
 {

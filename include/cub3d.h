@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 12:15:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/08 17:15:15 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/08 20:28:46 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,15 @@ typedef struct s_game {
 /* parse.c */
 int parse(char **av, t_game *game);
 
+/* init.c */
+void	init(t_game *game);
+
 /* painter.c */
 void	put_header(void);
 void	print_game(t_game *game);
 
 /* free.c */
 void	free_game(t_game *game);
+
 
 #endif

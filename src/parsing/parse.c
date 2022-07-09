@@ -6,41 +6,17 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 15:20:36 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/09 17:53:55 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/10 00:47:36 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	exit_by_invalid_line(char *line, t_game *game)
+static void	init_parse(t_game *game)
 {
-	free(line);
-	free_game(game);
-	exit(EXIT_FAILURE);
-}
-
-/*
- * Function:  validate_line
- * --------------------------------------------------------------------------
- * Test invalid characters in current line
- *
- * line: from get_next_line(fd)
- * game: t_game ptr to use 
- */
-int	validate_line(char *line, t_game *game)
-{
-	int	i;
-
-	i = 0;
-	while (line[i])
-	{
-		//This is a example
-		// if (line[i] == 'F')
-		if (line[i] == 'Z')
-			return (exit_by_invalid_line(line, game));
-		++i;
-	}
-	return (TRUE);
+	game->count = 1;
+	game->line = 1;
+	game->err = 0;
 }
 
 static int	if_forest(char *line_no_nl, t_game *game, int i)
@@ -73,7 +49,10 @@ static int	get_line_rec(t_game *game, char *line, int fd, int i)
 	//validate_line(line, game);
 	if (line[0] != '\n' || game->map)
 	{
-		line_no_nl = ft_strndup(line, ft_strlen(line) - 1);
+		if (ft_strchr(line, '\n'))
+			line_no_nl = ft_strndup(line, ft_strlen(line) - 1);
+		else
+			line_no_nl = ft_strndup(line, ft_strlen(line));
 		i = if_forest(line_no_nl, game, i);
 	}
 	game->line += 1;
@@ -106,20 +85,13 @@ int	parse(char **av, t_game *game)
 	if (get_line_rec(game, get_next_line(fd), fd, 0))
 	{
 		free_game(game);
-		printf("Empty file\n");
+		close(fd);
+		printf("Error\nEmpty file\n");
 		return (FALSE);
 	}
 	close(fd);
+	check_file_and_color(game);
 	check_map(game);
-	put_floor_ceil(game, game->ccolor);
-	put_floor_ceil(game, game->fcolor);
-	game->player = ft_calloc(1, sizeof(t_player));
-	game->player->x = 10;
-	game->player->y = 15;
-	game->player->dir = EAST;
-
-	
-
 	if (game->err == 1)
 	{
 		free_game(game);

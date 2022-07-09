@@ -6,7 +6,7 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 12:15:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/09 17:53:33 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/10 00:47:46 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,10 @@
 
 /* Pointer size */
 # define P_SIZE 8
+# define OFFMAP 'O'
+# define VOID	'0'
+# define WALL	'1'
+# define SPACE	' ' 
 
 typedef enum e_bool { FALSE, TRUE }	t_bool;
 typedef enum e_error { ERR_PARSE = -42 ,ERR_MAP = 1, ERR_LINE = 2 }	t_error;
@@ -87,10 +91,12 @@ typedef struct	s_game {
 int		parse(char **av, t_game *game);
 int		check_place(t_game *game, int place);
 int		validate_line(char *line, t_game *game);
-void	init_parse(t_game *game);
 
 /* check_map.c */
 void	check_map(t_game *game);
+int		is_valid(int c);
+
+void	check_file_and_color(t_game *game);
 
 /* parse_error.c */
 void	error_parsing(t_error err_code, char *msg, t_game *game);
@@ -101,14 +107,18 @@ int		open_file(char *s, t_game *game);
 /* tokenize_map.c */
 char	**tokenize(t_game *game, char **src);
 
+int		heat_seeking(char **dst);
+int		seeking(char **dst, int	x, int y, int for_char);
+void	set_space(char **dst);
+int		check_void_offmap_seeker(char **dst);
+
 /* tokenize_map_help.c */
-int		get_horizontal_size(char **s);
-int		get_vertical_size(char **s);
+void	offmap_to_wall(t_game *game, char **dst);
 
 /* putter.c */
 int		put_map(t_game *game, char *line, int idx);
 void	put_texture(t_game *game, char *line);
-void	put_floor_ceil(t_game *game, char *line);
+char	**put_floor_ceil(t_game *game, char *line);
 
 /* init.c */
 void	init(t_game *game);

@@ -6,7 +6,7 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:27:41 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/09 17:45:48 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/09 23:36:01 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ int	main(int ac, char **av)
 	game = ft_calloc(1, sizeof(t_game));
 	if (parse(av, game))
 	{
-		init(game);
+		print_game(game);
+		free_game(game);
+		//init(game);
 	}
 	else
 		return (EXIT_FAILURE);

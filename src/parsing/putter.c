@@ -6,7 +6,7 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 12:10:02 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/09 17:47:33 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/10 00:24:42 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@ int	put_map(t_game *game, char *line, int idx)
 	len = ft_strlen(line);
 	if (len > game->width)
 		game->width = len;
-	printf("indexof:%d\n", index_of(line, 'N'));
 	++game->height;
-	printf("widht:%d height:%d\n", game->width, game->height);
 	return (idx + 1);
 }
 
@@ -43,7 +41,7 @@ void	put_texture(t_game *game, char *line)
 		game->ea_path = line;
 }
 
-void	put_floor_ceil(t_game *game, char *line)
+char	**put_floor_ceil(t_game *game, char *line)
 {
 	char	**splitted;
 	int		encoded_color;
@@ -55,5 +53,5 @@ void	put_floor_ceil(t_game *game, char *line)
 		game->f_color = encoded_color;
 	else if (line[0] == 'C')
 		game->c_color = encoded_color;
-	free_2d_array((void **)splitted);
+	return (splitted);
 }

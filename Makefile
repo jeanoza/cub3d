@@ -21,7 +21,8 @@ SRCS		=	main.c \
 				free.c \
 				init.c \
 				event.c \
-				$(addprefix parsing/, parse.c)\
+				utils.c \
+				$(addprefix parsing/, parse.c putter.c)\
 				# $(addprefix exec/, )
 
 OBJ_PATH	=	./bin/

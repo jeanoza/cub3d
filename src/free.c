@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 18:10:27 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/07 17:24:11 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/09 12:38:54 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,6 @@ void	free_game(t_game *game)
 			free(game->we_path);
 		if (game->ea_path)
 			free(game->ea_path);
-		if (game->f_color)
-			free(game->f_color);
-		if (game->c_color)
-			free(game->c_color);
 		if (game->map)
 			free_2d_array((void **)game->map);
 		if (game->player)

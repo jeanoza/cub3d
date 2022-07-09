@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 15:20:36 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/08 20:26:54 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/09 13:29:22 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,18 @@ int	validate_line(char *line, t_game *game)
 	return (TRUE);
 }
 
-static int put_map(t_game *game, char *line, int idx)
-{
-	if (game->map == NULL)
-		game->map = ft_calloc(2, P_SIZE);
-	else
-		game->map = ft_realloc(game->map,
-				(idx + 1) * P_SIZE, (idx + 2) * P_SIZE);
-	(game->map)[idx] = line;
-	return (idx + 1);
-}
+// int	put_map(t_game *game, char *line, int idx)
+// {
+// 	printf("[%p]game->map\n", game->map);
+// 	if (game->map == NULL)
+// 		game->map = ft_calloc(2, P_SIZE);
+// 	else
+// 		game->map = ft_realloc(game->map,
+// 				(idx + 1) * P_SIZE, (idx + 2) * P_SIZE);
+// 	(game->map)[idx] = line;
+// 	return (idx + 1);
+// }
+
 static void	get_line_rec(t_game *game, char *line, int fd, int i)
 {
 	char	*line_no_nl;
@@ -63,20 +65,25 @@ static void	get_line_rec(t_game *game, char *line, int fd, int i)
 	if (line[0] != '\n')
 	{
 		line_no_nl = ft_strndup(line, ft_strlen(line) - 1);
-		if (ft_strncmp(line_no_nl, "NO", 2) == 0)
-			game->no_path = line_no_nl;
-		else if (ft_strncmp(line_no_nl, "SO", 2) == 0)
-			game->so_path = line_no_nl;
-		else if (ft_strncmp(line_no_nl, "WE", 2) == 0)
-			game->we_path = line_no_nl;
-		else if (ft_strncmp(line_no_nl, "EA", 2) == 0)
-			game->ea_path = line_no_nl;
-		else if (line_no_nl[0] == 'F')
-			game->f_color = line_no_nl;
-		else if (line_no_nl[0] == 'C')
-			game->c_color = line_no_nl;
+		if (ft_strncmp(line_no_nl, "NO", 2) == 0
+			|| ft_strncmp(line_no_nl, "SO", 2) == 0
+			|| ft_strncmp(line_no_nl, "WE", 2) == 0
+			|| ft_strncmp(line_no_nl, "EA", 2) == 0)
+			put_texture(game, line_no_nl);
+		else if (line_no_nl[0] == 'F' || line_no_nl[0] == 'C')
+			put_floor_ceil(game, line_no_nl);
 		else
-			i = put_map(game, line_no_nl, i);
+		// i = put_map(game, line_no_nl, i);
+		{
+			if (game->map == NULL)
+				game->map = ft_calloc(2, P_SIZE);
+			else
+				game->map = ft_realloc(game->map,
+						(i + 1) * P_SIZE, (i + 2) * P_SIZE);
+			(game->map)[i] = line;
+			// return (i + 1);
+			++i;
+		}
 	}
 	free(line);
 	get_line_rec(game, get_next_line(fd), fd, i);

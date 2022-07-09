@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 12:15:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/09 10:32:10 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/09 13:29:07 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,22 +64,29 @@ typedef struct s_game {
 	char		*so_path;
 	char		*we_path;
 	char		*ea_path;
-	//FIXME: int[3] or char * for t
 	char		*f_color;
-	//FIXME: int[3] or char * for t
 	char		*c_color;
 	char		**map;
 	t_player	*player;
 }	t_game;
 
 /* parse.c */
-int parse(char **av, t_game *game);
+int		parse(char **av, t_game *game);
+
+/* putter.c */
+// int		put_map(t_game *game, char *line, int idx);
+void	put_texture(t_game *game, char *line);
+void	put_floor_ceil(t_game *game, char *line);
 
 /* init.c */
 void	init(t_game *game);
 
 /* event.c */
-int	close_game_win_ctrl(t_game *game);
+int		close_game_win_ctrl(t_game *game);
+
+/* utils.c */
+int		encode_rgb(int red, int green, int blue);
+
 
 /* painter.c */
 void	put_header(void);

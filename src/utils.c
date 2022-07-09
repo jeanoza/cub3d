@@ -1,29 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   event.c                                            :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/09 10:31:36 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/09 12:49:38 by kyubongchoi      ###   ########.fr       */
+/*   Created: 2022/07/09 12:08:35 by kyubongchoi       #+#    #+#             */
+/*   Updated: 2022/07/09 12:14:35 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	close_game_win_ctrl(t_game *game)
+int	encode_rgb(int red, int green, int blue)
 {
-	if (mlx_destroy_window(game->mlx, game->win))
-	{
-		printf("Error\nDestroy window failed\n");
-		free_game(game);
-		exit(EXIT_FAILURE);
-	}
-	//FIXME: en mlx_mac : y a pas de destroy_display mince! on verra ensemble ca apres
-	// mlx_destroy_display(game->mlx);
-	free(game->mlx);
-	free_game(game);
-	printf("Closed by win x button\n");
-	exit(EXIT_SUCCESS);
+	return (red << 16 | green << 8 | blue);
 }

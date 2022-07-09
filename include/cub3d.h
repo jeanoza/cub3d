@@ -6,7 +6,7 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 12:15:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/09 16:55:22 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/09 17:36:37 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ int		close_game_win_ctrl(t_game *game);
 
 /* utils.c */
 int		encode_rgb(int red, int green, int blue);
+int		index_of(char *str, char to_find);
 
 
 /* painter.c */

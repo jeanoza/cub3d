@@ -6,7 +6,7 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 12:10:02 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/09 17:27:58 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/09 17:36:45 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	put_map(t_game *game, char *line, int idx)
 	len = ft_strlen(line);
 	if (len > game->width)
 		game->width = len;
+	printf("indexof:%d\n", index_of(line, 'N'));
 	++game->height;
 	printf("widht:%d height:%d\n", game->width, game->height);
 	return (idx + 1);

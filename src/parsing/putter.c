@@ -6,7 +6,7 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 12:10:02 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/09 17:36:45 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/09 17:47:33 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,5 @@ void	put_floor_ceil(t_game *game, char *line)
 		game->f_color = encoded_color;
 	else if (line[0] == 'C')
 		game->c_color = encoded_color;
-	free(splitted);
+	free_2d_array((void **)splitted);
 }

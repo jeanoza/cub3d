@@ -6,13 +6,13 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 18:10:27 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/09 17:33:36 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/09 17:47:46 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	free_2d_array(void **_2d_array)
+void	free_2d_array(void **_2d_array)
 {
 	int	i;
 

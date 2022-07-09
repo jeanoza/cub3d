@@ -6,7 +6,7 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 15:20:36 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/09 17:33:56 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/09 17:44:28 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,12 @@ static int	if_forest(char *line_no_nl, t_game *game, int i)
 	return (i);
 }
 
-static void	get_line_rec(t_game *game, char *line, int fd, int i)
+static int	get_line_rec(t_game *game, char *line, int fd, int i)
 {
 	char	*line_no_nl;
 
 	if (line == NULL)
-		return ;
+		return 1;
 	//validate_line(line, game);
 	if (line[0] != '\n' || game->map)
 	{
@@ -79,6 +79,7 @@ static void	get_line_rec(t_game *game, char *line, int fd, int i)
 	game->line += 1;
 	free(line);
 	get_line_rec(game, get_next_line(fd), fd, i);
+	return (0);
 }
 
 static int	check_extension(char *s)
@@ -102,9 +103,17 @@ int	parse(char **av, t_game *game)
 		exit_error_file(game, 1);
 	fd = open_file(av[1], game);
 	init_parse(game);
-	get_line_rec(game, get_next_line(fd), fd, 0);
+	if (get_line_rec(game, get_next_line(fd), fd, 0))
+	{
+		free_game(game);
+		printf("Empty file\n");
+		return (FALSE);
+	}
 	close(fd);
 	check_map(game);
+	put_floor_ceil(game, game->ccolor);
+	put_floor_ceil(game, game->fcolor);
+
 	if (game->err == 1)
 	{
 		free_game(game);

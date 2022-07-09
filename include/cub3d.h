@@ -6,7 +6,7 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 12:15:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/09 17:36:37 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/09 17:47:53 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ void	print_game(t_game *game);
 
 /* free.c */
 void	free_game(t_game *game);
+void	free_2d_array(void **_2d_array);
 
 
 #endif

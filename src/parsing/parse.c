@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 15:20:36 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/09 13:37:03 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/09 15:19:17 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,6 @@ int	validate_line(char *line, t_game *game)
 	}
 	return (TRUE);
 }
-
-// int	put_map(t_game *game, char *line, int idx)
-// {
-// 	if (game->map == NULL)
-// 		game->map = ft_calloc(2, P_SIZE);
-// 	else
-// 		game->map = ft_realloc(game->map,
-// 				(idx + 1) * P_SIZE, (idx + 2) * P_SIZE);
-// 	(game->map)[idx] = line;
-// 	return (idx + 1);
-// }
 
 static void	get_line_rec(t_game *game, char *line, int fd, int i)
 {

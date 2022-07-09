@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 12:15:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/09 15:07:24 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/09 15:32:08 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ typedef	struct	s_data {
 typedef struct	s_game {
 	int			f_color;
 	int			c_color;
+	int			width;
+	int			height;
 	void		*mlx;
 	void		*win;
 	char		*no_path;

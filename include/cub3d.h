@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 12:15:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/09 15:32:08 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/09 15:53:54 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int		close_game_win_ctrl(t_game *game);
 
 /* utils.c */
 int		encode_rgb(int red, int green, int blue);
+int		index_of(char *str, char to_find);
 
 
 /* painter.c */

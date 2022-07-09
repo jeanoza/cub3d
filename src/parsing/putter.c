@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 12:10:02 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/09 15:32:38 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/09 15:40:26 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,18 @@
 
 int	put_map(t_game *game, char *line, int idx)
 {
+	int	len;
+
 	if (game->map == NULL)
 		game->map = ft_calloc(2, P_SIZE);
 	else
 		game->map = ft_realloc(game->map,
 				(idx + 1) * P_SIZE, (idx + 2) * P_SIZE);
 	(game->map)[idx] = line;
+	len = ft_strlen(line);
+	if (len > game->width)
+		game->width = len;
+	++game->height;
 	return (idx + 1);
 }
 

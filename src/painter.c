@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 19:08:13 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/09 13:51:47 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/09 15:41:43 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	print_game(t_game *game)
 	printf("\n  [%p]game->ea_path:%s\n", game->ea_path, game->ea_path);
 	printf("\n  [%p]game->f_color:%d\n", &game->f_color, game->f_color);
 	printf("\n  [%p]game->c_color:%d\n", &game->c_color, game->c_color);
+	printf("\n  [%p]game->width:%d\n", &game->width, game->width);
+	printf("\n  [%p]game->height:%d\n", &game->height, game->height);
 	printf("\n  [%p]game->map:\n", game->map);
 	i = 0;
 	while (game->map && game->map[i])

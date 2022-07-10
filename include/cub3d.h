@@ -6,7 +6,7 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 12:15:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/10 00:47:46 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/10 15:13:18 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,8 @@ int		check_void_offmap_seeker(char **dst);
 
 /* tokenize_map_help.c */
 void	offmap_to_wall(t_game *game, char **dst);
+int		check_digit(char *s);
+
 
 /* putter.c */
 int		put_map(t_game *game, char *line, int idx);

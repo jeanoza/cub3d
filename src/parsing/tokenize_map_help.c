@@ -6,7 +6,7 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 02:19:45 by mabriel           #+#    #+#             */
-/*   Updated: 2022/07/09 23:47:54 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/09 04:40:18 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	offmap_to_wall(t_game *game, char **dst)
 		}
 		i++;
 	}
-	free_2d_array((void**)game->map);
+	free_2d_array((void **)game->map);
 	game->map = dst;
 	game->width += 2;
 	game->height += 2;

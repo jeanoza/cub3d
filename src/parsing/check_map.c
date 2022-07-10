@@ -6,13 +6,13 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 00:25:20 by mabriel           #+#    #+#             */
-/*   Updated: 2022/07/09 23:43:23 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/09 04:41:41 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void set_player(t_game *game, int i, int j)
+static void	set_player(t_game *game, int i, int j)
 {
 	game->player = malloc(sizeof(t_player));
 	if (!game->player)
@@ -64,7 +64,7 @@ static int	check_forbidden_char(t_game *game)
 
 static void	check_forb_char_player(t_game *game)
 {
-	int ret;
+	int	ret;
 	int	err;
 
 	err = 0;
@@ -82,10 +82,10 @@ static void	check_forb_char_player(t_game *game)
 
 static void	check_empty_line(t_game *game)
 {
-	char **s;
-	char h[1];
-	int	tmp;
-	int	i;
+	char	**s;
+	char	h[1];
+	int		tmp;
+	int		i;
 
 	s = game->map;
 	i = 0;
@@ -103,8 +103,8 @@ static void	check_empty_line(t_game *game)
 
 void	check_map(t_game *game)
 {
-	char **tok_map;
-	
+	char	**tok_map;
+
 	check_forb_char_player(game);
 	check_empty_line(game);
 	tok_map = tokenize(game, game->map);

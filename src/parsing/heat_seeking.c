@@ -6,7 +6,7 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 01:06:16 by mabriel           #+#    #+#             */
-/*   Updated: 2022/07/09 23:19:59 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/09 04:47:32 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	set_space(char **dst)
 	}
 }
 
-static int not_closed_map_error(int y, int x)
+static int	not_closed_map_error(int y, int x)
 {
 	ft_putstr_fd("Error\nMap isn't closed at line ", 2);
 	ft_putnbr_fd(y, 2);
@@ -63,15 +63,13 @@ int	check_void_offmap_seeker(char **dst)
 	}
 	return (0);
 }
+
 /*
-	si sur ' ' set 0 or OFFMAP et refaire
+	si sur ' ' set 0 or OFFMAP
 
 	si sur 1 rien faire
 	Si sur OFFMAP rien faire
 	
 	Si sur 0 forbiden is OFFMAP
 	si sur N forb is OFFMAP
-
-
-
 */

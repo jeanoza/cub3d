@@ -6,7 +6,7 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 15:20:36 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/10 00:47:36 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/10 05:49:16 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ static int	get_line_rec(t_game *game, char *line, int fd, int i)
 	char	*line_no_nl;
 
 	if (line == NULL)
-		return 1;
-	//validate_line(line, game);
+		return (1);
 	if (line[0] != '\n' || game->map)
 	{
 		if (ft_strchr(line, '\n'))
@@ -86,7 +85,7 @@ int	parse(char **av, t_game *game)
 	{
 		free_game(game);
 		close(fd);
-		printf("Error\nEmpty file\n");
+		ft_putstr_fd("Error\nEmpty file\n", 2);
 		return (FALSE);
 	}
 	close(fd);

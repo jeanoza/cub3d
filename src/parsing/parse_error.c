@@ -6,7 +6,7 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 19:40:34 by mabriel           #+#    #+#             */
-/*   Updated: 2022/07/09 23:23:42 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/10 05:39:39 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,14 @@ int	forest_help(t_game *game, int code)
 int	open_file(char *s, t_game *game)
 {
 	int	fd;
-	
+
+	fd = open(s, O_DIRECTORY);
+	if (fd > 0)
+	{
+		ft_putstr_fd("Error\nFile required not a directory\n", 2);
+		free_game(game);
+		exit(1);
+	}
 	fd = open(s, O_RDONLY);
 	if (fd < 0)
 	{

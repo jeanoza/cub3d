@@ -6,7 +6,7 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:01:27 by mabriel           #+#    #+#             */
-/*   Updated: 2022/07/09 22:02:04 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/09 04:43:35 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static int	search_right(char **dst, int x, int y, int for_char)
 	return (0);
 }
 
-int	seeking(char **dst, int	x, int y, int for_char)
+int	seeking(char **dst, int x, int y, int for_char)
 {
 	int	ret;
 

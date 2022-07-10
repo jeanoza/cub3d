@@ -6,7 +6,7 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 02:17:09 by mabriel           #+#    #+#             */
-/*   Updated: 2022/07/09 22:50:19 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/09 04:42:48 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char	**malloc_dst(t_game *game)
 	char	**dst;
 	int		i;
 
-	dst = (char **)malloc(sizeof(char*) * (game->height + 3));
+	dst = (char **)malloc(sizeof(char *) * (game->height + 3));
 	if (!dst)
 		malloc_err(game, 0, 0, NULL);
 	i = 0;
@@ -92,11 +92,10 @@ static void	fill_inside(t_game *game, char **src, char **dst)
 	}
 }
 
-char **tokenize(t_game *game, char **src)
+char	**tokenize(t_game *game, char **src)
 {
 	char	**dst;
 
-	(void)src;
 	dst = malloc_dst(game);
 	fill_edges(game, dst);
 	fill_inside(game, src, dst);

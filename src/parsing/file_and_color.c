@@ -6,7 +6,7 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 06:54:18 by mabriel           #+#    #+#             */
-/*   Updated: 2022/07/09 04:42:10 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/10 15:07:03 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,21 @@ static void	check_floor_ceil(t_game *game, char *s, char **spl)
 	free_2d_array((void **)spl);
 }
 
+int	check_digit(char *s)
+{
+	int	i;
+
+	i = 1;
+
+	while (s[i])
+	{
+		if (!ft_isdigit(s[i]) && s[i] != ' ' && s[i] != ',')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 void	check_file_and_color(t_game *game)
 {
 	char	**spl;
@@ -106,6 +121,12 @@ void	check_file_and_color(t_game *game)
 		|| (game->fcolor)[ft_strlen(game->fcolor) - 1] == ',')
 	{
 		ft_putstr_fd("Error\nExactly 3 attributes are needed\n", 2);
+		free_game(game);
+		exit(1);
+	}
+	if (check_digit(game->ccolor) || check_digit(game->fcolor))
+	{
+		ft_putstr_fd("Error\nForbidden char in color", 2);
 		free_game(game);
 		exit(1);
 	}

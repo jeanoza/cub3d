@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 12:10:02 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/09 18:02:27 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/10 06:40:26 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	put_texture(t_game *game, char *line)
 		game->ea_path = line;
 }
 
-void	put_floor_ceil(t_game *game, char *line)
+char	**put_floor_ceil(t_game *game, char *line)
 {
 	char	**splitted;
 	int		encoded_color;
@@ -53,5 +53,5 @@ void	put_floor_ceil(t_game *game, char *line)
 		game->f_color = encoded_color;
 	else if (line[0] == 'C')
 		game->c_color = encoded_color;
-	free_2d_array((void **)splitted);
+	return (splitted);
 }

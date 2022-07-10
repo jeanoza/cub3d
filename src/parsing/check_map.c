@@ -6,19 +6,31 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 00:25:20 by mabriel           #+#    #+#             */
-/*   Updated: 2022/07/09 04:09:45 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/09 04:41:41 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static int	is_valid(int c)
+static void	set_player(t_game *game, int i, int j)
 {
-	if (c == '1' || c == ' ' || c == '0')
-		return (1);
-	if (c == 'N' || c == 'W' || c == 'E' || c == 'S')
-		return (2);
-	return (0);
+	game->player = malloc(sizeof(t_player));
+	if (!game->player)
+	{
+		ft_putstr_fd("Error\nMalloc failed\n", 2);
+		free_game(game);
+		exit(1);
+	}
+	game->player->x = j + 2;
+	game->player->y = i + 2;
+	if (game->map[i][j] == 'N')
+		game->player->dir = NORTH;
+	if (game->map[i][j] == 'W')
+		game->player->dir = WEST;
+	if (game->map[i][j] == 'E')
+		game->player->dir = EAST;
+	if (game->map[i][j] == 'S')
+		game->player->dir = SOUTH;
 }
 
 static int	check_forbidden_char(t_game *game)
@@ -39,7 +51,10 @@ static int	check_forbidden_char(t_game *game)
 			if (!is_valid(map[i][j]))
 				return (-2);
 			if (is_valid(map[i][j]) == 2)
+			{
+				set_player(game, i, j);
 				nbr++;
+			}
 			j++;
 		}
 		i++;
@@ -49,7 +64,7 @@ static int	check_forbidden_char(t_game *game)
 
 static void	check_forb_char_player(t_game *game)
 {
-	int ret;
+	int	ret;
 	int	err;
 
 	err = 0;
@@ -57,7 +72,7 @@ static void	check_forb_char_player(t_game *game)
 	if (ret == -2 && ++err)
 		ft_putstr_fd("Error\nForbidden char in map\n", 2);
 	else if ((ret > 0 || ret == -1) && ++err)
-		ft_putstr_fd("Error\nOnly 1 player needed\n", 2);
+		ft_putstr_fd("Error\nExactly 1 player needed\n", 2);
 	if (err)
 	{
 		free_game(game);
@@ -65,38 +80,39 @@ static void	check_forb_char_player(t_game *game)
 	}
 }
 
-///tmp
-void	print_array(char **s)
+static void	check_empty_line(t_game *game)
 {
-	int i;
+	char	**s;
+	char	h[1];
+	int		tmp;
+	int		i;
 
+	s = game->map;
 	i = 0;
+	tmp = -1;
 	while (s[i])
 	{
-		printf("%s\n", s[i]);
+		if (s[i][0] == 0)
+			tmp = i;
 		i++;
 	}
-}
-void	free_array(char **s)
-{
-	int i;
-
-	i = 0;
-	while (s[i])
-	{
-		free(s[i]);
-		i++;
-	}
-	free(s);
+	*h = i - tmp;
+	if (tmp >= 0)
+		error_parsing(ERR_MAP, h, game);
 }
 
 void	check_map(t_game *game)
 {
-	char **tok_map;
-	
+	char	**tok_map;
+
 	check_forb_char_player(game);
+	check_empty_line(game);
 	tok_map = tokenize(game, game->map);
-	(void)tok_map;
-	print_array(tok_map);
-	free_array(tok_map);
+	if (check_void_offmap_seeker(tok_map))
+	{
+		free_2d_array((void **)tok_map);
+		free_game(game);
+		exit(1);
+	}
+	offmap_to_wall(game, tok_map);
 }

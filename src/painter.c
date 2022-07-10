@@ -6,7 +6,7 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 19:08:13 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/09 17:53:24 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/09 20:22:01 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void	print_game(t_game *game)
 	printf("\n  [%p]game->c_color:%d\n", &game->c_color, game->c_color);
 	printf("\n  [%p]game->width:%d\n", &game->width, game->width);
 	printf("\n  [%p]game->height:%d\n", &game->height, game->height);
-	printf("\n  [%p]game->player->x:%d\n", &game->player->x, game->player->x);
-	printf("\n  [%p]game->player->y:%d\n", &game->player->y, game->player->y);
-	printf("\n  [%p]game->player->dir:%d\n", &game->player->dir, game->player->dir);
+	// printf("\n  [%p]game->player->x:%d\n", &game->player->x, game->player->x);
+	// printf("\n  [%p]game->player->y:%d\n", &game->player->y, game->player->y);
+	// printf("\n  [%p]game->player->dir:%d\n", &game->player->dir, game->player->dir);
 	printf("\n  [%p]game->map:\n", game->map);
 	i = 0;
 	while (game->map && game->map[i])

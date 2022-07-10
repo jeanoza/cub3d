@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 12:15:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/10 00:47:46 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/10 10:40:10 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,28 @@
 # include <limits.h>
 # include <fcntl.h>
 # include <math.h>
+
+# if defined(__APPLE__)
+#  define KEY_W 13
+#  define KEY_A 0
+#  define KEY_S 1
+#  define KEY_D 2
+#  define KEY_LEFT 123
+#  define KEY_RIGHT 124
+#  define KEY_ESC 53
+// typedef enum e_key { KEY_W = 13, KEY_A = 0, KEY_S = 1, KEY_D = 2,
+// 	KEY_ESC = 53 }	t_key;
+# else
+#  ifndef M_PI
+#   define M_PI (3.14159265358979323846)
+#  endif
+#  define KEY_W 119
+#  define KEY_A 97
+#  define KEY_S 115
+#  define KEY_D 100
+#  define KEY_LEFT 65361
+#  define KEY_RIGHT 65363
+# endif
 
 /* libft */
 # include "libft.h"

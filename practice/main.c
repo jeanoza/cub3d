@@ -6,7 +6,7 @@
 //gcc main.c -I../mlx_mac/ -L../mlx_mac/ -lmlx -framework OpenGL -framework AppKit
 
 #define mapWidth 24
-#define mapHeight 25
+#define mapHeight 24
 #define screenWidth 640
 #define screenHeight 480
 
@@ -18,10 +18,9 @@ typedef	struct	s_data {
 	int		endian;
 }	t_data;
 
-int worldMap[mapHeight][mapWidth]=
+int worldMap[mapWidth][mapHeight]=
 {
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -47,7 +46,7 @@ int worldMap[mapHeight][mapWidth]=
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
-double posX = 14, posY = 8;  //x and y start position
+double posX = 18, posY = 16;  //x and y start position
 double dirX = -1, dirY = 0; //initial direction vector
 double planeX = 0, planeY = 0.66; //the 2d raycaster version of camera plane
 

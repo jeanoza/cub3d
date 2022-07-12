@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 12:15:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/10 22:33:55 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/12 15:54:49 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,8 @@ int		check_void_offmap_seeker(char **dst);
 void	offmap_to_wall(t_game *game, char **dst);
 int		check_digit(char *s);
 
+void	maxime(t_game *game);
+void	mlx_error(t_game *game);
 
 /* putter.c */
 int		put_map(t_game *game, char *line, int idx);

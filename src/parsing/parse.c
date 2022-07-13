@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 15:20:36 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/10 22:12:48 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/14 00:16:30 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,12 @@ int	parse(char **av, t_game *game)
 		return (FALSE);
 	}
 	close(fd);
-	check_file_and_color(game);
-	check_map(game);
 	if (game->err == 1)
 	{
 		free_game(game);
 		return (FALSE);
 	}
+	check_file_and_color(game);
+	check_map(game);
 	return (TRUE);
 }

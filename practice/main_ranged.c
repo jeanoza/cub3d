@@ -3,7 +3,7 @@
 #include <math.h>
 #include "mlx.h"
 
-//gcc main.c -I../mlx_mac/ -L../mlx_mac/ -lmlx -framework OpenGL -framework AppKit
+//gcc main_ranged.c -I../mlx_mac/ -L../mlx_mac/ -lmlx -framework OpenGL -framework AppKit
 
 #define mapWidth 24
 #define mapHeight 24
@@ -71,7 +71,7 @@ int	encode_rgb(int red, int green, int blue)
 }
 
 
-void raycast (void *mlx, void *win)
+void raycast (t_game *game)
 {
 	int x;
 
@@ -154,12 +154,12 @@ void raycast (void *mlx, void *win)
 		if(drawEnd >= screenHeight) drawEnd = screenHeight - 1;
 
 		int color = 0;
-		switch(worldMap[mapX][mapY])
+		switch(game->map[mapX][mapY])
 		{
-			case 1:  color = encode_rgb(255, 0, 0);    break; //red
-			case 2:  color = encode_rgb(0, 255, 0);  break; //green
-			case 3:  color = encode_rgb(0, 0, 255);   break; //blue
-			case 4:  color = encode_rgb(255, 255, 255);  break; //white
+			case '1':  color = encode_rgb(255, 0, 0);    break; //red
+			case '2':  color = encode_rgb(0, 255, 0);  break; //green
+			case '3':  color = encode_rgb(0, 0, 255);   break; //blue
+			case '4':  color = encode_rgb(255, 255, 255);  break; //white
 			default: color = encode_rgb(255, 255, 0); break; //yellow
 		}
 
@@ -167,14 +167,14 @@ void raycast (void *mlx, void *win)
 
 		t_data data;
 		
-		data.img = mlx_new_image(mlx, screenWidth, screenHeight);
+		data.img = mlx_new_image(game->mlx, screenWidth, screenHeight);
 		data.addr = mlx_get_data_addr(data.img, &data.bits_per_pixel, &data.line_length, &data.endian);
 
 
 		int _y = drawStart;
 		while (_y < drawEnd)
 		{
-			mlx_pixel_put(mlx, win, x, _y, color);
+			mlx_pixel_put(game->mlx, game->win, x, _y, color);
 			++_y;
 		}
 		++x;
@@ -188,10 +188,10 @@ void copy_map_into_game(t_game *game)
 	y = 0;
 	while (y < mapHeight)
 	{
+		game->map[y] = calloc(1, mapWidth);
 		x = 0;
 		while (x < mapWidth)
 		{
-			printf("%d ", worldMap[y][x]);
 			game->map[y][x] = worldMap[y][x] + '0';
 			++x;
 		}
@@ -203,28 +203,28 @@ int main(void)
 {
 	t_game *game;
 
-	game = calloc(1, sizeof(game));
+	game = calloc(1, sizeof(t_game));
 	game->mlx = mlx_init();
 	game->win = mlx_new_window(game->mlx, screenWidth, screenHeight, "cub3d");
 	game->map = calloc(mapHeight, 8);
-	// copy_map_into_game(game);
-	// int y;
-	// int x;
-	// y = 0;
-	// while (y < mapHeight)
-	// {
-	// 	x = 0;
-	// 	while (x < mapWidth)
-	// 	{
-	// 		printf("%c\n", game->map[y][x]);
-	// 		++x;
-	// 	}
-	// 	printf("\n");
-	// 	++y;
-	// }
+	copy_map_into_game(game);
+	int y;
+	int x;
+	y = 0;
+	while (y < mapHeight)
+	{
+		x = 0;
+		while (x < mapWidth)
+		{
+			printf("%c", game->map[y][x]);
+			++x;
+		}
+		printf("\n");
+		++y;
+	}
 
-	// raycast(game);
-	// mlx_loop(mlx);
+	raycast(game);
+	mlx_loop(game->mlx);
 
 
 

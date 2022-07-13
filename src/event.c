@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   event.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 10:31:36 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/10 06:39:41 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/12 15:40:33 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	close_game_win_ctrl(t_game *game)
 		exit(EXIT_FAILURE);
 	}
 	//FIXME: en mlx_mac : y a pas de destroy_display mince! on verra ensemble ca apres
-	// mlx_destroy_display(game->mlx);
+	mlx_destroy_display(game->mlx);
 	free(game->mlx);
 	free_game(game);
 	printf("Closed by win x button\n");

@@ -6,7 +6,7 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:27:41 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/10 06:28:46 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/12 19:52:39 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	main(int ac, char **av)
 	{
 		//print_game(game);
 		//free_game(game);
-		init(game);
+		//init(game);
+		maxime(game);
 	}
 	else
 		return (EXIT_FAILURE);

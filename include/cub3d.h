@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 12:15:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/13 09:02:31 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/14 22:17:17 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,15 @@
 
 /* Pointer size */
 # define P_SIZE 8
+
+/* Map Token */
 # define OFFMAP 'O'
 # define VOID	'0'
 # define WALL	'1'
-# define SPACE	' ' 
+# define SPACE	' '
+
+# define WIDTH 1440
+# define HEIGHT 920
 
 typedef enum e_bool { FALSE, TRUE }	t_bool;
 typedef enum e_error { ERR_PARSE = -42 ,ERR_MAP = 1, ERR_LINE = 2 }	t_error;
@@ -103,6 +108,7 @@ typedef struct	s_game {
 	int			line;
 	int			err;
 	t_player	*player;
+	t_data		*image;
 }	t_game;
 
 

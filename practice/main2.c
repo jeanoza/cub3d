@@ -70,9 +70,16 @@ void	*xpm_to_img(void *mlx, char *path, int size_x, int size_y)
 
 
 
-void raycast (void *mlx, void *win, void **texture)
+
+
+
+
+
+
+void raycast (void *mlx, void *win, int **texture)
 {
 	int x;
+	uint32_t buffer[screenHeight][screenWidth];
 
 	x = 0;
 	while (x < screenWidth)
@@ -177,14 +184,29 @@ void raycast (void *mlx, void *win, void **texture)
 		
 
 		int y = drawStart;
-		// while (y < drawEnd)
-		// {
-		// 	int texY = (int)texPos & (texHeight - 1);
-		// 	texPos += step;
-		// 	__int32_t color = texture[texNum][texHeight * texY + texX];
-		// 	++y;
-		// }
+		//FIXME: to ameloirer:)
+		while (y < drawEnd)
+		{
+			int texY = (int)texPos & (texHeight - 1);
+			texPos += step;
+			uint32_t color = texture[texNum][texHeight * texY + texX];
+			if(side == 1)
+				color = (color >> 1) & 8355711;
+			buffer[y][x] = color;
+			++y;
+		}
 		++x;
+	}
+	int y = 0;
+	while (y < screenHeight)
+	{
+		int x = 0;
+		while (x < screenWidth)
+		{
+			mlx_pixel_put(mlx, win, x, y, buffer[y][x]);
+			++x;
+		}
+		++y;
 	}
 }
 
@@ -192,11 +214,16 @@ int main(void)
 {
 	void *mlx;
 	void *win;
-
+	void* texture[4];
 	
 	mlx = mlx_init();
 	win = mlx_new_window(mlx, screenWidth, screenHeight, "cub3d");
-	raycast(mlx, win);
+	texture[0] = xpm_to_img(&mlx, "../asset/textures/wall_e.xpm", texWidth, texHeight);
+	texture[1] = xpm_to_img(&mlx, "../asset/textures/wall_n.xpm", texWidth, texHeight);
+	texture[2] = xpm_to_img(&mlx, "../asset/textures/wall_s.xpm", texWidth, texHeight);
+	texture[3] = xpm_to_img(&mlx, "../asset/textures/wall_w.xpm", texWidth, texHeight);
+
+	raycast(mlx, win, (int**) texture);
 	mlx_loop(mlx);
 
 

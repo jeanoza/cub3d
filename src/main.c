@@ -6,7 +6,7 @@
 /*   By: kychoi <kychoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:27:41 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/13 22:50:20 by kychoi           ###   ########.fr       */
+/*   Updated: 2022/07/14 02:09:30 by kychoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int	main(int ac, char **av)
 	{
 		//print_game(game);
 		//free_game(game);
-		init(game);
-		// maxime(game);
+		//init(game);
+		//maxime(game);
 	}
 	else
 		return (EXIT_FAILURE);

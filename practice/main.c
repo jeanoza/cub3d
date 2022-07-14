@@ -46,7 +46,7 @@ int worldMap[mapWidth][mapHeight]=
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
-double posX = 18, posY = 16;  //x and y start position
+double posX = 22, posY = 12;  //x and y start position
 double dirX = -1, dirY = 0; //initial direction vector
 double planeX = 0, planeY = 0.66; //the 2d raycaster version of camera plane
 
@@ -146,8 +146,8 @@ void raycast (void *mlx, void *win)
 			case 1:  color = encode_rgb(255, 0, 0);    break; //red
 			case 2:  color = encode_rgb(0, 255, 0);  break; //green
 			case 3:  color = encode_rgb(0, 0, 255);   break; //blue
-			case 4:  color = encode_rgb(255, 255, 255);  break; //white
-			default: color = encode_rgb(255, 255, 0); break; //yellow
+			case 4:  color = encode_rgb(255, 255, 0);  break; //yellow
+			default: color = encode_rgb(255, 255, 255); break; //white
 		}
 
 		// if (side == 1) color = color / 2;

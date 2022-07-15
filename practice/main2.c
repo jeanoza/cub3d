@@ -180,6 +180,7 @@ void raycast (void *mlx, void *win, int **texture)
 			if(side == 1)
 				color = (color >> 1) & 8355711;
 			buffer[y][x] = color;
+			printf("%d\n", color);
 			++y;
 		}
 		++x;
@@ -209,12 +210,9 @@ int	*xpm_to_img(void *mlx, char *path, t_data *tmp)
 	int		size_y;
 	int		*buffer;
 
-	size_x = texWidth;
-	size_y = texHeight;
-
 	tmp->img = mlx_xpm_file_to_image(mlx, path, &size_x, &size_y);
 	tmp->data = (int *)mlx_get_data_addr(tmp->img, &tmp->bits_per_pixel, &tmp->line_length, &tmp->endian);
-	buffer = malloc(sizeof(int) * texWidth * texHeight);
+	buffer = (int *)malloc(sizeof(int) * size_x * size_y);
 	for (int y = 0; y < texHeight; ++y)
 	{
 		for (int x = 0; x < texWidth; ++x)
@@ -222,6 +220,7 @@ int	*xpm_to_img(void *mlx, char *path, t_data *tmp)
 			buffer[y * texHeight + x] = tmp->data[y * texHeight + x];
 		}
 	}
+	mlx_destroy_image(mlx, tmp->img);
 	return buffer;
 }
 
@@ -236,12 +235,13 @@ int main(void)
 	mlx = mlx_init();
 	win = mlx_new_window(mlx, screenWidth, screenHeight, "cub3d");
 
-	texture = malloc(sizeof(int *) * 4);
+	texture = (int **)malloc(sizeof(int *) * 4);
+	// texture = calloc(4, sizeof(int *));
 
-	texture[0] = xpm_to_img(&mlx, "../asset/textures/wall_s.xpm", &tmp);
-	texture[1] = xpm_to_img(&mlx, "../asset/textures/wall_n.xpm", &tmp);
-	texture[2] = xpm_to_img(&mlx, "../asset/textures/wall_w.xpm", &tmp);
-	texture[3] = xpm_to_img(&mlx, "../asset/textures/wall_e.xpm", &tmp);
+	texture[0] = xpm_to_img(mlx, "textures/wall_s.xpm", &tmp);
+	texture[1] = xpm_to_img(mlx, "textures/wall_n.xpm", &tmp);
+	texture[2] = xpm_to_img(mlx, "textures/wall_w.xpm", &tmp);
+	texture[3] = xpm_to_img(mlx, "textures/wall_e.xpm", &tmp);
 
 	raycast(mlx, win, texture);
 	mlx_loop(mlx);

@@ -15,7 +15,7 @@
 
 typedef	struct	s_data {
 	void	*img;
-	char	*addr;
+	int		*data;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
@@ -45,11 +45,18 @@ typedef struct	s_ray {
 	int		is_hit;
 	int		is_side;
 	double	perp_wall_dist;
+	int		draw_start;
+	int		draw_end;
+	int		line_height;
+	double	wall_x;
 }	t_ray;
 
 typedef struct	s_game {
 	int			width;
 	int			height;
+	int
+	int			texture_width;
+	int			texture_height;
 	void		*mlx;
 	void		*win;
 	char		**map;
@@ -133,17 +140,10 @@ void	init_ray(t_game *game, t_ray *ray, int x)
 	ray->perp_wall_dist = 0;
 
 	//what direction to step in x or y-direction (either +1 or -1)
-	//FIXME: undefined put or not?
-	ray->step_x = 0;
-	ray->step_y = 0;
-
-	ray->is_hit = 0; //was there a wall hit?
-	//FIXME: undefined put or not?
-	ray->is_side = 0; //was a NS or a EW wall hit?
 
 }
 
-int	find_object(t_game *game, t_ray *ray)
+int	calculate_line_height(t_game *game, t_ray *ray)
 {
 	while(ray->is_hit == 0)
 	{
@@ -161,7 +161,7 @@ int	find_object(t_game *game, t_ray *ray)
 			ray->is_side = 1;
 		}
 		//Check if ray has hit a wall
-		if(game->map[ray->map_x][ray->map_y] > '0')
+		if(game->map[ray->map_x][ray->map_y] != '0')
 			ray->is_hit = 1;
 	}
 	if(ray->is_side == 0)
@@ -169,21 +169,7 @@ int	find_object(t_game *game, t_ray *ray)
 	else
 		ray->perp_wall_dist = (ray->side_y - ray->delta_y);
 	//Calculate height of line to draw on screen
-	return (int)(screen_height / ray->perp_wall_dist);
-}
-
-//FIXME: it will not be useful maybe...
-int	get_color(t_game *game, t_ray *ray)
-{
-	if (game->map[ray->map_x][ray->map_y] == '1')
-		return encode_rgb(255, 0, 0);
-	if (game->map[ray->map_x][ray->map_y] == '2')
-		return encode_rgb(0, 255, 0);
-	if (game->map[ray->map_x][ray->map_y] == '3')
-		return encode_rgb(0, 0, 255);
-	if (game->map[ray->map_x][ray->map_y] == '4')
-		return encode_rgb(255, 255, 0);
-	return (0);
+	ray->line_height = (int)(screen_height / ray->perp_wall_dist);
 }
 
 void	put_pixel(t_game *game, int color, int x, int draw[2])
@@ -201,14 +187,43 @@ void	put_pixel(t_game *game, int color, int x, int draw[2])
 	}
 }
 
-/*
-* draw [2] = [start, end]
-*/
+void	get_draw_start_end(t_ray *ray)
+{
+	ray->draw_start = -ray->line_height / 2 + screen_height / 2;
+	if(ray->draw_start < 0)
+		ray->draw_start = 0;
+	ray->draw_end = ray->line_height / 2 + screen_height / 2;
+	if(ray->draw_end >= screen_height)
+		ray->draw_end = screen_height - 1;
+	if (ray->is_side == 0)
+	{
+
+	}
+	
+
+}
+
+int	*xpm_to_img(t_game *game, char *path, t_data *tmp, t_ray *ray)
+{
+	int		*buffer;
+
+	tmp->img = mlx_xpm_file_to_image(game->mlx, path, &game->texture_width, &game->texture_height);
+	tmp->data = (int *)mlx_get_data_addr(tmp->img, &tmp->bits_per_pixel, &tmp->line_length, &tmp->endian);
+	buffer = (int *)malloc(sizeof(int) * game->texture_width * game->texture_height);
+	for (int y = 0; y < game->texture_height; ++y)
+	{
+		for (int x = 0; x < game->texture_width; ++x)
+		{
+			buffer[y * game->texture_height + x] = tmp->data[y * game->texture_height + x];
+		}
+	}
+	mlx_destroy_image(game->mlx, tmp->img);
+	return buffer;
+}
+
 void raycast (t_game *game)
 {
 	int		x;
-	int		line_height;
-	int		draw[2];
 	t_ray	ray;
 
 	x = 0;
@@ -217,16 +232,10 @@ void raycast (t_game *game)
 		init_ray(game, &ray, x);
 		//calculate step and initial sideDist
 		calculate_step(game, &ray);
-		line_height = find_object(game, &ray);
+		calculate_line_height(game, &ray);
+		get_draw_start_end(&ray);
 
 		//calculate lowest and highest pixel to fill in current stripe
-		draw[0] = -line_height / 2 + screen_height / 2;
-		if(draw[0] < 0)
-			draw[0] = 0;
-		draw[1] = line_height / 2 + screen_height / 2;
-		if(draw[1] >= screen_height)
-			draw[1] = screen_height - 1;
-		put_pixel(game, get_color(game, &ray), x, draw);
 		++x;
 	}
 }
@@ -265,6 +274,11 @@ void print_map(t_game *game)
 		printf("\n");
 		++y;
 	}
+}
+
+void	init_texture(t_game *game)
+{
+
 }
 
 int main(void)

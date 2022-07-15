@@ -6,7 +6,7 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 19:32:16 by mabriel           #+#    #+#             */
-/*   Updated: 2022/07/15 01:16:36 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/15 21:37:59 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,19 +71,21 @@ void	set_image(t_game *game)
 	i = 0;
 	while (i < (game->image->line_length * HEIGHT) - 100)
 	{
-			game->image->addr[i] = 0;
-			game->image->addr[i + 1] = 0;
-			game->image->addr[i + 2] = 255;
-			game->image->addr[i + 3] = 0;
+			game->image->addr[i] = (char)0;
+			game->image->addr[i + 1] = (char)0;
+			game->image->addr[i + 2] = (char)255;
+			game->image->addr[i + 3] = (char)0;
 		i += 4;
 	}
 }
+
+
 
 int	function(int keycode, t_game *game)
 {
 	(void)keycode;
 	(void)game;
-	//game->image->addr[]
+	
 	return (0);
 }
 

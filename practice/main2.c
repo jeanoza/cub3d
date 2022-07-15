@@ -49,7 +49,7 @@ int worldMap[mapWidth][mapHeight]=
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
-double posX = 22, posY = 12;  //x and y start position
+double posX = 22, posY = 10;  //x and y start position
 double dirX = -1, dirY = 0; //initial direction vector
 double planeX = 0, planeY = 0.66; //the 2d raycaster version of camera plane
 
@@ -57,18 +57,6 @@ int	encode_rgb(int red, int green, int blue)
 {
 	return (red << 16 | green << 8 | blue);
 }
-
-void	*xpm_to_img(void *mlx, char *path, int size_x, int size_y)
-{
-	void	*img_ptr;
-
-	img_ptr = mlx_xpm_file_to_image(mlx, path, &size_x, &size_y);
-	if (img_ptr)
-		return (img_ptr);
-	else
-		return (NULL);
-}
-
 
 
 
@@ -157,13 +145,20 @@ void raycast (void *mlx, void *win, int **texture)
 		int drawEnd = lineHeight / 2 + screenHeight / 2;
 		if(drawEnd >= screenHeight) drawEnd = screenHeight - 1;
 
-		int texNum = worldMap[mapX][mapY] - 1;
+		int texNum;
 
 		double wallX;
 		if (side == 0)
+		{
+			texNum =  (rayDirX > 0) ? 1 : 0;
 			wallX = posY + perpWallDist * rayDirY;
+		}
 		else
+		{
+			texNum =  (rayDirY < 0) ? 3 : 2;
 			wallX = posX + perpWallDist * rayDirX;
+		}
+      	wallX -= floor((wallX));
 
 		int texX = (int) (wallX * texWidth);
 		if (side == 0 && rayDirX > 0)
@@ -200,32 +195,56 @@ void raycast (void *mlx, void *win, int **texture)
 		int x = 0;
 		while (x < screenWidth)
 		{
-			// mlx_pixel_put(mlx, win, x, y, buffer[y][x]);
 			data.data[y * screenWidth + x] = buffer[y][x];
 			++x;
 		}
-		printf("\n");
 		++y;
 	}
 	mlx_put_image_to_window(mlx, win, data.img, 0, 0);
 }
 
+int	*xpm_to_img(void *mlx, char *path, t_data *tmp)
+{
+	int		size_x;
+	int		size_y;
+	int		*buffer;
+
+	size_x = texWidth;
+	size_y = texHeight;
+
+	tmp->img = mlx_xpm_file_to_image(mlx, path, &size_x, &size_y);
+	tmp->data = (int *)mlx_get_data_addr(tmp->img, &tmp->bits_per_pixel, &tmp->line_length, &tmp->endian);
+	buffer = malloc(sizeof(int) * texWidth * texHeight);
+	for (int y = 0; y < texHeight; ++y)
+	{
+		for (int x = 0; x < texWidth; ++x)
+		{
+			buffer[y * texHeight + x] = tmp->data[y * texHeight + x];
+		}
+	}
+	return buffer;
+}
+
+
 int main(void)
 {
 	void *mlx;
 	void *win;
-	void* texture[4];
+	int **texture;
+	t_data tmp;
 	
 	mlx = mlx_init();
 	win = mlx_new_window(mlx, screenWidth, screenHeight, "cub3d");
-	texture[0] = xpm_to_img(&mlx, "../asset/textures/wall_e.xpm", texWidth, texHeight);
-	texture[1] = xpm_to_img(&mlx, "../asset/textures/wall_n.xpm", texWidth, texHeight);
-	texture[2] = xpm_to_img(&mlx, "../asset/textures/wall_s.xpm", texWidth, texHeight);
-	texture[3] = xpm_to_img(&mlx, "../asset/textures/wall_w.xpm", texWidth, texHeight);
 
-	raycast(mlx, win, (int**) texture);
+	texture = malloc(sizeof(int *) * 4);
+
+	texture[0] = xpm_to_img(&mlx, "../asset/textures/wall_s.xpm", &tmp);
+	texture[1] = xpm_to_img(&mlx, "../asset/textures/wall_n.xpm", &tmp);
+	texture[2] = xpm_to_img(&mlx, "../asset/textures/wall_w.xpm", &tmp);
+	texture[3] = xpm_to_img(&mlx, "../asset/textures/wall_e.xpm", &tmp);
+
+	raycast(mlx, win, texture);
 	mlx_loop(mlx);
-
 
 
 	return (0);

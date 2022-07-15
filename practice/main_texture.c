@@ -49,14 +49,23 @@ typedef struct	s_ray {
 	int		draw_end;
 	int		line_height;
 	double	wall_x;
+	int		buffer[screen_height][screen_width];
 }	t_ray;
+
+typedef struct texture {
+	int		**buffer;
+	int		width;
+	int		height;
+	int		idx;
+	double	step;
+	double	position;
+	int		x;
+	int		y;
+}	t_texture;
 
 typedef struct	s_game {
 	int			width;
 	int			height;
-	int
-	int			texture_width;
-	int			texture_height;
 	void		*mlx;
 	void		*win;
 	char		**map;
@@ -178,7 +187,7 @@ void	put_pixel(t_game *game, int color, int x, int draw[2])
 	int		y;
 
 	data.img = mlx_new_image(game->mlx, screen_width, screen_height);
-	data.addr = mlx_get_data_addr(data.img, &data.bits_per_pixel, &data.line_length, &data.endian);
+	// data.addr = mlx_get_data_addr(data.img, &data.bits_per_pixel, &data.line_length, &data.endian);
 	y = draw[0];
 	while (y < draw[1])
 	{
@@ -187,7 +196,7 @@ void	put_pixel(t_game *game, int color, int x, int draw[2])
 	}
 }
 
-void	get_draw_start_end(t_ray *ray)
+void	calculate_wall_x(t_game *game, t_ray *ray)
 {
 	ray->draw_start = -ray->line_height / 2 + screen_height / 2;
 	if(ray->draw_start < 0)
@@ -197,13 +206,32 @@ void	get_draw_start_end(t_ray *ray)
 		ray->draw_end = screen_height - 1;
 	if (ray->is_side == 0)
 	{
-
+		ray->texture_idx = 0;
+		if (ray->dir_x > 0)
+			++ray->texture_idx;
+		ray->wall_x = game->player->y + ray->perp_wall_dist * ray->dir_y;
 	}
-	
+	else
+	{
+		ray->texture_idx = 2;
+		if (ray->dir_x < 0)
+			++ray->texture_idx;
+		ray->wall_x = game->player->x + ray->perp_wall_dist * ray->dir_x;
+	}
+	ray->wall_x -= floor(ray->wall_x);
+}
+
+void	update_buffer(t_game *game, t_ray *ray)
+{
+	double step;
+	double tex_pos;
+	int tex_y;
+	int tex_x;
+
 
 }
 
-int	*xpm_to_img(t_game *game, char *path, t_data *tmp, t_ray *ray)
+int	*xpm_to_img(t_game *game, char *path, t_data *tmp)
 {
 	int		*buffer;
 
@@ -213,9 +241,7 @@ int	*xpm_to_img(t_game *game, char *path, t_data *tmp, t_ray *ray)
 	for (int y = 0; y < game->texture_height; ++y)
 	{
 		for (int x = 0; x < game->texture_width; ++x)
-		{
 			buffer[y * game->texture_height + x] = tmp->data[y * game->texture_height + x];
-		}
 	}
 	mlx_destroy_image(game->mlx, tmp->img);
 	return buffer;
@@ -224,6 +250,7 @@ int	*xpm_to_img(t_game *game, char *path, t_data *tmp, t_ray *ray)
 void raycast (t_game *game)
 {
 	int		x;
+	int		y;
 	t_ray	ray;
 
 	x = 0;
@@ -233,7 +260,8 @@ void raycast (t_game *game)
 		//calculate step and initial sideDist
 		calculate_step(game, &ray);
 		calculate_line_height(game, &ray);
-		get_draw_start_end(&ray);
+		calculate_wall_x(game, &ray);
+		update_buffer(game, &ray);
 
 		//calculate lowest and highest pixel to fill in current stripe
 		++x;
@@ -278,7 +306,13 @@ void print_map(t_game *game)
 
 void	init_texture(t_game *game)
 {
+	t_data tmp;
 
+	game->texture = (int **)malloc(sizeof(int *) * 4);
+	game->texture[0] = xpm_to_img(game->mlx, "../asset/textures/wall_s.xpm", &tmp);
+	game->texture[1] = xpm_to_img(game->mlx, "../asset/textures/wall_n.xpm", &tmp);
+	game->texture[2] = xpm_to_img(game->mlx, "../asset/textures/wall_w.xpm", &tmp);
+	game->texture[3] = xpm_to_img(game->mlx, "../asset/textures/wall_e.xpm", &tmp);
 }
 
 int main(void)
@@ -297,8 +331,10 @@ int main(void)
 	game->player->plane_x = 0;
 	game->player->plane_y = 0.66;
 
-
+	//just instead of real parsing.
 	copy_map_into_game(game);
+
+	init_texture(game);
 	raycast(game);
 	mlx_loop(game->mlx);
 

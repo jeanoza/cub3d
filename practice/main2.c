@@ -235,13 +235,13 @@ int main(void)
 	mlx = mlx_init();
 	win = mlx_new_window(mlx, screenWidth, screenHeight, "cub3d");
 
-	texture = (int **)malloc(sizeof(int *) * 4);
-	// texture = calloc(4, sizeof(int *));
+	// texture = (int **)malloc(sizeof(int *) * 4);
+	texture = calloc(4, sizeof(int *));
 
-	texture[0] = xpm_to_img(mlx, "textures/wall_s.xpm", &tmp);
-	texture[1] = xpm_to_img(mlx, "textures/wall_n.xpm", &tmp);
-	texture[2] = xpm_to_img(mlx, "textures/wall_w.xpm", &tmp);
-	texture[3] = xpm_to_img(mlx, "textures/wall_e.xpm", &tmp);
+	texture[0] = xpm_to_img(mlx, "../asset/textures/wall_s.xpm", &tmp);
+	texture[1] = xpm_to_img(mlx, "../asset/textures/wall_n.xpm", &tmp);
+	texture[2] = xpm_to_img(mlx, "../asset/textures/wall_w.xpm", &tmp);
+	texture[3] = xpm_to_img(mlx, "../asset/textures/wall_e.xpm", &tmp);
 
 	raycast(mlx, win, texture);
 	mlx_loop(mlx);

@@ -15,6 +15,7 @@
 typedef	struct	s_data {
 	void	*img;
 	char	*addr;
+	int		*data;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
@@ -71,15 +72,10 @@ void	*xpm_to_img(void *mlx, char *path, int size_x, int size_y)
 
 
 
-
-
-
-
-
 void raycast (void *mlx, void *win, int **texture)
 {
 	int x;
-	uint32_t buffer[screenHeight][screenWidth];
+	int buffer[screenHeight][screenWidth];
 
 	x = 0;
 	while (x < screenWidth)
@@ -154,15 +150,11 @@ void raycast (void *mlx, void *win, int **texture)
 		int lineHeight = (int)(screenHeight / perpWallDist);
 
 
-		//FIXME:diff
-		int pitch = 100;
-
-
 
 		//calculate lowest and highest pixel to fill in current stripe
-		int drawStart = -lineHeight / 2 + screenHeight / 2 + pitch;
+		int drawStart = -lineHeight / 2 + screenHeight / 2;
 		if(drawStart < 0) drawStart = 0;
-		int drawEnd = lineHeight / 2 + screenHeight / 2 + pitch;
+		int drawEnd = lineHeight / 2 + screenHeight / 2;
 		if(drawEnd >= screenHeight) drawEnd = screenHeight - 1;
 
 		int texNum = worldMap[mapX][mapY] - 1;
@@ -180,7 +172,7 @@ void raycast (void *mlx, void *win, int **texture)
 			texX = texWidth - texX - 1;
 		
 		double step = 1.0 * texHeight / lineHeight;
-		double texPos = (drawStart - pitch - screenHeight / 2 + lineHeight / 2) * step;
+		double texPos = (drawStart - screenHeight / 2 + lineHeight / 2) * step;
 		
 
 		int y = drawStart;
@@ -189,7 +181,7 @@ void raycast (void *mlx, void *win, int **texture)
 		{
 			int texY = (int)texPos & (texHeight - 1);
 			texPos += step;
-			uint32_t color = texture[texNum][texHeight * texY + texX];
+			int color = texture[texNum][texHeight * texY + texX];
 			if(side == 1)
 				color = (color >> 1) & 8355711;
 			buffer[y][x] = color;
@@ -197,17 +189,25 @@ void raycast (void *mlx, void *win, int **texture)
 		}
 		++x;
 	}
+	t_data data;
+	
+	data.img = mlx_new_image(mlx, screenWidth, screenHeight);
+	data.data = (int *) mlx_get_data_addr(data.img, &data.bits_per_pixel, &data.line_length, &data.endian);
+
 	int y = 0;
 	while (y < screenHeight)
 	{
 		int x = 0;
 		while (x < screenWidth)
 		{
-			mlx_pixel_put(mlx, win, x, y, buffer[y][x]);
+			// mlx_pixel_put(mlx, win, x, y, buffer[y][x]);
+			data.data[y * screenWidth + x] = buffer[y][x];
 			++x;
 		}
+		printf("\n");
 		++y;
 	}
+	mlx_put_image_to_window(mlx, win, data.img, 0, 0);
 }
 
 int main(void)

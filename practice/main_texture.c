@@ -268,6 +268,9 @@ void	draw_texture(t_game *game)
 		++y;
 	}
 	mlx_put_image_to_window(game->mlx, game->win, data.img, 0, 0);
+
+	//FIXME:need or not?
+	// mlx_destroy_image(game->mlx, data.img);
 }
 
 int raycast (t_game *game)
@@ -279,6 +282,7 @@ int raycast (t_game *game)
 	// mlx_put_image_to_window(game->mlx, game->win, tmp.img, 0, 0);
 
 	x = 0;
+	game->ray = calloc(1, sizeof(t_ray));
 	while (x < screen_width)
 	{
 		init_ray(game, x);
@@ -289,6 +293,7 @@ int raycast (t_game *game)
 		++x;
 	}
 	draw_texture(game);
+	free(game->ray);
 	return (0);
 }
 
@@ -353,7 +358,6 @@ void	*init_game(t_game *game)
 		game->texture->buffer[i] = calloc(1, sizeof(int) * screen_width);
 		++i;
 	}
-	game->ray = calloc(1, sizeof(t_ray));
 	game->player = calloc(1, sizeof(t_player));
 	game->tex_buffer = calloc(4, sizeof(int *));
 	game->player->x = 22;
@@ -363,7 +367,7 @@ void	*init_game(t_game *game)
 	game->player->plane_x = 0;
 	game->player->plane_y = 0.66;
 	if (!(game && game->mlx && game->win && game->map
-		&& game->texture && game->ray && game->player && game->tex_buffer))
+		&& game->texture && game->player && game->tex_buffer))
 	{
 		//FIXME:put free all function
 		exit(-42);

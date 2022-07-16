@@ -49,7 +49,7 @@ int worldMap[mapWidth][mapHeight]=
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
-double posX = 22, posY = 10;  //x and y start position
+double posX = 22, posY = 12;  //x and y start position
 double dirX = -1, dirY = 0; //initial direction vector
 double planeX = 0, planeY = 0.66; //the 2d raycaster version of camera plane
 
@@ -66,6 +66,10 @@ void raycast (void *mlx, void *win, int **texture)
 	int buffer[screenHeight][screenWidth];
 
 	x = 0;
+	t_data data;
+	
+	data.img = mlx_new_image(mlx, screenWidth, screenHeight);
+	data.data = (int *) mlx_get_data_addr(data.img, &data.bits_per_pixel, &data.line_length, &data.endian);
 	while (x < screenWidth)
 	{
 		double cameraX = 2 * x / (double)screenWidth - 1; //x-coordinate in camera space
@@ -129,7 +133,10 @@ void raycast (void *mlx, void *win, int **texture)
 				side = 1;
 			}
 			//Check if ray has hit a wall
-			if(worldMap[mapX][mapY] > 0) hit = 1;
+			if(worldMap[mapX][mapY] > 0)
+			{
+				hit = 1;
+			}
 		}
 		if(side == 0) perpWallDist = (sideDistX - deltaDistX);
 		else          perpWallDist = (sideDistY - deltaDistY);
@@ -161,17 +168,18 @@ void raycast (void *mlx, void *win, int **texture)
       	wallX -= floor((wallX));
 
 		int texX = (int) (wallX * texWidth);
-		if (side == 0 && rayDirX > 0)
+		if ((side == 0 && rayDirX > 0) || (side == 1 && rayDirY < 0))
 			texX = texWidth - texX - 1;
-		if (side == 1 && rayDirY < 0)
-			texX = texWidth - texX - 1;
+		// if (side == 0 && rayDirX > 0)
+		// 	texX = texWidth - texX - 1;
+		// if (side == 1 && rayDirY < 0)
+		// 	texX = texWidth - texX - 1;
 		
 		double step = 1.0 * texHeight / lineHeight;
 		double texPos = (drawStart - screenHeight / 2 + lineHeight / 2) * step;
-		
+
 
 		int y = drawStart;
-		//FIXME: to ameloirer:)
 		while (y < drawEnd)
 		{
 			int texY = (int)texPos & (texHeight - 1);
@@ -180,14 +188,15 @@ void raycast (void *mlx, void *win, int **texture)
 			if(side == 1)
 				color = (color >> 1) & 8355711;
 			buffer[y][x] = color;
+			// data.data[y * screenWidth + x] = color;
 			++y;
 		}
 		++x;
 	}
-	t_data data;
+	// t_data data;
 	
-	data.img = mlx_new_image(mlx, screenWidth, screenHeight);
-	data.data = (int *) mlx_get_data_addr(data.img, &data.bits_per_pixel, &data.line_length, &data.endian);
+	// data.img = mlx_new_image(mlx, screenWidth, screenHeight);
+	// data.data = (int *) mlx_get_data_addr(data.img, &data.bits_per_pixel, &data.line_length, &data.endian);
 
 	int y = 0;
 	while (y < screenHeight)
@@ -203,7 +212,7 @@ void raycast (void *mlx, void *win, int **texture)
 	mlx_put_image_to_window(mlx, win, data.img, 0, 0);
 }
 
-int	*xpm_to_img(void *mlx, char *path, t_data *tmp)
+int	*xpm_to_img(void *mlx, char *path, t_data *tmp, void *win)
 {
 	int		size_x;
 	int		size_y;
@@ -237,10 +246,12 @@ int main(void)
 	// texture = (int **)malloc(sizeof(int *) * 4);
 	texture = calloc(4, sizeof(int *));
 
-	texture[0] = xpm_to_img(mlx, "../asset/textures/wall_s.xpm", &tmp);
-	texture[1] = xpm_to_img(mlx, "../asset/textures/wall_n.xpm", &tmp);
-	texture[2] = xpm_to_img(mlx, "../asset/textures/wall_w.xpm", &tmp);
-	texture[3] = xpm_to_img(mlx, "../asset/textures/wall_e.xpm", &tmp);
+	texture[0] = xpm_to_img(mlx, "../asset/textures/wall_s.xpm", &tmp, win);
+	texture[1] = xpm_to_img(mlx, "../asset/textures/wall_n.xpm", &tmp, win);
+	texture[2] = xpm_to_img(mlx, "../asset/textures/wall_w.xpm", &tmp, win);
+	texture[3] = xpm_to_img(mlx, "../asset/textures/wall_e.xpm", &tmp, win);
+
+
 
 	raycast(mlx, win, texture);
 	mlx_loop(mlx);

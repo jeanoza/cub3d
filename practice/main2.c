@@ -180,7 +180,6 @@ void raycast (void *mlx, void *win, int **texture)
 			if(side == 1)
 				color = (color >> 1) & 8355711;
 			buffer[y][x] = color;
-			printf("%d\n", color);
 			++y;
 		}
 		++x;

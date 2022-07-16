@@ -49,13 +49,11 @@ typedef struct	s_ray {
 	int		draw_end;
 	int		line_height;
 	double	wall_x;
-	int		buffer[screen_height][screen_width];
 }	t_ray;
 
 typedef struct texture {
-	int		**buffer;
-	int		width;
-	int		height;
+	int		w;
+	int		h;
 	int		idx;
 	double	step;
 	double	position;
@@ -69,7 +67,10 @@ typedef struct	s_game {
 	void		*mlx;
 	void		*win;
 	char		**map;
+	int			**buffer;
 	t_player	*player;
+	t_ray		*ray;
+	t_texture	*texture;
 }	t_game;
 
 
@@ -107,121 +108,104 @@ int	encode_rgb(int red, int green, int blue)
 	return (red << 16 | green << 8 | blue);
 }
 
-void	calculate_step(t_game *game, t_ray *ray)
+void	calculate_step(t_game *game)
 {
-	if(ray->dir_x < 0)
+	if(game->ray->dir_x < 0)
 	{
-		ray->step_x = -1;
-		ray->side_x = (game->player->x - ray->map_x) * ray->delta_x;
+		game->ray->step_x = -1;
+		game->ray->side_x = (game->player->x - game->ray->map_x) * game->ray->delta_x;
 	}
 	else
 	{
-		ray->step_x = 1;
-		ray->side_x = (ray->map_x + 1.0 - game->player->x) * ray->delta_x;
+		game->ray->step_x = 1;
+		game->ray->side_x = (game->ray->map_x + 1.0 - game->player->x) * game->ray->delta_x;
 	}
-	if(ray->dir_y < 0)
+	if(game->ray->dir_y < 0)
 	{
-		ray->step_y = -1;
-		ray->side_y = (game->player->y - ray->map_y) * ray->delta_y;
+		game->ray->step_y = -1;
+		game->ray->side_y = (game->player->y - game->ray->map_y) * game->ray->delta_y;
 	}
 	else
 	{
-		ray->step_y = 1;
-		ray->side_y = (ray->map_y + 1.0 - game->player->y) * ray->delta_y;
+		game->ray->step_y = 1;
+		game->ray->side_y = (game->ray->map_y + 1.0 - game->player->y) * game->ray->delta_y;
 	}
 
 
 }
 
-void	init_ray(t_game *game, t_ray *ray, int x)
+void	init_ray(t_game *game, int x)
 {
-	ray->camera_x = 2 * x / (double)screen_width - 1; //x-coordinate in camera space
-	ray->dir_x = game->player->dir_x + game->player->plane_x * ray->camera_x;
-	ray->dir_y = game->player->dir_y + game->player->plane_y * ray->camera_x;
+	game->ray = calloc(1, sizeof(t_ray));
+	game->ray->camera_x = 2 * x / (double)screen_width - 1; //x-coordinate in camera space
+	game->ray->dir_x = game->player->dir_x + game->player->plane_x * game->ray->camera_x;
+	game->ray->dir_y = game->player->dir_y + game->player->plane_y * game->ray->camera_x;
 
-	ray->map_x = game->player->x;
-	ray->map_y = game->player->y;
+	game->ray->map_x = game->player->x;
+	game->ray->map_y = game->player->y;
 
-	ray->delta_x = fabs(1 / ray->dir_x);
-	ray->delta_y = fabs(1 / ray->dir_y);
-
-	//FIXME: undefined put or not?
-	ray->perp_wall_dist = 0;
+	game->ray->delta_x = fabs(1 / game->ray->dir_x);
+	game->ray->delta_y = fabs(1 / game->ray->dir_y);
 
 	//what direction to step in x or y-direction (either +1 or -1)
 
 }
 
-int	calculate_line_height(t_game *game, t_ray *ray)
+int	calculate_line_height(t_game *game)
 {
-	while(ray->is_hit == 0)
+	while(game->ray->is_hit == 0)
 	{
 		//jump to next map square, either in x-direction, or in y-direction
-		if(ray->side_x < ray->side_y)
+		if(game->ray->side_x < game->ray->side_y)
 		{
-			ray->side_x += ray->delta_x;
-			ray->map_x += ray->step_x;
-			ray->is_side = 0;
+			game->ray->side_x += game->ray->delta_x;
+			game->ray->map_x += game->ray->step_x;
+			game->ray->is_side = 0;
 		}
 		else
 		{
-			ray->side_y += ray->delta_y;
-			ray->map_y += ray->step_y;
-			ray->is_side = 1;
+			game->ray->side_y += game->ray->delta_y;
+			game->ray->map_y += game->ray->step_y;
+			game->ray->is_side = 1;
 		}
-		//Check if ray has hit a wall
-		if(game->map[ray->map_x][ray->map_y] != '0')
-			ray->is_hit = 1;
+		//Check if game->ray has hit a wall
+		if(game->map[game->ray->map_x][game->ray->map_y] != '0')
+			game->ray->is_hit = 1;
 	}
-	if(ray->is_side == 0)
-		ray->perp_wall_dist = (ray->side_x - ray->delta_x);
+	if(game->ray->is_side == 0)
+		game->ray->perp_wall_dist = (game->ray->side_x - game->ray->delta_x);
 	else
-		ray->perp_wall_dist = (ray->side_y - ray->delta_y);
+		game->ray->perp_wall_dist = (game->ray->side_y - game->ray->delta_y);
 	//Calculate height of line to draw on screen
-	ray->line_height = (int)(screen_height / ray->perp_wall_dist);
+	game->ray->line_height = (int)(screen_height / game->ray->perp_wall_dist);
 }
 
-void	put_pixel(t_game *game, int color, int x, int draw[2])
+void	calculate_wall_x(t_game *game)
 {
-	t_data	data;
-	int		y;
-
-	data.img = mlx_new_image(game->mlx, screen_width, screen_height);
-	// data.addr = mlx_get_data_addr(data.img, &data.bits_per_pixel, &data.line_length, &data.endian);
-	y = draw[0];
-	while (y < draw[1])
+	game->ray->draw_start = -game->ray->line_height / 2 + screen_height / 2;
+	if(game->ray->draw_start < 0)
+		game->ray->draw_start = 0;
+	game->ray->draw_end = game->ray->line_height / 2 + screen_height / 2;
+	if(game->ray->draw_end >= screen_height)
+		game->ray->draw_end = screen_height - 1;
+	if (game->ray->is_side == 0)
 	{
-		mlx_pixel_put(game->mlx, game->win, x, y, color);
-		++y;
-	}
-}
-
-void	calculate_wall_x(t_game *game, t_ray *ray)
-{
-	ray->draw_start = -ray->line_height / 2 + screen_height / 2;
-	if(ray->draw_start < 0)
-		ray->draw_start = 0;
-	ray->draw_end = ray->line_height / 2 + screen_height / 2;
-	if(ray->draw_end >= screen_height)
-		ray->draw_end = screen_height - 1;
-	if (ray->is_side == 0)
-	{
-		ray->texture_idx = 0;
-		if (ray->dir_x > 0)
-			++ray->texture_idx;
-		ray->wall_x = game->player->y + ray->perp_wall_dist * ray->dir_y;
+		game->texture->idx = 0;
+		if (game->ray->dir_x > 0)
+			++game->texture->idx;
+		game->ray->wall_x = game->player->y + game->ray->perp_wall_dist * game->ray->dir_y;
 	}
 	else
 	{
-		ray->texture_idx = 2;
-		if (ray->dir_x < 0)
-			++ray->texture_idx;
-		ray->wall_x = game->player->x + ray->perp_wall_dist * ray->dir_x;
+		game->texture->idx = 2;
+		if (game->ray->dir_x < 0)
+			++game->texture->idx;
+		game->ray->wall_x = game->player->x + game->ray->perp_wall_dist * game->ray->dir_x;
 	}
-	ray->wall_x -= floor(ray->wall_x);
+	game->ray->wall_x -= floor(game->ray->wall_x);
 }
 
-void	update_buffer(t_game *game, t_ray *ray)
+void	update_buffer(t_game *game)
 {
 	double step;
 	double tex_pos;
@@ -235,15 +219,17 @@ int	*xpm_to_img(t_game *game, char *path, t_data *tmp)
 {
 	int		*buffer;
 
-	tmp->img = mlx_xpm_file_to_image(game->mlx, path, &game->texture_width, &game->texture_height);
+	tmp->img = mlx_xpm_file_to_image(game->mlx, path, &game->texture->w, &game->texture->h);
 	tmp->data = (int *)mlx_get_data_addr(tmp->img, &tmp->bits_per_pixel, &tmp->line_length, &tmp->endian);
-	buffer = (int *)malloc(sizeof(int) * game->texture_width * game->texture_height);
-	for (int y = 0; y < game->texture_height; ++y)
+	buffer = (int *)malloc(sizeof(int) * game->texture->w * game->texture->h);
+
+
+	for (int y = 0; y < game->texture->h; ++y)
 	{
-		for (int x = 0; x < game->texture_width; ++x)
-			buffer[y * game->texture_height + x] = tmp->data[y * game->texture_height + x];
+		for (int x = 0; x < game->texture->w; ++x)
+			buffer[y * game->texture->h + x] = tmp->data[y * game->texture->h + x];
 	}
-	mlx_destroy_image(game->mlx, tmp->img);
+	// mlx_destroy_image(game->mlx, tmp->img);
 	return buffer;
 }
 
@@ -251,17 +237,16 @@ void raycast (t_game *game)
 {
 	int		x;
 	int		y;
-	t_ray	ray;
 
 	x = 0;
 	while (x < screen_width)
 	{
-		init_ray(game, &ray, x);
+		init_ray(game, x);
 		//calculate step and initial sideDist
-		calculate_step(game, &ray);
-		calculate_line_height(game, &ray);
-		calculate_wall_x(game, &ray);
-		update_buffer(game, &ray);
+		calculate_step(game);
+		calculate_line_height(game);
+		calculate_wall_x(game);
+		// update_buffer(game);
 
 		//calculate lowest and highest pixel to fill in current stripe
 		++x;
@@ -304,15 +289,15 @@ void print_map(t_game *game)
 	}
 }
 
-void	init_texture(t_game *game)
+void	init_texture_to_buffer(t_game *game)
 {
 	t_data tmp;
 
-	game->texture = (int **)malloc(sizeof(int *) * 4);
-	game->texture[0] = xpm_to_img(game->mlx, "../asset/textures/wall_s.xpm", &tmp);
-	game->texture[1] = xpm_to_img(game->mlx, "../asset/textures/wall_n.xpm", &tmp);
-	game->texture[2] = xpm_to_img(game->mlx, "../asset/textures/wall_w.xpm", &tmp);
-	game->texture[3] = xpm_to_img(game->mlx, "../asset/textures/wall_e.xpm", &tmp);
+	// game->buffer = (int **)malloc(sizeof(int *) * 4);
+	game->buffer[0] = xpm_to_img(game->mlx, "../asset/textures/wall_s.xpm", &tmp);
+	game->buffer[1] = xpm_to_img(game->mlx, "../asset/textures/wall_n.xpm", &tmp);
+	game->buffer[2] = xpm_to_img(game->mlx, "../asset/textures/wall_w.xpm", &tmp);
+	game->buffer[3] = xpm_to_img(game->mlx, "../asset/textures/wall_e.xpm", &tmp);
 }
 
 int main(void)
@@ -324,6 +309,8 @@ int main(void)
 	game->win = mlx_new_window(game->mlx, screen_width, screen_height, "cub3d");
 	game->map = calloc(mapHeight, 8);
 	game->player = calloc(1, sizeof(t_player));
+	game->ray = calloc(1, sizeof(t_ray));
+	game->texture = calloc(1, sizeof(t_texture));
 	game->player->x = 22;
 	game->player->y = 12;
 	game->player->dir_x = -1;
@@ -334,8 +321,8 @@ int main(void)
 	//just instead of real parsing.
 	copy_map_into_game(game);
 
-	init_texture(game);
-	raycast(game);
+	init_texture_to_buffer(game);
+	// raycast(game);
 	mlx_loop(game->mlx);
 
 	return (0);

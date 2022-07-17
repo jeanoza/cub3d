@@ -6,11 +6,12 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 19:32:16 by mabriel           #+#    #+#             */
-/*   Updated: 2022/07/15 21:37:59 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/17 01:38:57 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include <math.h>
 
 void	maxime_init(t_game *game)
 {
@@ -41,67 +42,209 @@ void	image_error(t_game *game, char *msg)
 	exit(1);
 }
 
-void	create_img(t_game *game, t_data **img, char *path)
+void	create_image(t_game *game)
 {
-	t_data *i;
-	int		size;
-
-	(void)img;
-	i = ft_calloc(1, sizeof(t_data));
-	if (!i)
-		image_error(game, "Error\nMalloc Error\n");
-	if (!path)
-		i->img = mlx_new_image(game->mlx, WIDTH, HEIGHT);
-	else
-		i->img = mlx_xpm_file_to_image(game->mlx, "asset/textures/wall_e.xpm", &size, &size);
-	if (!i->img)
-		image_error(game, "Error\nImage couldn't be created\n");
-	i->addr = \
-	mlx_get_data_addr(i->img, &i->bits_per_pixel, \
-	&i->line_length, &i->endian);
-	if (!i->addr)
-		image_error(game, "Error\nmlx_get_data_addr failed\n");
-	*img = i; 
+	game->image = ft_calloc(1, sizeof(t_data));
+	game->image->img = mlx_new_image(game->mlx, WIDTH, HEIGHT);
+	game->image->addr = (int *)mlx_get_data_addr\
+	(game->image->img, &game->image->bits_per_pixel, \
+	&game->image->line_length, &game->image->endian);
 }
 
-void	set_image(t_game *game)
+// void	create_img(t_game *game, t_data **img, char *path)
+// {
+// 	t_data *i;
+// 	int		size;
+
+// 	(void)img;
+// 	i = ft_calloc(1, sizeof(t_data));
+// 	if (!i)
+// 		image_error(game, "Error\nMalloc Error\n");
+// 	if (!path)
+// 		i->img = mlx_new_image(game->mlx, WIDTH, HEIGHT);
+// 	else
+// 		i->img = mlx_xpm_file_to_image(game->mlx, "asset/textures/wall_e.xpm", &size, &size);
+// 	if (!i->img)
+// 		image_error(game, "Error\nImage couldn't be created\n");
+// 	i->data = 
+// 	mlx_get_data_addr(i->img, &i->bits_per_pixel, 
+// 	&i->line_length, &i->endian);
+// 	if (!i->addr)
+// 		image_error(game, "Error\nmlx_get_data_addr failed\n");
+// 	*img = i; 
+// }
+
+void	draw_square(t_game *game, int size, int color, int x, int y)
 {
 	int	i;
+	int	j;
 
-	i = 0;
-	while (i < (game->image->line_length * HEIGHT) - 100)
+	i = y;
+	while (i < size + y)
 	{
-			game->image->addr[i] = (char)0;
-			game->image->addr[i + 1] = (char)0;
-			game->image->addr[i + 2] = (char)255;
-			game->image->addr[i + 3] = (char)0;
-		i += 4;
+		j = x;
+		while (j < size + x)
+		{
+			game->image->addr[(i * WIDTH) + j] = color;
+			j++;
+		}
+		game->image->addr[(i * WIDTH) + j] = 0;
+		i++;
+	}
+	j = x;
+	while (j < size + x)
+	{
+		game->image->addr[(i * WIDTH) + j] = 0;
+		j++;
+	}
+}
+
+#define PI 3.1415926535
+float	px,  py;
+float	pdx, pdy, pa; 
+
+void	draw_map(t_game *game)
+{
+	int	i;
+	int	j;
+	int	size;
+
+	size = 50;
+	i = 0;
+	while (game->map[i])
+	{
+		j = 0;
+		while (game->map[i][j])
+		{
+			if (game->map[i][j] == WALL)
+				draw_square(game, size - 1, INT_MAX, j * size, i * size);
+			else
+				draw_square(game, size - 1, 44444, j * size, i * size);
+			j++;
+		}
+		i++;
+	}
+}
+
+void	draw_player(t_game *game)
+{
+	draw_square(game, 20, 8888, px, py);
+}
+
+void	draw_line(t_game *game, int x1, int y1, int x2, int y2)
+{
+	float dx = x2 - x1;
+	float dy = y2 - y1;
+
+	float x, y, step, i;
+	if (abs((int)dx) >= abs((int)dy))
+		step = abs((int)dx);
+	else
+		step = abs((int)dy);
+	dx = dx / step;
+	dy = dy / step;
+	x = x1;
+	y = y1;
+	i = 1;
+	while (i <= step)
+	{
+		game->image->addr[(int)(((int)y * WIDTH) + (int)x)] = INT_MAX / 6;
+		x += dx;
+		y += dy;
+		i++;
+	}
+}
+
+void	draw_player_line(t_game *game)
+{
+	float	x;
+	float	y;
+
+	x = (float)cos(pa) * 50;
+	y = (float)sin(pa) * 50;
+	draw_line(game, px + 10, py + 10, px + 10 + x, py + 10 + y);
+}
+
+void	cast_rays()
+{
+	int	r, mx, my, mp, dof;
+	float rx, ry, ra, xo, yo;
+	float aTan;
+
+	ra = pa; // rays angle = player angle
+	while (r < 1) // 1 ray
+	{
+		dof = 0;
+		aTan = -1 / tan(ra);
+		if (ra > PI)
+		{
+			
+		}
 	}
 }
 
 
-
 int	function(int keycode, t_game *game)
 {
-	(void)keycode;
-	(void)game;
-	
+	if (keycode == 'w')
+	{
+		py += pdy;
+		px += pdx;
+	}
+	if (keycode == 'a')
+	{
+		py -= pdx;
+		px += pdy;
+	}
+	if (keycode == 'd')
+	{
+		py += pdx;
+		px -= pdy;
+	}
+	if (keycode == 's')
+	{
+		py -= pdy;
+		px -= pdx;
+	}
+	if (keycode == 65361)
+	{
+		pa -= 0.03;
+		if (pa < 0)
+			pa += 2 * PI;
+		pdx = cos(pa) * 5;
+		pdy = sin(pa) * 5;
+	}
+	if (keycode == 65363)
+		{
+		pa += 0.03;
+		if (pa > 2 * PI)
+			pa -= 2 * PI;
+		pdx = cos(pa) * 5;
+		pdy = sin(pa) * 5;
+	}
+	draw_map(game);
+	draw_player(game);
+	//draw_line(game, px + 12, py + 12, (pdx + px)*10, (pdy + py)*10);
+	draw_player_line(game);
+	mlx_put_image_to_window(game->mlx, game->win, game->image->img, 0, 0);
 	return (0);
 }
 
 void	maxime(t_game *game)
 {
-	t_data *north;
-
+//	t_data *north;
+	px = (game->player->x - 1) * 50 + 12.5;
+	py = (game->player->y - 1) * 50 + 12.5;
+	pa = 3 * PI / 2; //for north
+	pdx = cos(pa) * 5;
+	pdy = sin(pa) * 5;
 	maxime_init(game);
-	create_img(game, &game->image, NULL);
-	create_img(game, &north, game->no_path);
-	set_image(game);
-	game->image = north;
-	int	midx = (WIDTH / 2) - 32;
-	int midy = (HEIGHT / 2) - 32;
-	//mlx_put_image_to_window(game->mlx, game->win, game->image->img, 0, 0);
-	mlx_put_image_to_window(game->mlx, game->win, north->img, midx, midy);
-	mlx_loop_hook(game->win, &function, game);
+	create_image(game);
+	draw_map(game);
+	draw_player(game);
+	draw_player_line(game);
+	mlx_put_image_to_window(game->mlx, game->win, game->image->img, 0, 0);
+	// mlx_put_image_to_window(game->mlx, game->win, north->img, 0, 0);
+	mlx_hook(game->win, 02, 1L<<0, &function, game);
 	mlx_loop(game->mlx);
 }

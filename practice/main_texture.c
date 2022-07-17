@@ -102,30 +102,6 @@ typedef struct	s_game {
 
 int worldMap[mapWidth][mapHeight]=
 {
-  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
 void	free_2d_array(void **_2d_array)
@@ -208,7 +184,13 @@ void	calculate_line_height(t_game *game)
 		game->ray->perp_wall_dist = (game->ray->side_x - game->ray->delta_x);
 	else
 		game->ray->perp_wall_dist = (game->ray->side_y - game->ray->delta_y);
-	//Calculate height of line to draw on screen
+	// if (game->ray->is_side == 0)
+	// 	game->ray->perp_wall_dist = ((game->ray->map_x - game->player->x) + (1 - game->ray->step_x) / 2) \
+	// 					/ game->ray->dir_x;
+	// else
+	// 	game->ray->perp_wall_dist = ((game->ray->map_y - game->player->y) + (1 - game->ray->step_y) / 2) \
+	// 						/ game->ray->dir_y;
+
 	game->ray->line_height = (int)(screen_height / game->ray->perp_wall_dist);
 }
 
@@ -358,16 +340,9 @@ void copy_map_into_game(t_game *game)
 		x = 0;
 		while (x < mapWidth)
 		{
-			// if (game->player->x == x && game->player->y == y)
-			// {
-			// 	game->map[x][y] = 'N';
-			// }
-			// else
-			printf("%d", worldMap[y][x]);
 			game->map[y][x] = worldMap[y][x] + '0';
 			++x;
 		}
-		printf("posX:%d posY:%d\n", (int) game->player->x, (int) game->player->y);
 		++y;
 	}
 }
@@ -408,11 +383,13 @@ void	init_game(t_game *game)
 	game->map = calloc(mapHeight, 8);
 	game->texture = calloc(1, sizeof(t_texture));
 	game->player = calloc(1, sizeof(t_player));
-	game->tex_buffer = calloc(4, sizeof(int *));
-	game->player->x = 22;
-	game->player->y = 2;
+	//FIXME: x,y location reverese (because DDA algo calculate with map[x][y])
+	game->player->x = 5.5;
+	game->player->y = 20.5;
+
 	game->player->dir_x = -1.0;
 	game->player->dir_y = 0.0;
+	game->tex_buffer = calloc(4, sizeof(int *));
 	game->player->plane_x = 0;
 	game->player->plane_y = 0.66;
 	init_buffer(game);
@@ -437,15 +414,17 @@ int	manage_input_key(int code, t_game *game)
 		//FIXME:freeall
 		exit(0);
 	}
-	if (code == KEY_W)
-		game->player->x -= 0.1;
-	else if (code == KEY_S)
-		game->player->x += 0.1;
-	else if (code == KEY_A)
-		game->player->y -= 0.1;
-	else if (code == KEY_D)
-		game->player->y += 0.1;
-	
+	if (game->map[(int)game->player->y][(int) game->player->x] == '0')
+	{
+		if (code == KEY_W)
+			game->player->x -= 0.1;
+		else if (code == KEY_S)
+			game->player->x += 0.1;
+		else if (code == KEY_A)
+			game->player->y -= 0.1;
+		else if (code == KEY_D)
+			game->player->y += 0.1;
+	}
 	raycast(game);
 	return (0);
 }
@@ -459,8 +438,8 @@ int main(void)
 	init_game(game);
 
 	//just instead of real parsing.
-
 	copy_map_into_game(game);
+
 	init_texture_to_buffer(game);
 	print_map(game);
 	raycast(game);

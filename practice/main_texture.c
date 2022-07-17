@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <math.h>
 #include "mlx.h"
 
@@ -13,11 +14,29 @@
 #define screen_width 640
 #define screen_height 480
 
+# if defined(__APPLE__)
+#  define KEY_W 13
+#  define KEY_A 0
+#  define KEY_S 1
+#  define KEY_D 2
+#  define KEY_LEFT 123
+#  define KEY_RIGHT 124
+#  define KEY_ESC 53
+// typedef enum e_key { KEY_W = 13, KEY_A = 0, KEY_S = 1, KEY_D = 2,
+// 	KEY_ESC = 53 }	t_key;
+# else
+#  ifndef M_PI
+#   define M_PI (3.14159265358979323846)
+#  endif
+#  define KEY_W 119
+#  define KEY_A 97
+#  define KEY_S 115
+#  define KEY_D 100
+#  define KEY_LEFT 65361
+#  define KEY_RIGHT 65363
+# endif
+
 #define KEY_PRESS 2
-#define KEY_W 119
-#define KEY_A 97
-#define KEY_S 115
-#define KEY_D 100
 
 
 typedef	struct	s_data {
@@ -85,13 +104,7 @@ int worldMap[mapWidth][mapHeight]=
 {
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,3,0,0,0,3,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,2,0,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -99,15 +112,36 @@ int worldMap[mapWidth][mapHeight]=
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,0,0,0,5,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
+
+void	free_2d_array(void **_2d_array)
+{
+	int	i;
+
+	if (!_2d_array)
+		return ;
+	i = 0;
+	while (_2d_array && _2d_array[i])
+	{
+		free(_2d_array[i]);
+		++i;
+	}
+	free(_2d_array);
+}
 
 void	calculate_step(t_game *game)
 {
@@ -204,6 +238,22 @@ void	calculate_wall_x(t_game *game)
 	game->ray->wall_x -= floor(game->ray->wall_x);
 }
 
+void	init_buffer(t_game *game)
+{
+	int	i;
+
+	if (game->texture->buffer)
+		free_2d_array((void **) game->texture->buffer);
+	game->texture->buffer = calloc(1, sizeof(int *) * screen_height);
+	i = 0;
+	while (i < screen_height)
+	{
+		game->texture->buffer[i] = calloc(1, sizeof(int) * screen_width);
+		++i;
+	}
+}
+
+
 void	update_buffer(t_game *game, int _x)
 {
 	int	_y;
@@ -239,9 +289,7 @@ int	*xpm_to_img(t_game *game, char *path, t_data *tmp)
 	for (int y = 0; y < game->texture->h; ++y)
 	{
 		for (int x = 0; x < game->texture->w; ++x)
-		{
 			buffer[y * game->texture->h + x] = tmp->data[y * game->texture->h + x];
-		}
 	}
 	mlx_destroy_image(game->mlx, tmp->img);
 	return buffer;
@@ -252,7 +300,7 @@ void	draw_texture(t_game *game)
 	t_data	data;
 	int		x;
 	int		y;
-	
+
 	data.img = mlx_new_image(game->mlx, screen_width, screen_height);
 	data.data = (int *) mlx_get_data_addr(data.img, &data.bits_per_pixel, &data.line_length, &data.endian);
 
@@ -270,19 +318,21 @@ void	draw_texture(t_game *game)
 	mlx_put_image_to_window(game->mlx, game->win, data.img, 0, 0);
 
 	//FIXME:need or not?
-	// mlx_destroy_image(game->mlx, data.img);
+	mlx_destroy_image(game->mlx, data.img);
 }
 
 int raycast (t_game *game)
 {
 	int		x;
 
-	// t_data	tmp;
-	// tmp.img = mlx_new_image(game->mlx, screen_width, screen_height);
-	// mlx_put_image_to_window(game->mlx, game->win, tmp.img, 0, 0);
-
 	x = 0;
 	game->ray = calloc(1, sizeof(t_ray));
+	if (!game->ray)
+	{
+		//FIXME:put freeall
+		exit(-42);
+	}
+	init_buffer(game);
 	while (x < screen_width)
 	{
 		init_ray(game, x);
@@ -308,9 +358,16 @@ void copy_map_into_game(t_game *game)
 		x = 0;
 		while (x < mapWidth)
 		{
+			// if (game->player->x == x && game->player->y == y)
+			// {
+			// 	game->map[x][y] = 'N';
+			// }
+			// else
+			printf("%d", worldMap[y][x]);
 			game->map[y][x] = worldMap[y][x] + '0';
 			++x;
 		}
+		printf("posX:%d posY:%d\n", (int) game->player->x, (int) game->player->y);
 		++y;
 	}
 }
@@ -343,29 +400,22 @@ void	init_texture_to_buffer(t_game *game)
 	game->tex_buffer[3] = xpm_to_img(game, "../asset/textures/wall_e.xpm", &tmp);
 }
 
-void	*init_game(t_game *game)
-{
-	int	i;
 
+void	init_game(t_game *game)
+{
 	game->mlx = mlx_init();
 	game->win = mlx_new_window(game->mlx, screen_width, screen_height, "cub3d");
 	game->map = calloc(mapHeight, 8);
 	game->texture = calloc(1, sizeof(t_texture));
-	game->texture->buffer = calloc(1, sizeof(int *) * screen_height);
-	i = 0;
-	while (i < screen_height)
-	{
-		game->texture->buffer[i] = calloc(1, sizeof(int) * screen_width);
-		++i;
-	}
 	game->player = calloc(1, sizeof(t_player));
 	game->tex_buffer = calloc(4, sizeof(int *));
 	game->player->x = 22;
-	game->player->y = 12;
-	game->player->dir_x = -1;
-	game->player->dir_y = 0;
+	game->player->y = 2;
+	game->player->dir_x = -1.0;
+	game->player->dir_y = 0.0;
 	game->player->plane_x = 0;
 	game->player->plane_y = 0.66;
+	init_buffer(game);
 	if (!(game && game->mlx && game->win && game->map
 		&& game->texture && game->player && game->tex_buffer))
 	{
@@ -376,15 +426,26 @@ void	*init_game(t_game *game)
 
 int	manage_input_key(int code, t_game *game)
 {
-	printf("%d\n", code);
+	double x;
+	double y;
+
+	x = game->player->x;
+	y = game->player->y;
+
+	if (code == KEY_ESC)
+	{
+		//FIXME:freeall
+		exit(0);
+	}
 	if (code == KEY_W)
 		game->player->x -= 0.1;
-	if (code == KEY_S)
+	else if (code == KEY_S)
 		game->player->x += 0.1;
-	if (code == KEY_A)
+	else if (code == KEY_A)
 		game->player->y -= 0.1;
-	if (code == KEY_D)
+	else if (code == KEY_D)
 		game->player->y += 0.1;
+	
 	raycast(game);
 	return (0);
 }
@@ -398,11 +459,12 @@ int main(void)
 	init_game(game);
 
 	//just instead of real parsing.
+
 	copy_map_into_game(game);
-	// print_map(&game);
 	init_texture_to_buffer(game);
+	print_map(game);
 	raycast(game);
-	mlx_key_hook(game->win, manage_input_key, game);
+	mlx_hook(game->win, KEY_PRESS, 0, manage_input_key, game);
 	mlx_loop(game->mlx);
 
 	return (0);

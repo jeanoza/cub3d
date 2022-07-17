@@ -232,7 +232,6 @@ int	*xpm_to_img(void *mlx, char *path, t_data *tmp, void *win)
 	return buffer;
 }
 
-
 int main(void)
 {
 	void *mlx;

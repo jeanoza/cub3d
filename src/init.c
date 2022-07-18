@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 20:27:46 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/18 19:29:40 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/18 20:33:00 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ void	init_texture_to_buffer(t_game *game)
 {
 	t_data tmp;
 
-	game->textures[0] = xpm_to_img(game, "../asset/textures/wall_s.xpm", &tmp);
-	game->textures[1] = xpm_to_img(game, "../asset/textures/wall_n.xpm", &tmp);
-	game->textures[2] = xpm_to_img(game, "../asset/textures/wall_w.xpm", &tmp);
-	game->textures[3] = xpm_to_img(game, "../asset/textures/wall_e.xpm", &tmp);
+	game->textures[0] = xpm_to_img(game, "./asset/textures/wall_s.xpm", &tmp);
+	game->textures[1] = xpm_to_img(game, "./asset/textures/wall_n.xpm", &tmp);
+	game->textures[2] = xpm_to_img(game, "./asset/textures/wall_w.xpm", &tmp);
+	game->textures[3] = xpm_to_img(game, "./asset/textures/wall_e.xpm", &tmp);
 }
 
 // void	init_game(t_game *game)
@@ -96,10 +96,9 @@ void	init(t_game *game)
 	game->win = mlx_new_window(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "cub3d");
 	game->tex = calloc(1, sizeof(t_texture));
 
+	//FIXME:put this in parse (x to y, y to x)
 	game->player->x = 13.0;
 	game->player->y = 28.0;
-	game->width = 16;
-	game->height = 35;
 
 	game->player->dir_x = -1.0;
 	game->player->dir_y = 0.0;
@@ -107,9 +106,10 @@ void	init(t_game *game)
 	game->player->plane_x = 0;
 	game->player->plane_y = 0.66;
 
-	print_game(game);
+	init_texture_to_buffer(game);
 	raycast(game);
 
 	mlx_hook(game->win, EVENT_EXIT_WIN, 0, close_game_win_ctrl, game);
+	mlx_hook(game->win, KEY_PRESS, 0, input_handle, game);
 	mlx_loop(game->mlx);
 }

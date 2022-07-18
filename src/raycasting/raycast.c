@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 18:45:05 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/18 19:24:23 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/18 20:23:53 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,6 @@ int raycast (t_game *game)
 		//FIXME:put freeall
 		exit(-42);
 	}
-	printf("Here\n");
 	init_buffer(game);
 	while (x < SCREEN_WIDTH)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 14:27:41 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/14 22:00:30 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/18 19:00:58 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,10 @@ int	main(int ac, char **av)
 	game = ft_calloc(1, sizeof(t_game));
 	if (parse(av, game))
 	{
-		//print_game(game);
-		//free_game(game);
-		//init(game);
-		maxime(game);
+		init(game);
+		// maxime(game);
 	}
 	else
 		return (EXIT_FAILURE);
-	free_game(game);
 	return (EXIT_SUCCESS);
 }

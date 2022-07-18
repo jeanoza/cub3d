@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 12:15:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/17 02:01:11 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/18 19:25:34 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@
 #  define KEY_RIGHT 65363
 # endif
 
+#define KEY_PRESS 2
+
 /* libft */
 # include "libft.h"
 /* mlx */
@@ -66,8 +68,8 @@
 # define WALL	'1'
 # define SPACE	' '
 
-# define WIDTH 1440
-# define HEIGHT 920
+# define SCREEN_WIDTH 640
+# define SCREEN_HEIGHT 480
 
 typedef enum e_bool { FALSE, TRUE }	t_bool;
 typedef enum e_error { ERR_PARSE = -42 ,ERR_MAP = 1, ERR_LINE = 2 }	t_error;
@@ -76,18 +78,53 @@ typedef enum e_dir {NORTH, SOUTH, EAST, WEST} t_dir;
 
 //TODO: parler avec Max pour des variables dans s_player et t_game
 typedef struct	s_player {
-	int		x;
-	int		y;
+	double	x;
+	double	y;
 	t_dir	dir;
+	double	dir_x;
+	double	dir_y;
+	double	plane_x;
+	double	plane_y;
 }	t_player;
 
 typedef	struct	s_data {
 	void	*img;
-	int		*addr;
+	int		*data;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
 }	t_data;
+
+typedef struct	s_ray {
+	double	camera_x;
+	double	dir_x;
+	double	dir_y;
+	int		map_x;
+	int		map_y;
+	double	side_x;
+	double	side_y;
+	double	delta_x;
+	double	delta_y;
+	int		step_x;
+	int		step_y;
+	int		is_side;
+	double	perp_wall_dist;
+	int		draw_start;
+	int		draw_end;
+	int		line_height;
+	double	wall_x;
+}	t_ray;
+
+typedef struct texture {
+	int		**buffer;
+	int		w;
+	int		h;
+	int		idx;
+	double	step;
+	double	pos;
+	int		x;
+	int		y;
+}	t_texture;
 
 //Principal struct
 typedef struct	s_game {
@@ -107,8 +144,10 @@ typedef struct	s_game {
 	int			count;
 	int			line;
 	int			err;
+	int			**textures;
 	t_player	*player;
-	t_data		*image;
+	t_ray		*ray;
+	t_texture	*tex;
 }	t_game;
 
 
@@ -161,6 +200,9 @@ int		close_game_win_ctrl(t_game *game);
 /* utils.c */
 int		encode_rgb(int red, int green, int blue);
 int		index_of(char *str, char to_find);
+
+/* raycast.c */
+int raycast (t_game *game);
 
 
 /* painter.c */

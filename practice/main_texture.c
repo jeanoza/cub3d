@@ -93,10 +93,10 @@ typedef struct	s_game {
 	void		*mlx;
 	void		*win;
 	char		**map;
-	int			**tex_buffer;
+	int			**textures;
 	t_player	*player;
 	t_ray		*ray;
-	t_texture	*texture;
+	t_texture	*tex;
 }	t_game;
 
 
@@ -229,16 +229,16 @@ void	calculate_wall_x(t_game *game)
 
 	if (game->ray->is_side == 0)
 	{
-		game->texture->idx = 0;
+		game->tex->idx = 0;
 		if (game->ray->dir_x > 0)
-			++game->texture->idx;
+			++game->tex->idx;
 		game->ray->wall_x = game->player->y + game->ray->perp_wall_dist * game->ray->dir_y;
 	}
 	else
 	{
-		game->texture->idx = 2;
+		game->tex->idx = 2;
 		if (game->ray->dir_y < 0)
-			++game->texture->idx;
+			++game->tex->idx;
 		game->ray->wall_x = game->player->x + game->ray->perp_wall_dist * game->ray->dir_x;
 	}
 	game->ray->wall_x -= floor(game->ray->wall_x);
@@ -248,13 +248,13 @@ void	init_buffer(t_game *game)
 {
 	int	i;
 
-	if (game->texture->buffer)
-		free_2d_array((void **) game->texture->buffer);
-	game->texture->buffer = calloc(1, sizeof(int *) * screen_height);
+	if (game->tex->buffer)
+		free_2d_array((void **) game->tex->buffer);
+	game->tex->buffer = calloc(1, sizeof(int *) * screen_height);
 	i = 0;
 	while (i < screen_height)
 	{
-		game->texture->buffer[i] = calloc(1, sizeof(int) * screen_width);
+		game->tex->buffer[i] = calloc(1, sizeof(int) * screen_width);
 		++i;
 	}
 }
@@ -265,21 +265,21 @@ void	update_buffer(t_game *game, int _x)
 	int	_y;
 	int	color;
 
-	game->texture->x = (int) (game->ray->wall_x * game->texture->w);
+	game->tex->x = (int) (game->ray->wall_x * game->tex->w);
 	if ((game->ray->is_side == 0 && game->ray->dir_x > 0)
 		||(game->ray->is_side == 1 && game->ray->dir_y < 0))
-		game->texture->x = game->texture->w - game->texture->x - 1;
-	game->texture->step = 1.0 * game->texture->h / game->ray->line_height;
-	game->texture->pos = (game->ray->draw_start - screen_height / 2 + game->ray->line_height / 2) * game->texture->step;
+		game->tex->x = game->tex->w - game->tex->x - 1;
+	game->tex->step = 1.0 * game->tex->h / game->ray->line_height;
+	game->tex->pos = (game->ray->draw_start - screen_height / 2 + game->ray->line_height / 2) * game->tex->step;
 	_y = game->ray->draw_start;
 	while (_y < game->ray->draw_end)
 	{
-		game->texture->y = (int) game->texture->pos & (game->texture->h - 1);
-		game->texture->pos += game->texture->step;
-		color = game->tex_buffer[game->texture->idx][game->texture->h * game->texture->y + game->texture->x];
+		game->tex->y = (int) game->tex->pos & (game->tex->h - 1);
+		game->tex->pos += game->tex->step;
+		color = game->textures[game->tex->idx][game->tex->h * game->tex->y + game->tex->x];
 		if (game->ray->is_side == 1)
 			color = (color >> 1) & 8355711;
-		game->texture->buffer[_y][_x] = color;
+		game->tex->buffer[_y][_x] = color;
 		++_y;
 	}
 }
@@ -288,14 +288,14 @@ int	*xpm_to_img(t_game *game, char *path, t_data *tmp)
 {
 	int		*buffer;
 
-	tmp->img = mlx_xpm_file_to_image(game->mlx, path, &game->texture->w, &game->texture->h);
+	tmp->img = mlx_xpm_file_to_image(game->mlx, path, &game->tex->w, &game->tex->h);
 	tmp->data = (int *)mlx_get_data_addr(tmp->img, &tmp->bits_per_pixel, &tmp->line_length, &tmp->endian);
-	buffer = (int *)calloc(1, sizeof(int) * game->texture->w * game->texture->h);
+	buffer = (int *)calloc(1, sizeof(int) * game->tex->w * game->tex->h);
 
-	for (int y = 0; y < game->texture->h; ++y)
+	for (int y = 0; y < game->tex->h; ++y)
 	{
-		for (int x = 0; x < game->texture->w; ++x)
-			buffer[y * game->texture->h + x] = tmp->data[y * game->texture->h + x];
+		for (int x = 0; x < game->tex->w; ++x)
+			buffer[y * game->tex->h + x] = tmp->data[y * game->tex->h + x];
 	}
 	mlx_destroy_image(game->mlx, tmp->img);
 	return buffer;
@@ -316,7 +316,7 @@ void	draw_texture(t_game *game)
 		x = 0;
 		while (x < screen_width)
 		{
-			data.data[y * screen_width + x] = game->texture->buffer[y][x];
+			data.data[y * screen_width + x] = game->tex->buffer[y][x];
 			++x;
 		}
 		++y;
@@ -393,10 +393,10 @@ void	init_texture_to_buffer(t_game *game)
 {
 	t_data tmp;
 
-	game->tex_buffer[0] = xpm_to_img(game, "../asset/textures/wall_s.xpm", &tmp);
-	game->tex_buffer[1] = xpm_to_img(game, "../asset/textures/wall_n.xpm", &tmp);
-	game->tex_buffer[2] = xpm_to_img(game, "../asset/textures/wall_w.xpm", &tmp);
-	game->tex_buffer[3] = xpm_to_img(game, "../asset/textures/wall_e.xpm", &tmp);
+	game->textures[0] = xpm_to_img(game, "../asset/textures/wall_s.xpm", &tmp);
+	game->textures[1] = xpm_to_img(game, "../asset/textures/wall_n.xpm", &tmp);
+	game->textures[2] = xpm_to_img(game, "../asset/textures/wall_w.xpm", &tmp);
+	game->textures[3] = xpm_to_img(game, "../asset/textures/wall_e.xpm", &tmp);
 }
 
 
@@ -406,7 +406,7 @@ void	init_game(t_game *game)
 	game->win = mlx_new_window(game->mlx, screen_width, screen_height, "cub3d");
 	game->map = calloc(mapHeight, 8);
 	copy_map_into_game(game);
-	game->texture = calloc(1, sizeof(t_texture));
+	game->tex = calloc(1, sizeof(t_texture));
 	game->player = calloc(1, sizeof(t_player));
 	//FIXME: x,y location reverese (because DDA algo calculate with map[x][y])
 	game->player->x = 3.0;
@@ -414,12 +414,12 @@ void	init_game(t_game *game)
 
 	game->player->dir_x = -1.0;
 	game->player->dir_y = 0.0;
-	game->tex_buffer = calloc(4, sizeof(int *));
+	game->textures = calloc(4, sizeof(int *));
 	game->player->plane_x = 0;
 	game->player->plane_y = 0.66;
-	init_buffer(game);
+	// init_buffer(game);
 	if (!(game && game->mlx && game->win && game->map
-		&& game->texture && game->player && game->tex_buffer))
+		&& game->tex && game->player && game->textures))
 	{
 		//FIXME:put free all function
 		exit(-42);

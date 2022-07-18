@@ -405,6 +405,7 @@ void	init_game(t_game *game)
 	game->mlx = mlx_init();
 	game->win = mlx_new_window(game->mlx, screen_width, screen_height, "cub3d");
 	game->map = calloc(mapHeight, 8);
+	copy_map_into_game(game);
 	game->texture = calloc(1, sizeof(t_texture));
 	game->player = calloc(1, sizeof(t_player));
 	//FIXME: x,y location reverese (because DDA algo calculate with map[x][y])
@@ -426,31 +427,28 @@ void	init_game(t_game *game)
 }
 
 //TODO:find a way to block movement
-int	manage_input_key(int code, t_game *game)
+int	input_handle(int code, t_game *game)
 {
 	double x;
 	double y;
 
-	x = floor(game->player->x);
-	y = floor(game->player->y);
+	x = game->player->x;
+	y = game->player->y;
 
 	if (code == KEY_ESC)
 	{
-		//FIXME:freeall
+		//FIXME:func exit which contains freeall(game)
 		exit(0);
 	}
-	if (game->map[(int)game->player->x][(int) game->player->y] == '0')
-	{
-		if (code == KEY_W)
-			game->player->x -= 0.1;
-		else if (code == KEY_S)
-			game->player->x += 0.1;
-		else if (code == KEY_A)
-			game->player->y -= 0.1;
-		else if (code == KEY_D)
-			game->player->y += 0.1;
-	}
-	else
+	if (code == KEY_W)
+		game->player->x -= 0.01;
+	else if (code == KEY_S)
+		game->player->x += 0.01;
+	else if (code == KEY_A)
+		game->player->y -= 0.01;
+	else if (code == KEY_D)
+		game->player->y += 0.01;
+	if (game->map[(int)game->player->x][(int) game->player->y] != '0')
 	{
 		game->player->x = x;
 		game->player->y = y;
@@ -468,12 +466,11 @@ int main(void)
 	init_game(game);
 
 	//just instead of real parsing.
-	copy_map_into_game(game);
 
 	init_texture_to_buffer(game);
 	print_map(game);
 	raycast(game);
-	mlx_hook(game->win, KEY_PRESS, 0, manage_input_key, game);
+	mlx_hook(game->win, KEY_PRESS, 0, input_handle, game);
 	mlx_loop(game->mlx);
 
 	return (0);

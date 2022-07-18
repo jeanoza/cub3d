@@ -441,13 +441,13 @@ int	input_handle(int code, t_game *game)
 		exit(0);
 	}
 	if (code == KEY_W)
-		game->player->x -= 0.01;
+		game->player->x -= 0.1;
 	else if (code == KEY_S)
-		game->player->x += 0.01;
+		game->player->x += 0.1;
 	else if (code == KEY_A)
-		game->player->y -= 0.01;
+		game->player->y -= 0.1;
 	else if (code == KEY_D)
-		game->player->y += 0.01;
+		game->player->y += 0.1;
 	if (game->map[(int)game->player->x][(int) game->player->y] != '0')
 	{
 		game->player->x = x;

@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 20:27:46 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/19 08:25:42 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/19 18:08:03 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,24 +24,34 @@ just kidding ahah mlx isnt happy with env -i\n", 2);
 int	*xpm_to_img(t_game *game, char *path, t_data *tmp)
 {
 	int		*buffer;
+	int		x;
+	int		y;
 
 	//TODO:add protection if there is no file...?
-	tmp->img = mlx_xpm_file_to_image(game->mlx, path, &game->tex->w, &game->tex->h);
-	tmp->data = (int *)mlx_get_data_addr(tmp->img, &tmp->bits_per_pixel, &tmp->line_length, &tmp->endian);
+	tmp->img = mlx_xpm_file_to_image(game->mlx, path,
+			&game->tex->w, &game->tex->h);
+	tmp->data = (int *)mlx_get_data_addr(tmp->img, &tmp->bits_per_pixel,
+			&tmp->line_length, &tmp->endian);
 	buffer = (int *)calloc(1, sizeof(int) * game->tex->w * game->tex->h);
 
-	for (int y = 0; y < game->tex->h; ++y)
+	y = 0;
+	while (y < game->tex->h)
 	{
-		for (int x = 0; x < game->tex->w; ++x)
+		x = 0;
+		while (x < game->tex->w)
+		{
 			buffer[y * game->tex->h + x] = tmp->data[y * game->tex->h + x];
+			++x;
+		}
+		++y;
 	}
 	mlx_destroy_image(game->mlx, tmp->img);
-	return buffer;
+	return (buffer);
 }
 
 void	init_texture_to_buffer(t_game *game)
 {
-	t_data tmp;
+	t_data	tmp;
 
 	game->textures[0] = xpm_to_img(game, game->so_path + 3, &tmp);
 	game->textures[1] = xpm_to_img(game, game->no_path + 3, &tmp);

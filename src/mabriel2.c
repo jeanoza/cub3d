@@ -6,7 +6,7 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 19:32:16 by mabriel           #+#    #+#             */
-/*   Updated: 2022/07/17 01:38:57 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/19 05:35:00 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	draw_map(t_game *game)
 	int	j;
 	int	size;
 
-	size = 50;
+	size = 64;
 	i = 0;
 	while (game->map[i])
 	{
@@ -162,25 +162,36 @@ void	draw_player_line(t_game *game)
 
 	x = (float)cos(pa) * 50;
 	y = (float)sin(pa) * 50;
-	draw_line(game, px + 10, py + 10, px + 10 + x, py + 10 + y);
+	draw_line(game, px + 10, py + 10, px + 10 + x, py + 10 - y);
 }
 
-void	cast_rays()
+void	cast_rays(t_game *game)
 {
-	int	r, mx, my, mp, dof;
-	float rx, ry, ra, xo, yo;
-	float aTan;
+	int	gridx, gridy;
+	float	xo, yo;
+	float	ay, ax;
+	float	ra;
 
-	ra = pa; // rays angle = player angle
-	while (r < 1) // 1 ray
+	ra = pa;
+	if (ra < PI) // looking up
 	{
-		dof = 0;
-		aTan = -1 / tan(ra);
-		if (ra > PI)
-		{
-			
-		}
+		ay = (((int)py >> 6) << 6) - 10;
+		yo = -64;
 	}
+	if (ra > PI) // looking down
+	{
+		ay = (((int)py >> 6) << 6) + 64;
+		yo = 64;
+	}
+	ax = px + (py-ay) / tan(ra);
+	xo = 64 / tan(ra);
+	while (game->map[(int)ay / 64][(int)ax / 64] == '0')
+	{
+		ax += xo;
+		ay += yo;
+	}
+	draw_line(game, px + 10, py + 10, ax + 10, ay + 10);
+	printf("ax:%f ay:%f\n",ax,ay);
 }
 
 
@@ -206,7 +217,7 @@ int	function(int keycode, t_game *game)
 		py -= pdy;
 		px -= pdx;
 	}
-	if (keycode == 65361)
+	if (keycode == 65363)
 	{
 		pa -= 0.03;
 		if (pa < 0)
@@ -214,7 +225,7 @@ int	function(int keycode, t_game *game)
 		pdx = cos(pa) * 5;
 		pdy = sin(pa) * 5;
 	}
-	if (keycode == 65363)
+	if (keycode == 65361)
 		{
 		pa += 0.03;
 		if (pa > 2 * PI)
@@ -226,6 +237,8 @@ int	function(int keycode, t_game *game)
 	draw_player(game);
 	//draw_line(game, px + 12, py + 12, (pdx + px)*10, (pdy + py)*10);
 	draw_player_line(game);
+	//cast_rays(game);
+	printf("%f\n",pa);
 	mlx_put_image_to_window(game->mlx, game->win, game->image->img, 0, 0);
 	return (0);
 }
@@ -233,9 +246,9 @@ int	function(int keycode, t_game *game)
 void	maxime(t_game *game)
 {
 //	t_data *north;
-	px = (game->player->x - 1) * 50 + 12.5;
-	py = (game->player->y - 1) * 50 + 12.5;
-	pa = 3 * PI / 2; //for north
+	px = (game->player->x - 1) * 64 + 20;
+	py = (game->player->y - 1) * 64 + 20;
+	pa = PI / 2; //for north
 	pdx = cos(pa) * 5;
 	pdy = sin(pa) * 5;
 	maxime_init(game);

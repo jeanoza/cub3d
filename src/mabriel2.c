@@ -6,7 +6,7 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 19:32:16 by mabriel           #+#    #+#             */
-/*   Updated: 2022/07/19 06:03:41 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/19 06:32:03 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ void	draw_player_line(t_game *game)
 
 	x = (float)cos(pa) * 50;
 	y = (float)sin(pa) * 50;
-	draw_line(game, px + 10, py + 10, px + 10 + x, py + 10 - y);
+	draw_line(game, px, py, px + x, py - y);
 }
 
 void	cast_rays(t_game *game)
@@ -172,26 +172,30 @@ void	cast_rays(t_game *game)
 	float	ay, ax;
 	float	ra;
 
-	ra = pa;
-	if (ra < PI) // looking up
+	ra = pa + 0.5;
+	while (ra > pa)
 	{
-		ay = (((int)py >> 6) << 6) - 10;
-		yo = -64;
+		if (ra < PI) // looking up
+		{
+			ay = (((int)py >> 6) << 6) - 1;
+			yo = -64;
+		}
+		if (ra > PI) // looking down
+		{
+			ay = (((int)py >> 6) << 6) + 64;
+			yo = 64;
+		}
+		ax = px + (py-ay) / tan(ra);
+		xo = 64 / tan(ra);
+		while (game->map[(int)ay / 64][(int)ax / 64] == '0')
+		{
+			ax += xo;
+			ay += yo;
+		}
+		draw_line(game, px, py, ax, ay);
+		printf("%f\n",ra);
+		ra -= 0.01;
 	}
-	if (ra > PI) // looking down
-	{
-		ay = (((int)py >> 6) << 6) + 64;
-		yo = 64;
-	}
-	ax = px + (py-ay) / tan(ra);
-	xo = 64 / tan(ra);
-	while (game->map[(int)ay / 64][(int)ax / 64] == '0')
-	{
-		ax += xo;
-		ay += yo;
-	}
-	draw_line(game, px + 10, py + 10, ax + 10, ay + 10);
-	printf("ax:%f ay:%f\n",ax,ay);
 }
 
 
@@ -238,8 +242,8 @@ int	function(int keycode, t_game *game)
 	draw_map(game);
 	draw_player(game);
 	//draw_line(game, px + 12, py + 12, (pdx + px)*10, (pdy + py)*10);
+	cast_rays(game);
 	draw_player_line(game);
-	//cast_rays(game);
 	printf("%f\n",pa);
 	mlx_put_image_to_window(game->mlx, game->win, game->image->img, 0, 0);
 	return (0);

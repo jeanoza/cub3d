@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 18:10:27 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/19 18:56:38 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/19 22:54:11 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,10 @@ int	free_game(t_game *game)
 	if (game)
 	{
 		destroy_mlx(game);
-		free(game->mlx);
+		// free(game->mlx);
 		free_game_element(game);
 		if (game->player)
 			free(game->player);
-		if (game->ray)
-		{
-			free(game->ray);
-		}
 		if (game->tex)
 		{
 			if (game->tex->buffer)

@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 18:45:05 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/19 18:05:55 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/19 22:56:00 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,15 @@ void	init_buffer(t_game *game)
 
 	if (game->tex->buffer)
 		free_2d_array((void **) game->tex->buffer);
-	game->tex->buffer = calloc(1, sizeof(int *) * SCREEN_HEIGHT);
+	game->tex->buffer = ft_calloc(SCREEN_HEIGHT + 1, sizeof(int *));
+	if (!game->tex->buffer)
+		free_game(game);
 	i = 0;
 	while (i < SCREEN_HEIGHT)
 	{
-		game->tex->buffer[i] = calloc(1, sizeof(int) * SCREEN_WIDTH);
+		game->tex->buffer[i] = ft_calloc(SCREEN_WIDTH + 1, sizeof(int));
+		if (!game->tex->buffer[i])
+			free_game(game);
 		++i;
 	}
 }
@@ -75,10 +79,9 @@ int	raycast (t_game *game)
 
 	x = 0;
 	init_buffer(game);
-	game->ray = calloc(1, sizeof(t_ray));
-	//TODO:freeall
+	game->ray = ft_calloc(1, sizeof(t_ray));
 	if (!game->ray)
-		exit(-42);
+		free_game(game);
 	calculate(game);
 	free(game->ray);
 	draw_texture(game);

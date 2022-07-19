@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 20:27:46 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/19 22:21:19 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/19 22:49:13 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	init(t_game *game)
 	game->player->dir_y = 0;
 	game->player->plane_x = 0;
 	game->player->plane_y = 0.66;
-	game->textures = calloc(4, sizeof(int *));
+	game->textures = ft_calloc(5, sizeof(int *));
 
 	init_texture_to_buffer(game);
 	raycast(game);

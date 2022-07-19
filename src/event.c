@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 10:31:36 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/19 08:29:59 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/19 18:52:34 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 int	close_game_win_ctrl(t_game *game)
 {
-	if (mlx_destroy_window(game->mlx, game->win))
-	{
-		printf("Error\nDestroy window failed\n");
-		free_game(game);
-		exit(EXIT_FAILURE);
-	}
-	// mlx_destroy_display(game->mlx);
-	free(game->mlx);
-	free_game(game);
+	// if (mlx_destroy_window(game->mlx, game->win))
+	// {
+	// 	printf("Error\nDestroy window failed\n");
+	// 	free_game(game);
+	// 	exit(EXIT_FAILURE);
+	// }
+	// // mlx_destroy_display(game->mlx);
+	// free(game->mlx);
 	printf("Closed by win x button\n");
-	exit(EXIT_SUCCESS);
+	return free_game(game);
+	// exit(EXIT_SUCCESS);
 }
 
 int	input_handle(int code, t_game *game)
@@ -36,10 +36,7 @@ int	input_handle(int code, t_game *game)
 	y = game->player->y;
 
 	if (code == KEY_ESC)
-	{
-		//FIXME:func exit which contains freeall(game)
-		exit(0);
-	}
+		free_game(game);
 	if (code == KEY_W)
 		game->player->x -= 0.1;
 	else if (code == KEY_S)

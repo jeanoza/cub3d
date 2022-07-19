@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 20:27:46 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/19 18:08:03 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/19 18:52:09 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ int	*xpm_to_img(t_game *game, char *path, t_data *tmp)
 			&game->tex->w, &game->tex->h);
 	tmp->data = (int *)mlx_get_data_addr(tmp->img, &tmp->bits_per_pixel,
 			&tmp->line_length, &tmp->endian);
-	buffer = (int *)calloc(1, sizeof(int) * game->tex->w * game->tex->h);
-
+	buffer = (int *)ft_calloc(1, sizeof(int) * game->tex->w * game->tex->h);
 	y = 0;
 	while (y < game->tex->h)
 	{
@@ -65,7 +64,7 @@ void	init(t_game *game)
 	if (!game->mlx)
 		mlx_error(game);
 	game->win = mlx_new_window(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "cub3d");
-	game->tex = calloc(1, sizeof(t_texture));
+	game->tex = ft_calloc(1, sizeof(t_texture));
 
 	game->player->dir_x = -1.0;
 	game->player->dir_y = 0;

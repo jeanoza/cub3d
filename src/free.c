@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 18:10:27 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/09 17:47:46 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/19 18:56:38 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,26 +27,60 @@ void	free_2d_array(void **_2d_array)
 	free(_2d_array);
 }
 
-void	free_game(t_game *game)
+static	void	free_game_element(t_game *game)
+{
+	if (game->no_path)
+		free(game->no_path);
+	if (game->so_path)
+		free(game->so_path);
+	if (game->we_path)
+		free(game->we_path);
+	if (game->ea_path)
+		free(game->ea_path);
+	if (game->fcolor)
+		free(game->fcolor);
+	if (game->ccolor)
+		free(game->ccolor);
+	if (game->map)
+		free_2d_array((void **)game->map);
+	if (game->textures)
+		free_2d_array((void **)game->textures);
+}
+
+#if defined(__APPLE__)
+static	void	destroy_mlx(t_game *game)
+{
+	mlx_destroy_window(game->mlx, game->win);
+}
+#else
+
+static	void	destroy_mlx(t_game *game)
+{
+	mlx_destroy_window(game->mlx, game->win);
+	mlx_destroy_display(game->mlx);
+}
+#endif
+
+int	free_game(t_game *game)
 {
 	if (game)
 	{
-		if (game->no_path)
-			free(game->no_path);
-		if (game->so_path)
-			free(game->so_path);
-		if (game->we_path)
-			free(game->we_path);
-		if (game->ea_path)
-			free(game->ea_path);
-		if (game->fcolor)
-			free(game->fcolor);
-		if (game->ccolor)
-			free(game->ccolor);
-		if (game->map)
-			free_2d_array((void **)game->map);
+		destroy_mlx(game);
+		free(game->mlx);
+		free_game_element(game);
 		if (game->player)
 			free(game->player);
+		if (game->ray)
+		{
+			free(game->ray);
+		}
+		if (game->tex)
+		{
+			if (game->tex->buffer)
+				free_2d_array((void **)game->tex->buffer);
+			free(game->tex);
+		}
 		free(game);
 	}
+	exit(EXIT_SUCCESS);
 }

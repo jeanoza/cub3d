@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 12:15:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/19 07:56:10 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/19 18:53:36 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@
 #  define KEY_RIGHT 65363
 # endif
 
-#define KEY_PRESS 2
+# define KEY_PRESS 2
 
 /* libft */
 # include "libft.h"
@@ -72,12 +72,12 @@
 # define SCREEN_HEIGHT 480
 
 typedef enum e_bool { FALSE, TRUE }	t_bool;
-typedef enum e_error { ERR_PARSE = -42 ,ERR_MAP = 1, ERR_LINE = 2 }	t_error;
+typedef enum e_error { ERR_MAP = 1, ERR_LINE = 2 }	t_error;
 typedef enum e_event { EVENT_EXIT_WIN = 17 }	t_event;
-typedef enum e_dir {NORTH, SOUTH, EAST, WEST} t_dir;
+typedef enum e_dir { NORTH, SOUTH, EAST, WEST }	t_dir;
 
 //TODO: parler avec Max pour des variables dans s_player et t_game
-typedef struct	s_player {
+typedef struct s_player {
 	double	x;
 	double	y;
 	t_dir	dir;
@@ -87,7 +87,7 @@ typedef struct	s_player {
 	double	plane_y;
 }	t_player;
 
-typedef	struct	s_data {
+typedef struct s_data {
 	void	*img;
 	int		*data;
 	int		bits_per_pixel;
@@ -95,7 +95,7 @@ typedef	struct	s_data {
 	int		endian;
 }	t_data;
 
-typedef struct	s_ray {
+typedef struct s_ray {
 	double	camera_x;
 	double	dir_x;
 	double	dir_y;
@@ -115,7 +115,7 @@ typedef struct	s_ray {
 	double	wall_x;
 }	t_ray;
 
-typedef struct texture {
+typedef struct s_texture {
 	int		**buffer;
 	int		w;
 	int		h;
@@ -127,7 +127,7 @@ typedef struct texture {
 }	t_texture;
 
 //Principal struct
-typedef struct	s_game {
+typedef struct s_game {
 	int			f_color;
 	int			c_color;
 	int			width;
@@ -162,7 +162,6 @@ int		validate_line(char *line, t_game *game);
 /* check_map.c */
 void	check_map(t_game *game);
 int		is_valid(int c);
-
 void	check_file_and_color(t_game *game);
 
 /* parse_error.c */
@@ -191,6 +190,17 @@ int		put_map(t_game *game, char *line, int idx);
 void	put_texture(t_game *game, char *line);
 char	**put_floor_ceil(t_game *game, char *line);
 
+
+/* *********************************************************************** */
+/*                               RAYCASTING                                */
+/* *********************************************************************** */
+/* raycast.c */
+int		raycast (t_game *game);
+void	init_ray(t_game *game, int x);
+
+/* raycast_cal */
+void	calculate(t_game *game);
+
 /* init.c */
 void	init(t_game *game);
 
@@ -202,20 +212,13 @@ int		input_handle(int code, t_game *game);
 int		encode_rgb(int red, int green, int blue);
 int		index_of(char *str, char to_find);
 
-/* raycast.c */
-int		raycast (t_game *game);
-void	init_ray(t_game *game, int x);
-
-/* raycast_cal */
-void	calculate(t_game *game);
-
 
 /* painter.c */
 void	put_header(void);
 void	print_game(t_game *game);
 
 /* free.c */
-void	free_game(t_game *game);
+int		free_game(t_game *game);
 void	free_2d_array(void **_2d_array);
 
 

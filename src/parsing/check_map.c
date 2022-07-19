@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 00:25:20 by mabriel           #+#    #+#             */
-/*   Updated: 2022/07/09 04:41:41 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/19 08:25:24 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,13 @@ static void	set_player(t_game *game, int i, int j)
 		free_game(game);
 		exit(1);
 	}
-	game->player->x = j + 2;
-	game->player->y = i + 2;
+	//FIXME: x and y is not same in ordinary math,
+	//as i use map[x][y] in raycast
+	//so, x is first dimension, y is second dimension in map.
+	//FIXME: maybe, if we change the method of parsing,
+	//we have to change this value (ex:i + 1.5 => i + 0.5)
+	game->player->x = i + 1.5;
+	game->player->y = j + 1.5;
 	if (game->map[i][j] == 'N')
 		game->player->dir = NORTH;
 	if (game->map[i][j] == 'W')
@@ -31,6 +36,7 @@ static void	set_player(t_game *game, int i, int j)
 		game->player->dir = EAST;
 	if (game->map[i][j] == 'S')
 		game->player->dir = SOUTH;
+	game->map[i][j] = '0';
 }
 
 static int	check_forbidden_char(t_game *game)

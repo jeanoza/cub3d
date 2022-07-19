@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 12:15:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/18 19:25:34 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/19 07:56:10 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,13 +196,18 @@ void	init(t_game *game);
 
 /* event.c */
 int		close_game_win_ctrl(t_game *game);
+int		input_handle(int code, t_game *game);
 
 /* utils.c */
 int		encode_rgb(int red, int green, int blue);
 int		index_of(char *str, char to_find);
 
 /* raycast.c */
-int raycast (t_game *game);
+int		raycast (t_game *game);
+void	init_ray(t_game *game, int x);
+
+/* raycast_cal */
+void	calculate(t_game *game);
 
 
 /* painter.c */

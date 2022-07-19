@@ -6,8 +6,13 @@
 	1.1
 
 
-2. Execute : commence par une struct pre-rempli
-	2.1 Raycasting
-	2.2 Peindre le map
-	
-3. 
+
+
+
+kyubong:
+- Gerer les input Arrow(gauche et droite) avec calcul math.
+- regarder aussi le deplacement(w,a,s,d) apres avoir modifié game->player->dir_y
+- Mettre en bon value player->x, player->y, player->dir_x, player->dir_y selon player->dir ('N', 'S', ...)
+- malloc protection
+- calloc -> ft_calloc
+- freeall function when exit

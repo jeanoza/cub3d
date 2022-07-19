@@ -6,7 +6,7 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 19:32:16 by mabriel           #+#    #+#             */
-/*   Updated: 2022/07/19 05:35:00 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/19 06:03:41 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,14 +224,16 @@ int	function(int keycode, t_game *game)
 			pa += 2 * PI;
 		pdx = cos(pa) * 5;
 		pdy = sin(pa) * 5;
+		pdy *= -1;
 	}
 	if (keycode == 65361)
-		{
+	{
 		pa += 0.03;
 		if (pa > 2 * PI)
 			pa -= 2 * PI;
 		pdx = cos(pa) * 5;
 		pdy = sin(pa) * 5;
+		pdy *= -1;
 	}
 	draw_map(game);
 	draw_player(game);

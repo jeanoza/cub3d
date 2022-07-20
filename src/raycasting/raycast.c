@@ -6,7 +6,7 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 18:45:05 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/20 19:06:05 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/20 19:24:51 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ void	draw_texture(t_game *game)
 	int		x;
 	int		y;
 
-	data.img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+	data.img = NULL;//mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+	if (!data.img)
+		mlx_error(game);
 	data.data = (int *) mlx_get_data_addr(data.img,
 			&data.bits_per_pixel, &data.line_length, &data.endian);
 	y = 0;
@@ -62,13 +64,13 @@ void	init_buffer(t_game *game)
 		free_2d_array((void **) game->tex->buffer);
 	game->tex->buffer = ft_calloc(SCREEN_HEIGHT + 1, sizeof(int *));
 	if (!game->tex->buffer)
-		free_game(game);
+		malloc_err(game, 0, 0, NULL);
 	i = 0;
 	while (i < SCREEN_HEIGHT)
 	{
 		game->tex->buffer[i] = ft_calloc(SCREEN_WIDTH + 1, sizeof(int));
 		if (!game->tex->buffer[i])
-			free_game(game);
+			malloc_err(game, 0, 0, NULL);
 		++i;
 	}
 }

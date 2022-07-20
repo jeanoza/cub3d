@@ -32,7 +32,7 @@ OBJS		=	$(addprefix $(OBJ_PATH), $(SRCS:.c=.o))
 
 CC			=	cc
 
-CFLAGS		=	-Wall -Wextra -Werror #-g3 -fsanitize=address
+CFLAGS		=	-Wall -Wextra #-g3 -fsanitize=address
 
 NAME		=	cub3D
 
@@ -41,7 +41,7 @@ $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 				@mkdir -p $(OBJ_PATH)
 				@mkdir -p $(OBJ_PATH)/parsing
 				@mkdir -p $(OBJ_PATH)/raycasting
-				@$(CC) $(CFLAGS) -c $< -o $@ $(HEADER_INC) -I$(LIBFT_PATH) -I$(MLX_PATH)
+				@$(CC) $(CFLAGS) -c $< -o $@ $(HEADER_INC) -I$(LIBFT_PATH) -I$(MLX_PATH) -lm
 
 
 $(NAME):		$(OBJS)
@@ -50,7 +50,7 @@ $(NAME):		$(OBJS)
 				@make -C $(LIBFT_PATH)
 				@make -C $(MLX_PATH)
 				@echo "\033[95m\nGenerating executable on $(OS_NAME) ...\033[0m"
-				@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) -L$(LIBFT_PATH) -lft -L$(MLX_PATH) $(MLX_LIB) 
+				@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) -L$(LIBFT_PATH) -lft -L$(MLX_PATH) $(MLX_LIB) -lm
 				@echo "\033[92m\n$(NAME) for $(OS_NAME) has been created! \033[0m"
 
 all:			$(NAME)

@@ -3,11 +3,15 @@ SO ./asset/textures/wall_s.xpm
 WE ./asset/textures/wall_w.xpm
 EA ./asset/textures/wall_e.xpm
 
-F 255,0,0
-C 0,255,0
 
-11111111
-10011001
-10010001
-1000N001
-11111111
+
+F  255,0,0
+C  1,255,0
+
+
+
+   11111111
+   10011001
+   10N10001
+   10000001
+   11111111

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 18:10:27 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/19 22:54:11 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/20 16:30:31 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,11 @@ int	free_game(t_game *game)
 {
 	if (game)
 	{
-		destroy_mlx(game);
-		// free(game->mlx);
+		if (game->mlx)
+		{
+			destroy_mlx(game);
+			free(game->mlx);
+		}
 		free_game_element(game);
 		if (game->player)
 			free(game->player);
@@ -78,5 +81,8 @@ int	free_game(t_game *game)
 		}
 		free(game);
 	}
-	exit(EXIT_SUCCESS);
+	//FIXME Jai besoin de exit moi meme lors des erreurs
+	// sois recreer une autre focntion sois rajouter un 
+	//code error pour exit 1 ou 0
+	//exit(EXIT_SUCCESS);
 }

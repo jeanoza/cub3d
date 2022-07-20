@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 12:15:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/19 18:53:36 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/20 17:29:04 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,9 @@
 #  define KEY_D 100
 #  define KEY_LEFT 65361
 #  define KEY_RIGHT 65363
+#  define KEY_ESC 65307
 # endif
-
+//FIXME KEY_ESC
 # define KEY_PRESS 2
 
 /* libft */

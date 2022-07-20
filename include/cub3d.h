@@ -6,7 +6,7 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 12:15:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/20 17:29:04 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/20 18:25:56 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,8 @@ typedef struct s_game {
 int		parse(char **av, t_game *game);
 int		check_place(t_game *game, int place);
 int		validate_line(char *line, t_game *game);
+int		check_extension(char *s, char *ex);
+
 
 /* check_map.c */
 void	check_map(t_game *game);
@@ -173,6 +175,7 @@ int		open_file(char *s, t_game *game);
 
 /* tokenize_map.c */
 char	**tokenize(t_game *game, char **src);
+void	malloc_err(t_game *game, int code, int i, char **dst);
 
 int		heat_seeking(char **dst);
 int		seeking(char **dst, int	x, int y, int for_char);
@@ -190,6 +193,7 @@ void	mlx_error(t_game *game);
 int		put_map(t_game *game, char *line, int idx);
 void	put_texture(t_game *game, char *line);
 char	**put_floor_ceil(t_game *game, char *line);
+void	check_textures_extention(t_game *game, char *s);
 
 
 /* *********************************************************************** */

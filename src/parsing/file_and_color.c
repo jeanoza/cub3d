@@ -6,7 +6,7 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 06:54:18 by mabriel           #+#    #+#             */
-/*   Updated: 2022/07/20 17:12:10 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/20 18:25:48 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void	trim_color(char **s, t_game *game)
 	char	*tm;
 
 	i = 0;
+	check_textures_extention(game, *s);
 	while ((*s)[i] >= 'A' && (*s)[i] <= 'Z')
 		i++;
 	if ((*s)[i] != ' ')

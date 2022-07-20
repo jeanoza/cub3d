@@ -6,7 +6,7 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 12:10:02 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/20 16:32:46 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/20 18:27:10 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,14 @@ char	**put_floor_ceil(t_game *game, char *line)
 	else if (line[0] == 'C')
 		game->c_color = encoded_color;
 	return (splitted);
+}
+
+void	check_textures_extention(t_game *game, char *s)
+{
+	if (check_extension(s, ".xpm"))
+	{
+		ft_putstr_fd("Error\nBad extention for texture (must be .xpm)\n", 2);
+		free_game(game);
+		exit(1);
+	}
 }

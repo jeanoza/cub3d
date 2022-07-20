@@ -6,7 +6,7 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 10:31:36 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/20 17:29:29 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/20 19:04:57 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,8 @@ int	close_game_win_ctrl(t_game *game)
 	// exit(EXIT_SUCCESS);
 }
 
-int	input_handle(int code, t_game *game)
+void	help_in_han(int code, t_game *game)
 {
-	double x;
-	double y;
-
-	x = game->player->x;
-	y = game->player->y;
-
-	printf("%d\n", code);
-
 	if (code == KEY_ESC)
 	{
 		free_game(game);
@@ -55,6 +47,16 @@ int	input_handle(int code, t_game *game)
 		game->player->y -= 0.1;
 	else if (code == KEY_D)
 		game->player->y += 0.1;
+}
+
+int	input_handle(int code, t_game *game)
+{
+	double	x;
+	double	y;
+
+	x = game->player->x;
+	y = game->player->y;
+	help_in_han(code, game);
 	if (game->map[(int)game->player->x][(int) game->player->y] != '0')
 	{
 		game->player->x = x;

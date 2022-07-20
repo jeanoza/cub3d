@@ -6,13 +6,13 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 02:17:09 by mabriel           #+#    #+#             */
-/*   Updated: 2022/07/09 04:42:48 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/20 17:37:01 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	malloc_err(t_game *game, int code, int i, char **dst)
+void	malloc_err(t_game *game, int code, int i, char **dst)
 {
 	ft_putstr_fd("Error\nMalloc couldn't allocate more memory\n", 2);
 	if (code == 1)

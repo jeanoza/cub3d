@@ -6,7 +6,7 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 15:20:36 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/14 00:16:30 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/20 18:15:22 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,16 @@ static int	get_line_rec(t_game *game, char *line, int fd, int i)
 	return (0);
 }
 
-static int	check_extension(char *s)
+int	check_extension(char *s, char *ex)
 {
 	int	size;
+	int	sizex;
 
 	size = ft_strlen(s);
+	sizex = ft_strlen(ex);
 	if (size < 4)
 		return (1);
-	if (s[size - 1] == 'b' && s[size - 2] == 'u'
-		&& s[size - 3] == 'c' && s[size - 4] == '.')
+	if (!ft_strncmp(s + size - sizex, ex, sizex + 1))
 		return (0);
 	return (1);
 }
@@ -77,7 +78,7 @@ int	parse(char **av, t_game *game)
 {
 	int	fd;
 
-	if (check_extension(av[1]))
+	if (check_extension(av[1], ".cub"))
 		exit_error_file(game, 1);
 	fd = open_file(av[1], game);
 	init_parse(game);

@@ -6,7 +6,7 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 18:45:05 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/20 19:24:51 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/20 19:26:09 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	draw_texture(t_game *game)
 	int		x;
 	int		y;
 
-	data.img = NULL;//mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+	data.img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	if (!data.img)
 		mlx_error(game);
 	data.data = (int *) mlx_get_data_addr(data.img,

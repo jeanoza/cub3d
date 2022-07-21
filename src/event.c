@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   event.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
+/*   By: kychoi <kychoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/09 10:31:36 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/21 14:59:24 by kyubongchoi      ###   ########.fr       */
+/*   Created: 2022/07/21 18:02:00 by kychoi            #+#    #+#             */
+/*   Updated: 2022/07/21 18:02:02 by kychoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-// Maxime: I changed the close_game to make the exit in the function
-//			and not in the free_game
 
 int	close_game_win_ctrl(t_game *game)
 {
@@ -25,8 +22,6 @@ int	close_game_win_ctrl(t_game *game)
 
 void	move_player(int code, t_game *game, double x, double y)
 {
-	x = game->player->x;
-	y = game->player->y;
 	if (code == KEY_W)
 	{
 		game->player->x = game->player->x + (game->player->dir_x / 10);
@@ -52,46 +47,44 @@ void	move_player(int code, t_game *game, double x, double y)
 		game->player->x = x;
 		game->player->y = y;
 	}
-	// printf("poxX:%f poxY:%f dirX:%f dirY:%f\n", game->player->x, game->player->y, game->player->dir_x, game->player->dir_y);
 }
 
 void	change_dir(int code, t_game *game)
 {
-	double old_dir_x;
-	double old_plane_x;
+	double	old_dir_x;
+	double	old_plane_x;
+	double	radian;
 
 	if (code == KEY_LEFT)
-	{
-		old_dir_x = game->player->dir_x;
-		game->player->dir_x = game->player->dir_x * cos(RADIAN) - game->player->dir_y * sin(RADIAN);
-		game->player->dir_y = old_dir_x * sin(RADIAN) + game->player->dir_y * cos(RADIAN);
-		old_plane_x = game->player->plane_x;
-		game->player->plane_x = game->player->plane_x * cos(RADIAN) - game->player->plane_y *sin(RADIAN) ;
-		game->player->plane_y = old_plane_x * sin(RADIAN) + game->player->plane_y * cos(RADIAN);
-	}
-	if (code == KEY_RIGHT)
-	{
-		old_dir_x = game->player->dir_x;
-		game->player->dir_x = game->player->dir_x * cos(-RADIAN) - game->player->dir_y * sin(-RADIAN);
-		game->player->dir_y = old_dir_x * sin(-RADIAN) + game->player->dir_y * cos(-RADIAN);
-		old_plane_x = game->player->plane_x;
-		game->player->plane_x = game->player->plane_x * cos(-RADIAN) - game->player->plane_y *sin(-RADIAN) ;
-		game->player->plane_y = old_plane_x * sin(-RADIAN) + game->player->plane_y * cos(-RADIAN);
-	}
+		radian = RADIAN;
+	else
+	radian = -RADIAN;
+	old_dir_x = game->player->dir_x;
+	game->player->dir_x = game->player->dir_x * cos(radian)
+		- game->player->dir_y * sin(radian);
+	game->player->dir_y = old_dir_x * sin(radian)
+		+ game->player->dir_y * cos(radian);
+	old_plane_x = game->player->plane_x;
+	game->player->plane_x = game->player->plane_x * cos(radian)
+		- game->player->plane_y * sin(radian);
+	game->player->plane_y = old_plane_x * sin(radian)
+		+ game->player->plane_y * cos(radian);
 }
 
 int	input_handle(int code, t_game *game)
 {
-	double tmp[2];
+	double	tmp[2];
 
 	if (code == KEY_ESC)
 	{
 		free_game(game);
 		exit(0);
 	}
+	tmp[0] = game->player->x;
+	tmp[1] = game->player->y;
 	move_player(code, game, tmp[0], tmp[1]);
-	change_dir(code, game);
-	//FIXME: calculate with function MATH
+	if (code == KEY_LEFT || code == KEY_RIGHT)
+		change_dir(code, game);
 	raycast(game);
 	return (0);
 }

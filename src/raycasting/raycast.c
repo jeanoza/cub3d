@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
+/*   By: kychoi <kychoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 18:45:05 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/21 14:54:38 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/21 16:53:09 by kychoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,11 @@ void	init_ray(t_game *game, int x)
 	game->ray->map_y = game->player->y;
 	game->ray->delta_x = fabs(1 / game->ray->dir_x);
 	game->ray->delta_y = fabs(1 / game->ray->dir_y);
-	// game->ray->delta_x = sqrt(1 + (game->ray->dir_y * game->ray->dir_y) / (game->ray->dir_x * game->ray->dir_x));
-	// game->ray->delta_y = sqrt(1 + (game->ray->dir_x * game->ray->dir_x) / (game->ray->dir_y * game->ray->dir_y));
 }
 
-void	draw_texture(t_game *game)
+void	draw_texture(t_game *game, int x, int y)
 {
 	t_data	data;
-	int		x;
-	int		y;
 
 	data.img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	if (!data.img)
@@ -80,6 +76,7 @@ void	init_buffer(t_game *game)
 int	raycast(t_game *game)
 {
 	int		x;
+	int		tmp[2];
 
 	x = 0;
 	init_buffer(game);
@@ -88,6 +85,6 @@ int	raycast(t_game *game)
 		free_game(game);
 	calculate(game);
 	free(game->ray);
-	draw_texture(game);
+	draw_texture(game, tmp[0], tmp[1]);
 	return (0);
 }

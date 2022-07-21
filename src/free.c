@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 18:10:27 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/19 22:54:11 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/21 10:08:32 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,10 @@ static	void	destroy_mlx(t_game *game)
 
 static	void	destroy_mlx(t_game *game)
 {
-	mlx_destroy_window(game->mlx, game->win);
+	if (game->win)
+		mlx_destroy_window(game->mlx, game->win);
 	mlx_destroy_display(game->mlx);
+	free(game->mlx);
 }
 #endif
 
@@ -65,8 +67,8 @@ int	free_game(t_game *game)
 {
 	if (game)
 	{
-		destroy_mlx(game);
-		// free(game->mlx);
+		if (game->mlx)
+			destroy_mlx(game);
 		free_game_element(game);
 		if (game->player)
 			free(game->player);
@@ -78,5 +80,9 @@ int	free_game(t_game *game)
 		}
 		free(game);
 	}
-	exit(EXIT_SUCCESS);
+	// exit(EXIT_SUCCESS);
 }
+
+	//FIXME Jai besoin de exit moi meme lors des erreurs
+	// sois recreer une autre focntion sois rajouter un 
+	//code error pour exit 1 ou 0

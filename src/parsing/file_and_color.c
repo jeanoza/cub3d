@@ -6,30 +6,35 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 06:54:18 by mabriel           #+#    #+#             */
-/*   Updated: 2022/07/10 15:14:36 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/20 18:25:48 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	trim_color(char *s, t_game *game)
+static void	trim_color(char **s, t_game *game)
 {
-	int	i;
-	int	tmp;
+	int		i;
+	int		tmp;
+	char	*tm;
 
 	i = 0;
-	while (s[i] >= 'A' && s[i] <= 'Z')
+	check_textures_extention(game, *s);
+	while ((*s)[i] >= 'A' && (*s)[i] <= 'Z')
 		i++;
-	if (s[i] != ' ')
+	if ((*s)[i] != ' ')
 	{
 		ft_putstr_fd("Error\nMissing space in textures\n", 2);
 		free_game(game);
 		exit(1);
 	}
-	while (s[i] == ' ')
+	while ((*s)[i] == ' ')
 		i++;
-	tmp = open_file(s + i, game);
+	tmp = open_file(*s + i, game);
 	close(tmp);
+	tm = *s;
+	*s = ft_strdup(*s + i);
+	free(tm);
 }
 
 static char	*trim_spl(char *s)
@@ -119,8 +124,8 @@ void	check_file_and_color(t_game *game)
 	check_floor_ceil(game, game->ccolor, spl);
 	spl = put_floor_ceil(game, game->fcolor);
 	check_floor_ceil(game, game->fcolor, spl);
-	trim_color(game->no_path, game);
-	trim_color(game->ea_path, game);
-	trim_color(game->we_path, game);
-	trim_color(game->so_path, game);
+	trim_color(&game->no_path, game);
+	trim_color(&game->ea_path, game);
+	trim_color(&game->we_path, game);
+	trim_color(&game->so_path, game);
 }

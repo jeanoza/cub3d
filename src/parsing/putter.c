@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   putter.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 12:10:02 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/10 06:40:26 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/20 18:27:10 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,12 @@ char	**put_floor_ceil(t_game *game, char *line)
 	char	**splitted;
 	int		encoded_color;
 
+	if (line[1] != ' ')
+	{
+		ft_putstr_fd("Error\nMissing space in textures\n", 2);
+		free_game(game);
+		exit(1);
+	}
 	splitted = ft_split(line + 2, ',');
 	encoded_color = encode_rgb(ft_atoi(splitted[0]),
 			ft_atoi(splitted[1]), ft_atoi(splitted[2]));
@@ -54,4 +60,14 @@ char	**put_floor_ceil(t_game *game, char *line)
 	else if (line[0] == 'C')
 		game->c_color = encoded_color;
 	return (splitted);
+}
+
+void	check_textures_extention(t_game *game, char *s)
+{
+	if (check_extension(s, ".xpm"))
+	{
+		ft_putstr_fd("Error\nBad extention for texture (must be .xpm)\n", 2);
+		free_game(game);
+		exit(1);
+	}
 }

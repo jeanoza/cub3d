@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 00:25:20 by mabriel           #+#    #+#             */
-/*   Updated: 2022/07/19 08:25:24 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/20 16:03:00 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static void	set_player(t_game *game, int i, int j)
 {
-	game->player = malloc(sizeof(t_player));
+	if (!game->player)
+		game->player = malloc(sizeof(t_player));
 	if (!game->player)
 	{
 		ft_putstr_fd("Error\nMalloc failed\n", 2);

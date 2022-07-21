@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   raycast_cal.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 06:54:32 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/19 18:04:20 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/20 19:07:49 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "cub3d.h"
 
@@ -19,7 +18,7 @@ static void	calculate_step(t_game *game)
 	{
 		game->ray->step_x = -1;
 		game->ray->side_x = (game->player->x - game->ray->map_x)
-			 * game->ray->delta_x;
+			* game->ray->delta_x;
 	}
 	else
 	{
@@ -78,7 +77,6 @@ static void	calculate_wall_x(t_game *game)
 	game->ray->draw_end = game->ray->line_height / 2 + SCREEN_HEIGHT / 2;
 	if (game->ray->draw_end >= SCREEN_HEIGHT)
 		game->ray->draw_end = SCREEN_HEIGHT - 1;
-
 	if (game->ray->is_side == 0)
 	{
 		game->tex->idx = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   painter.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/11 19:08:13 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/18 19:26:43 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/20 18:56:33 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ void	print_game(t_game *game)
 	printf("\n  [%p]game->height:%d\n", &game->height, game->height);
 	printf("\n  [%p]game->player->x:%f\n", &game->player->x, game->player->x);
 	printf("\n  [%p]game->player->y:%f\n", &game->player->y, game->player->y);
-	printf("\n  [%p]game->player->dir:%d\n", &game->player->dir, game->player->dir);
+	printf("\n  [%p]game->player->dir:%d\n", \
+	&game->player->dir, game->player->dir);
 	printf("\n  [%p]game->map:\n", game->map);
 	i = 0;
 	while (game->map && game->map[i])
@@ -38,7 +39,6 @@ void	print_game(t_game *game)
 		++i;
 	}
 }
-
 
 //TODO: change to CUBE\n3D
 void	put_header(void)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kychoi <kychoi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 12:15:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/21 16:47:09 by kychoi           ###   ########.fr       */
+/*   Updated: 2022/07/21 23:10:04 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,6 @@ void	put_texture(t_game *game, char *line);
 char	**put_floor_ceil(t_game *game, char *line);
 void	check_textures_extention(t_game *game, char *s);
 
-
 /* *********************************************************************** */
 /*                               RAYCASTING                                */
 /* *********************************************************************** */
@@ -216,7 +215,6 @@ int		input_handle(int code, t_game *game);
 int		encode_rgb(int red, int green, int blue);
 int		index_of(char *str, char to_find);
 
-
 /* painter.c */
 void	put_header(void);
 void	print_game(t_game *game);
@@ -224,6 +222,5 @@ void	print_game(t_game *game);
 /* free.c */
 void	free_game(t_game *game);
 void	free_2d_array(void **_2d_array);
-
 
 #endif

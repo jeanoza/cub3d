@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   event.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kychoi <kychoi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 18:02:00 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/21 18:02:02 by kychoi           ###   ########.fr       */
+/*   Updated: 2022/07/21 23:21:15 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	move_player(int code, t_game *game, double x, double y)
 		game->player->x = game->player->x + (game->player->dir_y / 10);
 		game->player->y = game->player->y - (game->player->dir_x / 10);
 	}
-	if (game->map[(int)game->player->x][(int) game->player->y] != '0')
+	if (game->map[(int) game->player->x][(int) game->player->y] != '0')
 	{
 		game->player->x = x;
 		game->player->y = y;
@@ -58,7 +58,7 @@ void	change_dir(int code, t_game *game)
 	if (code == KEY_LEFT)
 		radian = RADIAN;
 	else
-	radian = -RADIAN;
+		radian = -RADIAN;
 	old_dir_x = game->player->dir_x;
 	game->player->dir_x = game->player->dir_x * cos(radian)
 		- game->player->dir_y * sin(radian);

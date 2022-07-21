@@ -1,7 +1,7 @@
-NO ./asset/textures/wall_n.xpm
-SO ./asset/textures/wall_s.xpm
-WE ./asset/textures/wall_w.xpm
-EA ./asset/textures/wall_e.xpm
+NO ./asset/textures/muse.xpm
+SO ./asset/textures/metallica.xpm
+WE ./asset/textures/nirvana.xpm
+EA ./asset/textures/mraz.xpm
 
 F 255,0,0
 C 0,255,0

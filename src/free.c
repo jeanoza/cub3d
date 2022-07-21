@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
+/*   By: kychoi <kychoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 18:10:27 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/21 10:08:32 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/21 16:53:51 by kychoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static	void	free_game_element(t_game *game)
 }
 
 #if defined(__APPLE__)
+
 static	void	destroy_mlx(t_game *game)
 {
 	mlx_destroy_window(game->mlx, game->win);
@@ -63,7 +64,7 @@ static	void	destroy_mlx(t_game *game)
 }
 #endif
 
-int	free_game(t_game *game)
+void	free_game(t_game *game)
 {
 	if (game)
 	{
@@ -80,9 +81,4 @@ int	free_game(t_game *game)
 		}
 		free(game);
 	}
-	// exit(EXIT_SUCCESS);
 }
-
-	//FIXME Jai besoin de exit moi meme lors des erreurs
-	// sois recreer une autre focntion sois rajouter un 
-	//code error pour exit 1 ou 0

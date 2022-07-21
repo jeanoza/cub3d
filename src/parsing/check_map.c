@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
+/*   By: kychoi <kychoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 00:25:20 by mabriel           #+#    #+#             */
-/*   Updated: 2022/07/21 14:49:02 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/21 16:37:46 by kychoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,15 @@ void set_player_angle(t_game *game, char angle)
 	if (angle == 'E')
 	{
 		game->player->dir_x = 0;
-		game->player->dir_y = -1;
-		game->player->plane_x = -0.66;
+		game->player->dir_y = 1;
+		game->player->plane_x = 0.66;
 		game->player->plane_y = 0;
 	}
 	if (angle == 'W')
 	{
 		game->player->dir_x = 0;
-		game->player->dir_y = 1;
-		game->player->plane_x = 0.66;
+		game->player->dir_y = -1;
+		game->player->plane_x = -0.66;
 		game->player->plane_y = 0;
 	}
 	if (angle == 'S')

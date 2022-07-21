@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
+/*   By: kychoi <kychoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 12:15:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/21 14:56:52 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/21 16:47:09 by kychoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,7 @@
 # define WALL	'1'
 # define SPACE	' '
 
-#define RADIAN 0.05
-
+# define RADIAN 0.05
 # define SCREEN_WIDTH 640
 # define SCREEN_HEIGHT 480
 
@@ -153,7 +152,6 @@ typedef struct s_game {
 	t_texture	*tex;
 }	t_game;
 
-
 /* *********************************************************************** */
 /*                               PARSING                                   */
 /* *********************************************************************** */
@@ -162,7 +160,6 @@ int		parse(char **av, t_game *game);
 int		check_place(t_game *game, int place);
 int		validate_line(char *line, t_game *game);
 int		check_extension(char *s, char *ex);
-
 
 /* check_map.c */
 void	check_map(t_game *game);
@@ -225,7 +222,7 @@ void	put_header(void);
 void	print_game(t_game *game);
 
 /* free.c */
-int		free_game(t_game *game);
+void	free_game(t_game *game);
 void	free_2d_array(void **_2d_array);
 
 

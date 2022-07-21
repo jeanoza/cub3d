@@ -322,8 +322,6 @@ void	draw_texture(t_game *game)
 		++y;
 	}
 	mlx_put_image_to_window(game->mlx, game->win, data.img, 0, 0);
-
-	//FIXME:need or not?
 	mlx_destroy_image(game->mlx, data.img);
 }
 
@@ -336,6 +334,7 @@ int raycast (t_game *game)
 	if (!game->ray)
 	{
 		//FIXME:put freeall
+		free_game(game);
 		exit(-42);
 	}
 	init_buffer(game);

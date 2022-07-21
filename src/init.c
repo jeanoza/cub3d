@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 20:27:46 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/20 18:57:22 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/21 11:12:50 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,6 @@ void	init(t_game *game)
 	game->tex = ft_calloc(1, sizeof(t_texture));
 	if (!game->tex)
 		malloc_err(game, 0, 0, NULL);
-	game->player->dir_x = -1.0;
-	game->player->dir_y = 0;
-	game->player->plane_x = 0;
-	game->player->plane_y = 0.66;
 	game->textures = ft_calloc(5, sizeof(int *));
 	if (!game->textures)
 		malloc_err(game, 0, 0, NULL);

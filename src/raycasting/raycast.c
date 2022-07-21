@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 18:45:05 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/21 10:04:56 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/21 10:19:05 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	init_ray(t_game *game, int x)
 	game->ray->map_y = game->player->y;
 	game->ray->delta_x = fabs(1 / game->ray->dir_x);
 	game->ray->delta_y = fabs(1 / game->ray->dir_y);
+	// game->ray->delta_x = sqrt(1 + (game->ray->dir_y * game->ray->dir_y) / (game->ray->dir_x * game->ray->dir_x));
+	// game->ray->delta_y = sqrt(1 + (game->ray->dir_x * game->ray->dir_x) / (game->ray->dir_y * game->ray->dir_y));
 }
 
 void	draw_texture(t_game *game)

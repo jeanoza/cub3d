@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
+/*   By: kychoi <kychoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 20:27:46 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/21 11:12:50 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/21 17:58:58 by kychoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,6 @@ int	*xpm_to_img(t_game *game, char *path, t_data *tmp)
 	return (buffer);
 }
 
-// Jai changer le game->no_path + 3 a game->no_path
-// car dans le parsing je laisse uniquement la texture
-
 void	init_texture_to_buffer(t_game *game)
 {
 	t_data	tmp;
@@ -89,7 +86,6 @@ void	init(t_game *game)
 	init_texture_to_buffer(game);
 	raycast(game);
 	mlx_hook(game->win, EVENT_EXIT_WIN, 0, close_game_win_ctrl, game);
-	// mlx_hook(game->win, KEY_PRESS, 0, input_handle, game); // maybe for mac
-	mlx_hook(game->win, KEY_PRESS, 1L << 0, input_handle, game); // for linux
+	mlx_hook(game->win, KEY_PRESS, 1L << 0, input_handle, game);
 	mlx_loop(game->mlx);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 00:25:20 by mabriel           #+#    #+#             */
-/*   Updated: 2022/07/21 14:49:02 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/21 17:35:18 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,10 @@ static int	check_forbidden_char(t_game *game)
 	map = game->map;
 	i = 0;
 	nbr = 0;
-	while (map[i])
+	while (map && map[i])
 	{
 		j = 0;
-		while (map[i][j])
+		while (map && map[i][j])
 		{
 			if (!is_valid(map[i][j]))
 				return (-2);

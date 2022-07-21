@@ -6,7 +6,7 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/15 15:20:36 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/20 18:15:22 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/21 17:15:40 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,17 @@ static void	init_parse(t_game *game)
 
 static int	if_forest(char *line_no_nl, t_game *game, int i)
 {
-	if (ft_strncmp(line_no_nl, "NO", 2) == 0 && forest_help(game, 1))
+	if (ft_strncmp(line_no_nl, "NO ", 3) == 0 && forest_help(game, 1))
 		game->no_path = line_no_nl;
-	else if (ft_strncmp(line_no_nl, "SO", 2) == 0 && forest_help(game, 2))
+	else if (ft_strncmp(line_no_nl, "SO ", 3) == 0 && forest_help(game, 2))
 		game->so_path = line_no_nl;
-	else if (ft_strncmp(line_no_nl, "WE", 2) == 0 && forest_help(game, 3))
+	else if (ft_strncmp(line_no_nl, "WE ", 3) == 0 && forest_help(game, 3))
 		game->we_path = line_no_nl;
-	else if (ft_strncmp(line_no_nl, "EA", 2) == 0 && forest_help(game, 4))
+	else if (ft_strncmp(line_no_nl, "EA ", 3) == 0 && forest_help(game, 4))
 		game->ea_path = line_no_nl;
-	else if (line_no_nl[0] == 'F' && forest_help(game, 5))
+	else if (ft_strncmp(line_no_nl, "F ", 2) == 0 && forest_help(game, 5))
 		game->fcolor = line_no_nl;
-	else if (line_no_nl[0] == 'C' && forest_help(game, 6))
+	else if (ft_strncmp(line_no_nl, "C ", 2) == 0 && forest_help(game, 6))
 		game->ccolor = line_no_nl;
 	else if (game->count == 7 || game->err == 1)
 		return (put_map(game, line_no_nl, i));

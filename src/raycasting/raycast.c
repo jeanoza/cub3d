@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kychoi <kychoi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 18:45:05 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/21 16:53:09 by kychoi           ###   ########.fr       */
+/*   Updated: 2022/07/22 20:48:14 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,16 +75,16 @@ void	init_buffer(t_game *game)
 
 int	raycast(t_game *game)
 {
-	int		x;
 	int		tmp[2];
 
-	x = 0;
 	init_buffer(game);
 	game->ray = ft_calloc(1, sizeof(t_ray));
 	if (!game->ray)
-		free_game(game);
+		malloc_err(game, 0, 0, NULL);
 	calculate(game);
 	free(game->ray);
+	tmp[0] = 0;
+	tmp[1] = 0;
 	draw_texture(game, tmp[0], tmp[1]);
 	return (0);
 }

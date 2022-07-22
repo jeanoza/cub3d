@@ -6,7 +6,7 @@
 /*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 18:02:00 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/21 23:21:15 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/22 23:20:07 by kyubongchoi      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	close_game_win_ctrl(t_game *game)
 	return (0);
 }
 
-void	move_player(int code, t_game *game, double x, double y)
+void	move_player(int code, t_game *game)
 {
 	if (code == KEY_W)
 	{
@@ -41,11 +41,6 @@ void	move_player(int code, t_game *game, double x, double y)
 	{
 		game->player->x = game->player->x + (game->player->dir_y / 10);
 		game->player->y = game->player->y - (game->player->dir_x / 10);
-	}
-	if (game->map[(int) game->player->x][(int) game->player->y] != '0')
-	{
-		game->player->x = x;
-		game->player->y = y;
 	}
 }
 
@@ -82,9 +77,14 @@ int	input_handle(int code, t_game *game)
 	}
 	tmp[0] = game->player->x;
 	tmp[1] = game->player->y;
-	move_player(code, game, tmp[0], tmp[1]);
 	if (code == KEY_LEFT || code == KEY_RIGHT)
 		change_dir(code, game);
+	move_player(code, game);
+	if (game->map[(int) game->player->x][(int) game->player->y] != '0')
+	{
+		game->player->x = tmp[0];
+		game->player->y = tmp[1];
+	}
 	raycast(game);
 	return (0);
 }

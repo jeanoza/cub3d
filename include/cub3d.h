@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
+/*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 12:15:07 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/21 23:10:04 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/22 20:46:35 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,7 @@ int		check_extension(char *s, char *ex);
 void	check_map(t_game *game);
 int		is_valid(int c);
 void	check_file_and_color(t_game *game);
+void	set_player_angle(t_game *game, char angle);
 
 /* parse_error.c */
 void	error_parsing(t_error err_code, char *msg, t_game *game);
@@ -177,7 +178,7 @@ char	**tokenize(t_game *game, char **src);
 void	malloc_err(t_game *game, int code, int i, char **dst);
 
 int		heat_seeking(char **dst);
-int		seeking(char **dst, int	x, int y, int for_char);
+int		seeking(char **dst, int x, int y, int for_char);
 void	set_space(char **dst);
 int		check_void_offmap_seeker(char **dst);
 
@@ -198,7 +199,7 @@ void	check_textures_extention(t_game *game, char *s);
 /*                               RAYCASTING                                */
 /* *********************************************************************** */
 /* raycast.c */
-int		raycast (t_game *game);
+int		raycast(t_game *game);
 void	init_ray(t_game *game, int x);
 
 /* raycast_cal */

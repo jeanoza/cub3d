@@ -6,7 +6,7 @@
 /*   By: mabriel <mabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 12:10:02 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/21 18:02:35 by mabriel          ###   ########.fr       */
+/*   Updated: 2022/07/22 20:37:31 by mabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static int	check_digits(char *s)
 		i++;
 	}
 	return (0);
-	
 }
 
 void	check_splitt(char **split, t_game *game)

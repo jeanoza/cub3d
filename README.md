@@ -53,7 +53,47 @@ int		open(const char *path, int oflag, ...);
         bash: syntax error near unexpected token`;'
         ```
 
-2.  Execute
+2.  Raycasting :
+
+
+3.  move event :
+
+    3-1. ajust to do not enter in the wall
+
+        ```c
+
+        //prototype
+        game->player->x = game->player->x + (game->player->dir_x / 10);
+
+        //to
+        game->player->x = game->player->x + (game->player->dir_x / 9);
+
+        //example
+        void	move_player(int code, t_game *game)
+        {
+            if (code == KEY_W)
+            {
+                game->player->x = game->player->x + (game->player->dir_x / 9);
+                game->player->y = game->player->y + (game->player->dir_y / 9);
+            }
+            else if (code == KEY_S)
+            {
+                game->player->x = game->player->x - (game->player->dir_x / 9);
+                game->player->y = game->player->y - (game->player->dir_y / 9);
+            }
+            else if (code == KEY_A)
+            {
+                game->player->x = game->player->x - (game->player->dir_y / 9);
+                game->player->y = game->player->y + (game->player->dir_x / 9);
+            }
+            else if (code == KEY_D)
+            {
+                game->player->x = game->player->x + (game->player->dir_y / 9);
+                game->player->y = game->player->y - (game->player->dir_x / 9);
+            }
+        }
+        ```
+
 
 ### Theory
 

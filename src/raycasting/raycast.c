@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
+/*   By: kychoi <kychoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 18:45:05 by kyubongchoi       #+#    #+#             */
-/*   Updated: 2022/07/23 12:00:14 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/23 14:36:41 by kychoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	draw_texture(t_game *game, int x, int y)
 				data.data[y * SCREEN_WIDTH + x] = game->tex->buffer[y][x];
 			else if (y < SCREEN_HEIGHT / 2)
 				data.data[y * SCREEN_WIDTH + x] = game->c_color;
-			else
+			else if (y < SCREEN_HEIGHT - 1)
 				data.data[y * SCREEN_WIDTH + x] = game->f_color;
 			++x;
 		}

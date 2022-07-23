@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   event.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyubongchoi <kyubongchoi@student.42.fr>    +#+  +:+       +#+        */
+/*   By: kychoi <kychoi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 18:02:00 by kychoi            #+#    #+#             */
-/*   Updated: 2022/07/22 23:20:07 by kyubongchoi      ###   ########.fr       */
+/*   Updated: 2022/07/23 14:23:10 by kychoi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,23 +24,23 @@ void	move_player(int code, t_game *game)
 {
 	if (code == KEY_W)
 	{
-		game->player->x = game->player->x + (game->player->dir_x / 10);
-		game->player->y = game->player->y + (game->player->dir_y / 10);
+		game->player->x = game->player->x + (game->player->dir_x / 9);
+		game->player->y = game->player->y + (game->player->dir_y / 9);
 	}
 	else if (code == KEY_S)
 	{
-		game->player->x = game->player->x - (game->player->dir_x / 10);
-		game->player->y = game->player->y - (game->player->dir_y / 10);
+		game->player->x = game->player->x - (game->player->dir_x / 9);
+		game->player->y = game->player->y - (game->player->dir_y / 9);
 	}
 	else if (code == KEY_A)
 	{
-		game->player->x = game->player->x - (game->player->dir_y / 10);
-		game->player->y = game->player->y + (game->player->dir_x / 10);
+		game->player->x = game->player->x - (game->player->dir_y / 9);
+		game->player->y = game->player->y + (game->player->dir_x / 9);
 	}
 	else if (code == KEY_D)
 	{
-		game->player->x = game->player->x + (game->player->dir_y / 10);
-		game->player->y = game->player->y - (game->player->dir_x / 10);
+		game->player->x = game->player->x + (game->player->dir_y / 9);
+		game->player->y = game->player->y - (game->player->dir_x / 9);
 	}
 }
 

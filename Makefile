@@ -35,7 +35,7 @@ CFLAGS		=	-Wall -Wextra -Werror#-g3 -fsanitize=address
 
 NAME		=	cub3D
 
-$(OBJ_PATH)%.o: $(SRC_PATH)%.c
+$(OBJ_PATH)%.o: $(SRC_PATH)%.c ./include/cub3d.h
 				@printf "\033[94m.\033[0m"
 				@mkdir -p $(OBJ_PATH)
 				@mkdir -p $(OBJ_PATH)/parsing
@@ -67,4 +67,4 @@ fclean:			clean
 re: 			fclean all
 
 
-.PHONY:			all clean fclean re bonus
+.PHONY:			all clean fclean re
